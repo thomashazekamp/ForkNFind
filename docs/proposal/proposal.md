@@ -35,6 +35,7 @@ It will be an easy to access mobile app which is always one click away from sugg
 - LightFM - Python library for recommendation engines
 - PostgreSQL - Used for our database
 - Google Maps API - Used for location and information
+- Python NLTK - Used for natural language processing
 
 ## Hardware
 A mobile device for testing the application
