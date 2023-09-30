@@ -1,95 +1,53 @@
-# School of Computing &mdash; Year 4 Project Proposal Form
+# ForkNFind - CA400
+- Thomas Hazekamp 
+20423602
+- Eoin Daly
+20424366
 
-> Edit (then commit and push) this document to complete your proposal form.
-> Make use of figures / diagrams where appropriate.
->
-> Do not rename this file.
+- Project Supervisor: Brian Davis
 
-## SECTION A
+## Introduction
+Our project is a restaurant recommendation application for mobile devices, a user will be able to input their interests and reviews for restaurants and using this information and a machine learning recommendation system, the user will receive recommendations of other restaurants that they should be interested in trying.
+## Outline
+The project will be a full stack application with its main goal of providing relevant restaurant recommendations to users, based on user information and restaurant information, to do this we will implement a robust recommendation system. 
+Our recommendation system will be built using a hybrid approach which will take into account both collaborative filtering, like user preference and whether they have rated a restaurant positively, and content based filtering, like the food at a restaurant.
+The recommendation system will be tested and evaluated using different evaluation techniques to validate that it is performing as expected and will have iterative improvements made to improve the overall performance.
+User’s will be able to leave a review for a restaurant and using text analytics and sentiment analysis, we will be able to extract the key features and conclude whether the review was positive or negative
+Using the Google Maps API and the user's current location we will be able to get user specific information about the restaurants in the nearby location and be able to display them in the UI.
+## Background
+While on our INTRA internships we identified a problem about the limited availability of tools for discovering restaurants that would suit our individual tastes and preferences. Due to our busy workloads we would have benefited from an efficient application that would have given user specific recommendations for places to get lunch. This is why we came up with our idea for a restaurant recommendation application that would solve this problem and would have made our lives easier.
+This application would also be beneficial whilst travelling to a new place as you would be able to get user specific recommendations in a foreign country based on your likes and preferences. It would help avoid ‘Tourist Trap’ restaurants that only care about providing overpriced food.
+## Achievements
+A mobile app which is accessible and provides strong recommendations for restaurants which the user would be interested in, using machine learning. Our target audience would be anyone who is looking for new places to eat.
+Justification
+This application will be both a time saver and a hassle free solution for users to pick the next restaurant they would like to go to, this will be achieved by using the machine learning recommendation system.
+It will be an easy to access mobile app which is always one click away from suggesting your next restaurant.
+## Programming languages
+- Python
+- Javascript
+- HTML
+- CSS
+- SQL
 
-|                     |                   |
-|---------------------|-------------------|
-|Project Title:       | xxxxxx            |
-|Student 1 Name:      | xxxxxx            |
-|Student 1 ID:        | xxxxxx            |
-|Student 2 Name:      | xxxxxx            |
-|Student 2 ID:        | xxxxxx            |
-|Project Supervisor:  | xxxxxx            |
+## Programming Tools / Tech Stack
+- Django - Used for the backend of the project
+- React Native - Used for the frontend/UI of the project
+- LightFM - Python library for recommendation engines
+- PostgreSQL - Used for our database
+- Google Maps API - Used for location and information
 
-> Ensure that the Supervisor formally agrees to supervise your project; this is only recognised once the
-> Supervisor assigns herself/himself via the project Dashboard.
->
-> Project proposals without an assigned
-> Supervisor will not be accepted for presentation to the Approval Panel.
+## Hardware
+A mobile device for testing the application
+## Learning Challenges 
+Neither of us have any experience working with React Native and this will be a new learning experience developing a mobile application.
+We have some past experience building a simple collaborative filtering recommendation system, but this new hybrid approach is a lot more complex and will require a lot of learning and research.
+Neither of us have experience working with text analytics and this will be a new complex area to learn.
+## Breakdown of Work
 
-## SECTION B
+### Eoin Daly
+- Backend using Django
+- Recommender System using LightFM
 
-> Guidance: This document is expected to be approximately 3 pages in length, but it can exceed this page limit.
-> It is also permissible to carry forward content from this proposal to your later documents (e.g. functional
-> specification) as appropriate.
->
-> Your proposal must include *at least* the following sections.
-
-
-### Introduction
-
-> Describe the general area covered by the project.
-
-### Outline
-
-> Outline the proposed project.
-
-### Background
-
-> Where did the ideas come from?
-
-### Achievements
-
-> What functions will the project provide? Who will the users be?
-
-### Justification
-
-> Why/when/where/how will it be useful?
-
-### Programming language(s)
-
-> List the proposed language(s) to be used.
-
-### Programming tools / Tech stack
-
-> Describe the compiler, database, web server, etc., and any other software tools you plan to use.
-
-### Hardware
-
-> Describe any non-standard hardware components which will be required.
-
-### Learning Challenges
-
-> List the main new things (technologies, languages, tools, etc) that you will have to learn.
-
-### Breakdown of work
-
-> Clearly identify who will undertake which parts of the project.
->
-> It must be clear from the explanation of this breakdown of work both that each student is responsible for
-> separate, clearly-defined tasks, and that those responsibilities substantially cover all of the work required
-> for the project.
-
-#### Student 1
-
-> *Student 1 should complete this section.*
-
-#### Student 2
-
-> *Student 2 should complete this section.*
-
-## Example
-
-> Example: Here's how you can include images in markdown documents...
-
-<!-- Basically, just use HTML! -->
-
-<p align="center">
-  <img src="./res/cat.png" width="300px">
-</p>
-
+### Thomas Hazekamp
+- Front-end using React Native
+- Text analytics and sentiment analysis
