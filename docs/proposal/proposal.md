@@ -42,7 +42,7 @@ A mobile device for testing the application
 ## Learning Challenges 
 Neither of us have any experience working with React Native and this will be a new learning experience developing a mobile application.
 We have some past experience building a simple collaborative filtering recommendation system, but this new hybrid approach is a lot more complex and will require a lot of learning and research.
-Neither of us have experience working with text analytics and this will be a new complex area to learn.
+Neither of us have much experience working with text analytics and developing/testing  machine learning projects  and this will be a new complex area to learn.
 ## Breakdown of Work
 
 ### Eoin Daly
