@@ -19,7 +19,7 @@ While on our INTRA internships we identified a problem about the limited availab
 This application would also be beneficial whilst travelling to a new place as you would be able to get user specific recommendations in a foreign country based on your likes and preferences. It would help avoid ‘Tourist Trap’ restaurants that only care about providing overpriced food.
 ## Achievements
 A mobile app which is accessible and provides strong recommendations for restaurants which the user would be interested in, using machine learning. Our target audience would be anyone who is looking for new places to eat. For the hybrid recommender and sentiment analysis to both have high scores in their individual testing and evaluation.
-Justification
+## Justification
 This application will be both a time saver and a hassle free solution for users to pick the next restaurant they would like to go to, this will be achieved by using the machine learning recommendation system.
 It will be an easy to access mobile app which is always one click away from suggesting your next restaurant.
 ## Programming languages
