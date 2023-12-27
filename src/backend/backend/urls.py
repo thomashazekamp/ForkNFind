@@ -20,7 +20,6 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-
 urlpatterns = [
     path('', include('forknfind.urls')),
     path('admin/', admin.site.urls),
