@@ -1,0 +1,18 @@
+variables:
+  DJANGO_SETTINGS_MODULE: "backend.settings"
+  VIRTUAL_ENV: "/builds/project-0/src/backend/venv"
+
+image: python:3.10.12
+
+before_script:
+  - python -m venv venv
+  - source venv/bin/activate
+  - pip install --upgrade pip
+  - pip install -r /builds/project-0/src/backend/requirements.txt
+
+test:
+  script:
+    - cd /builds/project-0/src/backend/
+    - export PYTHONPATH=/builds/project-0/src/backend:$PYTHONPATH
+    - python manage.py test
+
