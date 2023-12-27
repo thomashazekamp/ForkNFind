@@ -17,7 +17,7 @@ before_script:
 
 test:
   script:
-    - cd /src/backend/
+    - cd src/backend/
     - |
       echo "Current directory (before test): $(pwd)"
       echo "Contents of the directory (before test): $(ls -la)"
