@@ -17,7 +17,7 @@ class APIUser(AbstractUser):
         return self.email
     
     def get_full_name(self):
-        return self.first_name() + " " + self.last_name()
+        return self.get_firstName() + " " + self.get_lastName()
     
     def __str__(self):
         return f'Username: {self.get_username()}\nFirst Name: {self.get_firstName()}\nLast Name: {self.get_lastName()}\nEmail: {self.get_email()}'
