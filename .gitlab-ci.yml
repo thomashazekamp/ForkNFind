@@ -1,0 +1,25 @@
+variables:
+  DJANGO_SETTINGS_MODULE: "backend.settings"
+  VIRTUAL_ENV: "/builds/project-0/src/backend/venv"
+
+image: python:3.10.12
+
+before_script:
+  - |
+    echo "Current directory (before venv setup): $(pwd)"
+    echo "Contents of the directory (before venv setup): $(ls -la)"
+    python -m venv venv
+    source venv/bin/activate
+    pip install --upgrade pip
+    echo "Current directory (after venv setup): $(pwd)"
+    echo "Contents of the directory (after venv setup): $(ls -la)"
+    pip install -r src/backend/requirements.txt
+
+test:
+  script:
+    - cd src/backend/
+    - |
+      echo "Current directory (before test): $(pwd)"
+      echo "Contents of the directory (before test): $(ls -la)"
+      export PYTHONPATH=src/backend:$PYTHONPATH
+      python manage.py test
