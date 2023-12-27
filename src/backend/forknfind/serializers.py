@@ -25,6 +25,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         new_user = APIUser.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username, password=password)
         new_user.save()
 
-        print(new_user)
+        print(new_user) # For checking the register worked correctly, can be commented out.
 
         return new_user
