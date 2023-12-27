@@ -7,4 +7,5 @@ router.register(r'user', UserViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
+    path('register/', UserRegistrationAPIView.as_view(), name="api_register_user")
 ]
