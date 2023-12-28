@@ -16,6 +16,16 @@ class ReviewSerializer(serializers.HyperlinkedModelSerializer):
         model = Review
         fields = ['id','user','restaurant','rating','description']
 
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'category']
+
+class RestaurantCategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = RestaurantCategory
+        fields = ['id', 'restaurant', 'category']
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
