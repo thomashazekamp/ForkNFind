@@ -45,11 +45,17 @@ class APIUserMethodTests(TestCase):
         correct_full_name = "Eoin Daly"
         self.assertEqual(full_name, correct_full_name)
 
-    def test_print_user_details(self):
+    def test_debug_string(self):
         
-        print_format = str(self.model_instance)
-        correct_print_format = f'Username: dalye54\nFirst Name: Eoin\nLast Name: Daly\nEmail: eoin.daly54@mail.dcu.ie'
-        self.assertEqual(print_format, correct_print_format)
+        debug_format = self.model_instance.debug_string()
+        correct_debug_format = f'Username: dalye54\nFirst Name: Eoin\nLast Name: Daly\nEmail: eoin.daly54@mail.dcu.ie'
+        self.assertEqual(debug_format, correct_debug_format)
+
+    def test_to_string(self):
+
+        to_string = str(self.model_instance)
+        correct_to_string = "dalye54"
+        self.assertEqual(to_string, correct_to_string)
 
 class APIRestaurantMethodTests(TestCase):
 
@@ -108,19 +114,28 @@ class APIRestaurantMethodTests(TestCase):
         self.assertEqual(location, correct_location)
 
     def test_get_name(self):
+
         name = self.model_instance.get_name()
         correct_name = "A Pizza Place"
         self.assertEqual(name, correct_name)
 
     def test_get_average_rating(self):
+
         average_rating = self.model_instance.get_average_rating()
         correct_average_rating = 0
         self.assertEqual(average_rating, correct_average_rating)
 
-    def test_print_user_details(self):
-        print_format = str(self.model_instance)
-        correct_print_format = f'ID: 1\nGoogle ID: google_id_583589498278432\nLocation: (43.78, 17.35)\nName: A Pizza Place\nAverage Rating: 0'
-        self.assertEqual(print_format, correct_print_format)
+    def test_debug_string(self):
+
+        debug_format = self.model_instance.debug_string()
+        correct_debug_format = f'ID: 1\nGoogle ID: google_id_583589498278432\nLocation: (43.78, 17.35)\nName: A Pizza Place\nAverage Rating: 0'
+        self.assertEqual(debug_format, correct_debug_format)
+
+    def test_to_string(self):
+
+        to_string = str(self.model_instance)
+        correct_to_string = "A Pizza Place"
+        self.assertEqual(to_string, correct_to_string)
 
 class APIReviewMethodTests(TestCase):
 
@@ -177,3 +192,15 @@ class APIReviewMethodTests(TestCase):
         description = self.model_instance.get_description()
         correct_description = "I had a great time :)."
         self.assertEqual(description, correct_description)
+
+    def test_debug_string(self):
+
+        debug_format = self.model_instance.debug_string()
+        correct_debug_format = f'ID: 1\nUser: dalye54\nRestaurant: A Pizza Place\nRating: 1\nDescription: I had a great time :).'
+        self.assertEqual(debug_format, correct_debug_format)
+
+    def test_to_string(self):
+
+        to_string = str(self.model_instance)
+        correct_to_string = "dalye54 -- A Pizza Place: 1"
+        self.assertEqual(to_string, correct_to_string)
