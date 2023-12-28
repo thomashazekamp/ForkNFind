@@ -45,7 +45,7 @@ class Restaurant(models.Model):
         return self.latitude
     
     def get_location(self):
-        return (self.get_longitude, self.get_latitude)
+        return (self.get_longitude(), self.get_latitude())
     
     def get_name(self):
         return self.name
@@ -55,3 +55,6 @@ class Restaurant(models.Model):
         # Will have calculations in here in the future
 
         return self.average_rating
+    
+    def __str__(self):
+        return f'ID: {self.get_id()}\nGoogle ID: {self.get_google_id()}\nLocation: {self.get_location()}\nName: {self.get_name()}\nAverage Rating: {self.get_average_rating()}'
