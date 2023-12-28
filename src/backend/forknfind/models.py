@@ -20,8 +20,11 @@ class APIUser(AbstractUser):
     def get_full_name(self):
         return self.get_firstName() + " " + self.get_lastName()
     
-    def __str__(self):
+    def debug_string(self):
         return f'Username: {self.get_username()}\nFirst Name: {self.get_firstName()}\nLast Name: {self.get_lastName()}\nEmail: {self.get_email()}'
+    
+    def __str__(self):
+        return self.get_username()
 
 class Restaurant(models.Model):
 
@@ -56,8 +59,11 @@ class Restaurant(models.Model):
 
         return self.average_rating
     
-    def __str__(self):
+    def debug_string(self):
         return f'ID: {self.get_id()}\nGoogle ID: {self.get_google_id()}\nLocation: {self.get_location()}\nName: {self.get_name()}\nAverage Rating: {self.get_average_rating()}'
+    
+    def __str__(self):
+        return self.get_name()
     
 class Review(models.Model):
 
@@ -82,6 +88,9 @@ class Review(models.Model):
     def get_description(self):
         return self.description
     
-    def __str__(self):
+    def debug_string(self):
         return f'ID: {self.get_id()}\nUser: {self.get_user()}\nRestaurant: {self.get_restaurant()}\nRating: {self.get_rating()}\nDescription: {self.get_description()}'
+    
+    def __str__(self):
+        return f'{self.get_user()} -- {self.get_restaurant()}: {self.get_rating()}'
 
