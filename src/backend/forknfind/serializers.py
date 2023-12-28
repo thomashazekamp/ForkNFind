@@ -11,6 +11,11 @@ class RestaurantSerializer(serializers.HyperlinkedModelSerializer):
         model = Restaurant
         fields = ['id','google_id','longitude','latitude','name','average_rating']
 
+class ReviewSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['id','user','restaurant','rating','description']
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -50,3 +55,26 @@ class RestaurantRegistrationSerializer(serializers.ModelSerializer):
         new_restaurant.save()
 
         return new_restaurant
+    
+class ReviewRegistrationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Review
+        fields = ['restaurant', 'rating', 'description']
+
+    def create(self, validated_data):
+
+        request = self.context.get('request', None)
+        user = request.user
+
+        restaurant = validated_data['restaurant']
+        rating = validated_data['rating']
+        description = validated_data['description']
+
+        new_review = Review.objects.create(user=user, restaurant=restaurant, rating=rating, description=description)
+        new_review.save()
+
+        return new_review
+
+
+

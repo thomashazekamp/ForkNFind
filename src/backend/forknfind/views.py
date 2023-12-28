@@ -15,9 +15,17 @@ class RestaurantViewSet(viewsets.ModelViewSet):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
 
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
 class UserRegistrationAPIView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
     permission_classes = [AllowAny]
 
 class RestaurantRegistrationAPIView(generics.CreateAPIView):
     serializer_class = RestaurantRegistrationSerializer
+
+class ReviewRegistrationAPIView(generics.CreateAPIView):
+    serializer_class = ReviewRegistrationSerializer
+    permission_classes = [IsAuthenticated]

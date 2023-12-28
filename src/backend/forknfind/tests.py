@@ -121,3 +121,59 @@ class APIRestaurantMethodTests(TestCase):
         print_format = str(self.model_instance)
         correct_print_format = f'ID: 1\nGoogle ID: google_id_583589498278432\nLocation: (43.78, 17.35)\nName: A Pizza Place\nAverage Rating: 0'
         self.assertEqual(print_format, correct_print_format)
+
+class APIReviewMethodTests(TestCase):
+
+    def setUp(self):
+
+        self.user = APIUser.objects.create(
+            username='dalye54',
+            first_name='Eoin',
+            last_name='Daly',
+            email='eoin.daly54@mail.dcu.ie',
+            password='password'
+        )
+
+        self.restaurant = Restaurant.objects.create(
+            google_id='google_id_583589498278432',
+            longitude=43.78,
+            latitude=17.35,
+            name='A Pizza Place',
+            average_rating=0,
+        )
+      
+        self.model_instance = Review.objects.create(
+            user=self.user,
+            restaurant=self.restaurant,
+            rating=1,
+            description='I had a great time :).'
+        )
+
+    def test_get_id(self):
+
+        id = self.model_instance.get_id()
+        correct_id = 1
+        self.assertEqual(id, correct_id)
+
+    def test_get_user(self):
+        user = self.model_instance.get_user()
+        correct_user = self.user
+        self.assertEqual(user, correct_user)
+
+    def test_get_restaurant(self):
+
+        restaurant = self.model_instance.get_restaurant()
+        correct_restaurant = self.restaurant
+        self.assertEqual(restaurant, correct_restaurant)
+
+    def test_get_rating(self):
+
+        rating = self.model_instance.get_rating()
+        correct_rating = 1
+        self.assertEqual(rating, correct_rating)
+
+    def test_get_description(self):
+
+        description = self.model_instance.get_description()
+        correct_description = "I had a great time :)."
+        self.assertEqual(description, correct_description)

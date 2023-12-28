@@ -58,3 +58,30 @@ class Restaurant(models.Model):
     
     def __str__(self):
         return f'ID: {self.get_id()}\nGoogle ID: {self.get_google_id()}\nLocation: {self.get_location()}\nName: {self.get_name()}\nAverage Rating: {self.get_average_rating()}'
+    
+class Review(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(APIUser, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    rating = models.IntegerField(choices=[(1,1),(2,2),(3,3),(4,4),(5,5)])
+    description = models.TextField()
+
+    def get_id(self):
+        return self.id
+    
+    def get_user(self):
+        return self.user
+    
+    def get_restaurant(self):
+        return self.restaurant
+    
+    def get_rating(self):
+        return self.rating
+    
+    def get_description(self):
+        return self.description
+    
+    def __str__(self):
+        return f'ID: {self.get_id()}\nUser: {self.get_user()}\nRestaurant: {self.get_restaurant()}\nRating: {self.get_rating()}\nDescription: {self.get_description()}'
+
