@@ -4,8 +4,10 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'user', UserViewSet)
+router.register(r'restaurant', RestaurantViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('register/', UserRegistrationAPIView.as_view(), name="api_register_user")
+    path('register/user/', UserRegistrationAPIView.as_view(), name="api_register_user"),
+    path('register/restaurant/', RestaurantRegistrationAPIView.as_view(), name="api_register_restaurant")
 ]
