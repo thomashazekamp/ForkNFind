@@ -6,6 +6,9 @@ router = routers.DefaultRouter()
 router.register(r'user', UserViewSet)
 router.register(r'restaurant', RestaurantViewSet)
 router.register(r'review', ReviewViewSet)
+router.register(r'category', CategoryViewSet)
+router.register(r'restaurantcategory', RestaurantCategoryViewSet)
+
 
 urlpatterns = [
     path('api/', include(router.urls)),

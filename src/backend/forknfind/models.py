@@ -93,4 +93,41 @@ class Review(models.Model):
     
     def __str__(self):
         return f'{self.get_user()} -- {self.get_restaurant()}: {self.get_rating()}'
+    
+class Category(models.Model):
 
+    id = models.AutoField(primary_key=True)
+    category = models.CharField(max_length=100, default='')
+
+    def get_id(self):
+        return self.id
+    
+    def get_category(self):
+        return self.category
+    
+    def debug_string(self):
+        return f'ID: {self.get_id()}\nCategory: {self.get_category()}'
+
+    def __str__(self):
+        return f'{self.get_category()}'
+    
+class RestaurantCategory(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+    def get_id(self):
+        return self.id
+    
+    def get_category(self):
+        return self.category
+    
+    def get_restaurant(self):
+        return self.restaurant
+    
+    def debug_string(self):
+        return f'ID: {self.get_id()}\nCategory: {self.get_category()}\nRestaurant: {self.get_restaurant()}'
+    
+    def __str__(self):
+        return f'{self.get_category()} -- {self.get_restaurant()}'
