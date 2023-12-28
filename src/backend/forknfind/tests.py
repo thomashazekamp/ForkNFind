@@ -204,3 +204,87 @@ class APIReviewMethodTests(TestCase):
         to_string = str(self.model_instance)
         correct_to_string = "dalye54 -- A Pizza Place: 1"
         self.assertEqual(to_string, correct_to_string)
+
+class CategoryMethodTests(TestCase):
+
+    def setUp(self):
+
+        self.model_instance = Category.objects.create(
+            category="Chinese"
+        )
+
+    def test_get_id(self):
+
+        id = self.model_instance.get_id()
+        correct_id = 1
+        self.assertEqual(id, correct_id)
+
+    def test_get_category(self):
+
+        category = self.model_instance.get_category()
+        correct_category = "Chinese"
+        self.assertEqual(category, correct_category)
+
+    def test_debug_string(self):
+
+        debug_format = self.model_instance.debug_string()
+        correct_debug_format = f'ID: 1\nCategory: Chinese'
+        self.assertEqual(debug_format, correct_debug_format)
+
+    def test_to_string(self):
+
+        to_string = str(self.model_instance)
+        correct_to_string = "Chinese"
+        self.assertEqual(to_string, correct_to_string)
+
+class RestaurantCategoryTests(TestCase):
+
+    def setUp(self):
+
+        self.restaurant = Restaurant.objects.create(
+            google_id='google_id_583589498278432',
+            longitude=43.78,
+            latitude=17.35,
+            name='A Pizza Place',
+            average_rating=0,
+        )
+
+        self.category = Category.objects.create(
+            category='Chinese'
+        )
+
+        self.model_instance = RestaurantCategory.objects.create(
+
+            category=self.category,
+            restaurant=self.restaurant,
+        )
+
+    def test_get_id(self):
+
+        id = self.model_instance.get_id()
+        correct_id = 1
+        self.assertEqual(id, correct_id)
+
+    def test_get_category(self):
+
+        category = self.model_instance.get_category()
+        correct_category = self.category
+        self.assertEqual(category, correct_category)
+
+    def test_get_restaurant(self):
+
+        restaurant = self.model_instance.get_restaurant()
+        correct_restaurant = self.restaurant
+        self.assertEqual(restaurant, correct_restaurant)
+
+    def test_debug_string(self):
+
+        debug_format = self.model_instance.debug_string()
+        correct_debug_format = f'ID: 1\nCategory: Chinese\nRestaurant: A Pizza Place'
+        self.assertEqual(debug_format, correct_debug_format)
+
+    def test_to_string(self):
+
+        to_string = str(self.model_instance)
+        correct_to_string = "Chinese -- A Pizza Place"
+        self.assertEqual(to_string, correct_to_string)
