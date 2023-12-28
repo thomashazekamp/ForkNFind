@@ -15,4 +15,5 @@ urlpatterns = [
     path('register/user/', UserRegistrationAPIView.as_view(), name="api_register_user"),
     path('register/restaurant/', RestaurantRegistrationAPIView.as_view(), name="api_register_restaurant"),
     path('register/review/', ReviewRegistrationAPIView.as_view(), name="api_register_review"),
+    path('find/restaurants/', RestaurantsAroundUserAPIView.as_view(), name="api_find_restaurants")
 ]

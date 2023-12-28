@@ -5,6 +5,10 @@ from django.shortcuts import render
 from rest_framework import viewsets, generics, filters
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
 # Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -37,3 +41,11 @@ class RestaurantRegistrationAPIView(generics.CreateAPIView):
 class ReviewRegistrationAPIView(generics.CreateAPIView):
     serializer_class = ReviewRegistrationSerializer
     permission_classes = [IsAuthenticated]
+
+class RestaurantsAroundUserAPIView(APIView):
+
+    def post(self, request):
+
+        print(request.data.get("longitude"))
+        print(request.data.get("latitude"))
+        return Response({'result': "result"}, status=status.HTTP_200_OK)
