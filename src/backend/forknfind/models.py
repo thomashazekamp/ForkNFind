@@ -21,3 +21,12 @@ class APIUser(AbstractUser):
     
     def __str__(self):
         return f'Username: {self.get_username()}\nFirst Name: {self.get_firstName()}\nLast Name: {self.get_lastName()}\nEmail: {self.get_email()}'
+
+class Restaurant(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    google_id = models.CharField(max_length=100, default='')
+    longitude = models.FloatField()
+    latitude = models.FloatField()
+    name = models.CharField(max_length=100, default='')
+    average_rating = models.FloatField()
