@@ -64,7 +64,7 @@ class Restaurant(models.Model):
             category = Category.objects.get(category=item.get_category())
             list_of_categories.append(category)
 
-        print(list_of_categories)
+        return list_of_categories
     
     def get_average_rating(self):
 
