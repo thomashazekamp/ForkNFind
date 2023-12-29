@@ -1,5 +1,6 @@
 from .models import *
 from .serializers import *
+from .requests import *
 
 from django.shortcuts import render
 from rest_framework import viewsets, generics, filters
@@ -46,6 +47,11 @@ class RestaurantsAroundUserAPIView(APIView):
 
     def post(self, request):
 
-        print(request.data.get("longitude"))
-        print(request.data.get("latitude"))
+        longitude = request.data.get("longitude")
+        latitude = request.data.get("latitude")
+
+        collected_restaurants = google_maps_nearby_search(longitude, latitude)
+
+        print(collected_restaurants)
+
         return Response({'result': "result"}, status=status.HTTP_200_OK)
