@@ -85,6 +85,3 @@ class ReviewRegistrationSerializer(serializers.ModelSerializer):
         new_review.save()
 
         return new_review
-
-
-
