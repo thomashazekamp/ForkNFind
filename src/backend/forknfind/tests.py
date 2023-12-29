@@ -1,5 +1,6 @@
 from django.test import TestCase
 from .models import *
+from .formula import *
 
 # Create your tests here.
 class APIUserMethodTests(TestCase):
@@ -313,3 +314,27 @@ class RestaurantCategoryTests(TestCase):
         to_string = str(self.model_instance)
         correct_to_string = "Chinese -- A Pizza Place"
         self.assertEqual(to_string, correct_to_string)
+
+class haversineFormulaTests(TestCase):
+
+    # Equal to 0
+    def test_get_distance(self):
+
+        place_1 = (10,20)
+        place_2 = (10,20)
+
+        correct_distance = 0
+        distance = haversine(place_1, place_2)
+
+        self.assertEqual(correct_distance, distance)
+
+    # Equal to non zero number 0
+    def test_get_distance(self):
+
+        place_1 = (5,10)
+        place_2 = (10,20)
+
+        correct_distance = 1234.4754736585755
+        distance = haversine(place_1, place_2)
+
+        self.assertEqual(correct_distance, distance)
