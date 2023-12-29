@@ -60,7 +60,7 @@ class RestaurantsAroundUserAPIView(APIView):
         for item in queryset:
             distance = haversine((float(longitude), float(latitude)), item.get_location())
             if distance < 2:
-                within_distance[item.get_name()] = distance
+                within_distance[item.get_name()] = {'distance':distance, 'location':item.get_location(), 'rating':item.get_average_rating()}
 
 
         return Response(within_distance, status=status.HTTP_200_OK)
