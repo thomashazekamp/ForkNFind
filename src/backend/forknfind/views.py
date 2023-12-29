@@ -54,4 +54,10 @@ class RestaurantsAroundUserAPIView(APIView):
 
         print(collected_restaurants)
 
+        for item in collected_restaurants['places']:
+
+            print("----")
+            print(item)
+            individual_restaurant_information(item['id'])
+
         return Response({'result': "result"}, status=status.HTTP_200_OK)

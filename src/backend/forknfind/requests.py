@@ -1,4 +1,5 @@
 import requests
+from .models import *
 
 def google_maps_nearby_search(longitude, latitude):
 
@@ -31,3 +32,12 @@ def google_maps_nearby_search(longitude, latitude):
     
     else:
         print(f"I have no idea what is the issue in this case: {response.status_code} -- {response.text}")
+
+def individual_restaurant_information(id):
+
+    try:
+        instance = Restaurant.objects.get(google_id=id)
+        print(instance)
+
+    except Restaurant.DoesNotExist:
+        print("Pass it to the other google API to get the information about that restaurant")
