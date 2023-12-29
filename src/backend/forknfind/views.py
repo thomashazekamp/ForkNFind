@@ -52,12 +52,8 @@ class RestaurantsAroundUserAPIView(APIView):
 
         collected_restaurants = google_maps_nearby_search(longitude, latitude)
 
-        print(collected_restaurants)
-
         for item in collected_restaurants['places']:
 
-            print("----")
-            print(item)
             individual_restaurant_information(item['id'])
 
         return Response({'result': "result"}, status=status.HTTP_200_OK)

@@ -40,7 +40,7 @@ def google_maps_individual_search(id):
     headers = {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": "REDACTED_GOOGLE_MAPS_API_KEY",
-        "X-Goog-FieldMask": "name,location",
+        "X-Goog-FieldMask": "name,location,displayName",
     }
 
     print(url)
@@ -49,8 +49,8 @@ def google_maps_individual_search(id):
     if response.status_code == 200:
 
         restaurant_info = response.json()
-        
-        print(restaurant_info)
+
+        add_restaurant_to_database(id, restaurant_info)
 
         return restaurant_info
     
@@ -67,3 +67,13 @@ def individual_restaurant_information(id):
 
         # When restaurant is not in the database
         google_maps_individual_search(id)
+
+def add_restaurant_to_database(id, restaurant_info):
+
+    google_id = id
+    longitude = restaurant_info['location']['latitude']
+    latitude = restaurant_info['location']['longitude']
+    name = restaurant_info['displayName']['text']
+
+    new_restaurant = Restaurant.objects.create(google_id=google_id, longitude=longitude, latitude=latitude, name=name, average_rating=0)
+    new_restaurant.save()
