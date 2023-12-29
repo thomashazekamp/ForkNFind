@@ -40,7 +40,7 @@ def google_maps_individual_search(id):
     headers = {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": "REDACTED_GOOGLE_MAPS_API_KEY",
-        "X-Goog-FieldMask": "name,location,displayName",
+        "X-Goog-FieldMask": "name,location,displayName,types",
     }
 
     print(url)
@@ -77,3 +77,21 @@ def add_restaurant_to_database(id, restaurant_info):
 
     new_restaurant = Restaurant.objects.create(google_id=google_id, longitude=longitude, latitude=latitude, name=name, average_rating=0)
     new_restaurant.save()
+
+    categories = restaurant_info['types']
+
+    for category in categories:
+
+        try:
+            instance = Category.objects.get(category=category)
+
+            new_restaurant_category = RestaurantCategory.objects.create(restaurant=new_restaurant, category=instance)
+            new_restaurant_category.save()
+
+        except Category.DoesNotExist:
+
+            new_category = Category.objects.create(category=category)
+            new_category.save()
+
+            new_restaurant_category = RestaurantCategory.objects.create(restaurant=new_restaurant, category=new_category)
+            new_restaurant_category.save()
