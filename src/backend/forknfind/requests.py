@@ -33,6 +33,30 @@ def google_maps_nearby_search(longitude, latitude):
     else:
         print(f"I have no idea what is the issue in this case: {response.status_code} -- {response.text}")
 
+def google_maps_individual_search(id):
+
+    url = "https://places.googleapis.com/v1/places/" + id
+
+    headers = {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": "REDACTED_GOOGLE_MAPS_API_KEY",
+        "X-Goog-FieldMask": "name,location",
+    }
+
+    print(url)
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+
+        restaurant_info = response.json()
+        
+        print(restaurant_info)
+
+        return restaurant_info
+    
+    else:
+        print(f"I have no idea what is the issue in this case: {response.status_code} -- {response.text}")
+
 def individual_restaurant_information(id):
 
     try:
@@ -40,4 +64,6 @@ def individual_restaurant_information(id):
         print(instance)
 
     except Restaurant.DoesNotExist:
-        print("Pass it to the other google API to get the information about that restaurant")
+
+        # When restaurant is not in the database
+        google_maps_individual_search(id)
