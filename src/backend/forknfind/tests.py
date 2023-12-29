@@ -69,6 +69,24 @@ class APIRestaurantMethodTests(TestCase):
             average_rating=0,
         )
 
+        self.category = Category.objects.create(
+            category='Chinese'
+        )
+
+        self.restaurant_category = RestaurantCategory.objects.create(
+            category=self.category,
+            restaurant=self.model_instance
+        )
+
+        self.category_2 = Category.objects.create(
+            category='Indian'
+        )
+
+        self.restaurant_category_2 = RestaurantCategory.objects.create(
+            category=self.category_2,
+            restaurant=self.model_instance
+        )
+
     def test_get_id(self):
 
         id = self.model_instance.get_id()
@@ -118,6 +136,13 @@ class APIRestaurantMethodTests(TestCase):
         name = self.model_instance.get_name()
         correct_name = "A Pizza Place"
         self.assertEqual(name, correct_name)
+
+    def test_get_categories(self):
+
+        categories = self.model_instance.get_categories()
+        category_names = [category.get_category() for category in categories]
+        correct_categories = ["Chinese", "Indian"]
+        self.assertEqual(category_names, correct_categories)
 
     def test_get_average_rating(self):
 

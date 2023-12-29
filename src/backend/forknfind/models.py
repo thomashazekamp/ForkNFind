@@ -53,6 +53,19 @@ class Restaurant(models.Model):
     def get_name(self):
         return self.name
     
+    def get_categories(self):
+
+        categories = RestaurantCategory.objects.filter(restaurant=self.get_id())
+
+        list_of_categories = []
+
+        for item in categories:
+
+            category = Category.objects.get(category=item.get_category())
+            list_of_categories.append(category)
+
+        return list_of_categories
+    
     def get_average_rating(self):
 
         # Will have calculations in here in the future

@@ -1,9 +1,14 @@
 from .models import *
 from .serializers import *
+from .requests import *
 
 from django.shortcuts import render
 from rest_framework import viewsets, generics, filters
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 # Create your views here.
 
@@ -37,3 +42,18 @@ class RestaurantRegistrationAPIView(generics.CreateAPIView):
 class ReviewRegistrationAPIView(generics.CreateAPIView):
     serializer_class = ReviewRegistrationSerializer
     permission_classes = [IsAuthenticated]
+
+class RestaurantsAroundUserAPIView(APIView):
+
+    def post(self, request):
+
+        longitude = request.data.get("longitude")
+        latitude = request.data.get("latitude")
+
+        collected_restaurants = google_maps_nearby_search(longitude, latitude)
+
+        for item in collected_restaurants['places']:
+
+            individual_restaurant_information(item['id'])
+
+        return Response({'result': "result"}, status=status.HTTP_200_OK)
