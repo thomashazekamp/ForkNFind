@@ -1,6 +1,7 @@
 from .models import *
 from .serializers import *
 from .requests import *
+from .formula import *
 
 from django.shortcuts import render
 from rest_framework import viewsets, generics, filters
@@ -50,10 +51,16 @@ class RestaurantsAroundUserAPIView(APIView):
         longitude = request.data.get("longitude")
         latitude = request.data.get("latitude")
 
-        collected_restaurants = google_maps_nearby_search(longitude, latitude)
+        google_api_functions(longitude, latitude)
 
-        for item in collected_restaurants['places']:
+        queryset = Restaurant.objects.all()
 
-            individual_restaurant_information(item['id'])
+        within_distance = {}
 
-        return Response({'result': "result"}, status=status.HTTP_200_OK)
+        for item in queryset:
+            distance = haversine((float(longitude), float(latitude)), item.get_location())
+            if distance < 2:
+                within_distance[item.get_name()] = distance
+
+
+        return Response(within_distance, status=status.HTTP_200_OK)

@@ -95,3 +95,13 @@ def add_restaurant_to_database(id, restaurant_info):
 
             new_restaurant_category = RestaurantCategory.objects.create(restaurant=new_restaurant, category=new_category)
             new_restaurant_category.save()
+
+def google_api_functions(longitude, latitude):
+    
+    collected_restaurants = google_maps_nearby_search(longitude, latitude)
+
+    #print(collected_restaurants)
+
+    for item in collected_restaurants['places']:
+
+        individual_restaurant_information(item['id'])
