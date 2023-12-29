@@ -34,6 +34,15 @@ class Restaurant(models.Model):
     latitude = models.FloatField()
     name = models.CharField(max_length=100, default='')
     average_rating = models.FloatField()
+    address = models.CharField(max_length=100, default='')
+    type = models.CharField(max_length=100, default='')
+    price_level = models.CharField(max_length=100, default='')
+    allows_dogs = models.BooleanField(default=False)
+    delivery = models.BooleanField(default=False)
+    dine_in = models.BooleanField(default=False)
+    good_for_children = models.BooleanField(default=False)
+    good_for_groups = models.BooleanField(default=False)
+    outdoor_seating = models.BooleanField(default=False)
 
     def get_id(self):
         return self.id
@@ -52,6 +61,33 @@ class Restaurant(models.Model):
     
     def get_name(self):
         return self.name
+    
+    def get_address(self):
+        return self.address
+
+    def get_type(self):
+        return self.type
+
+    def get_price_level(self):
+        return self.price_level
+    
+    def get_allows_dogs(self):
+        return self.allows_dogs
+    
+    def get_delivery(self):
+        return self.delivery
+
+    def get_dine_in(self):
+        return self.dine_in
+    
+    def get_good_for_children(self):
+        return self.good_for_children
+    
+    def get_good_for_groups(self):
+        return self.good_for_groups
+    
+    def get_outdoor_seating(self):
+        return self.outdoor_seating
     
     def get_categories(self):
 
