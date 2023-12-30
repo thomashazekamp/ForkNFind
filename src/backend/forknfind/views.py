@@ -6,6 +6,7 @@ from .formula import *
 from django.shortcuts import render
 from rest_framework import viewsets, generics, filters
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -43,6 +44,15 @@ class RestaurantRegistrationAPIView(generics.CreateAPIView):
 class ReviewRegistrationAPIView(generics.CreateAPIView):
     serializer_class = ReviewRegistrationSerializer
     permission_classes = [IsAuthenticated]
+
+class SearchRestaurantAPIView(generics.ListAPIView):
+    serializer_class = RestaurantSerializer
+    permission_classes = [AllowAny]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = SearchRestaurantFilter
+
+    def get_queryset(self):
+        return Restaurant.objects.all()
 
 class RestaurantsAroundUserAPIView(APIView):
 
