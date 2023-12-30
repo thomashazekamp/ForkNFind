@@ -67,6 +67,15 @@ class APIRestaurantMethodTests(TestCase):
             longitude=43.78,
             latitude=17.35,
             name='A Pizza Place',
+            address='Dublin',
+            type='pizza',
+            price_level='PRICE_LEVEL_INEXPENSIVE',
+            allows_dogs=True,
+            delivery=False,
+            dine_in=True,
+            good_for_children=True,
+            good_for_groups=False,
+            outdoor_seating=False,
             average_rating=0,
         )
 
@@ -137,6 +146,51 @@ class APIRestaurantMethodTests(TestCase):
         name = self.model_instance.get_name()
         correct_name = "A Pizza Place"
         self.assertEqual(name, correct_name)
+
+    def test_get_address(self):
+        address = self.model_instance.get_address()
+        correct_address = 'Dublin'
+        self.assertEqual(address, correct_address)
+
+    def test_get_type(self):
+        type = self.model_instance.get_type()
+        correct_type = 'pizza'
+        self.assertEqual(type, correct_type)
+
+    def test_get_price_level(self):
+        price_level = self.model_instance.get_price_level()
+        correct_price_level = 'PRICE_LEVEL_INEXPENSIVE'
+        self.assertEqual(price_level, correct_price_level)
+
+    def test_allows_dogs(self):
+        allows_dogs = self.model_instance.get_allows_dogs()
+        correct_allows_dogs = True
+        self.assertEqual(allows_dogs, correct_allows_dogs)
+
+    def test_delivery(self):
+        delivery = self.model_instance.get_delivery()
+        correct_delivery = False
+        self.assertEqual(delivery, correct_delivery)
+
+    def test_dine_in(self):
+        dine_in = self.model_instance.get_dine_in()
+        correct_dine_in = True
+        self.assertEqual(dine_in, correct_dine_in)
+
+    def test_good_for_children(self):
+        good_for_children = self.model_instance.get_good_for_children()
+        correct_good_for_children = True
+        self.assertEqual(good_for_children, correct_good_for_children)
+
+    def test_good_for_groups(self):
+        good_for_groups = self.model_instance.get_good_for_groups()
+        correct_good_for_groups = False
+        self.assertEqual(good_for_groups, correct_good_for_groups)
+
+    def test_outdoor_seating(self):
+        outdoor_seating = self.model_instance.get_outdoor_seating()
+        correct_outdoor_seating = False
+        self.assertEqual(outdoor_seating, correct_outdoor_seating)
 
     def test_get_categories(self):
 
