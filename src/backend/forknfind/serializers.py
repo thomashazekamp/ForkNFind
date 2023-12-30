@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from django_filters import rest_framework as filters
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -9,7 +10,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class RestaurantSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Restaurant
-        fields = ['id','google_id','longitude','latitude','name','average_rating']
+        fields = ['id','google_id','longitude','latitude','name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating','average_rating']
 
 class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -85,3 +86,21 @@ class ReviewRegistrationSerializer(serializers.ModelSerializer):
         new_review.save()
 
         return new_review
+
+class SearchRestaurantFilter(filters.FilterSet):
+
+    name = filters.CharFilter(lookup_expr='icontains')
+    addess = filters.CharFilter(lookup_expr='icontains')
+    type = filters.CharFilter(lookup_expr='icontains')
+    price_level = filters.CharFilter(lookup_expr='icontains')
+    allows_dogs = filters.BooleanFilter()
+    delivery = filters.BooleanFilter()
+    dine_in = filters.BooleanFilter()
+    good_for_children = filters.BooleanFilter()
+    good_for_groups = filters.BooleanFilter()
+    outdoor_seating = filters.BooleanFilter()
+    average_rating = filters.NumberFilter(lookup_expr='gte')
+
+    class Meta:
+        model = Restaurant
+        fields = ['name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating','average_rating']
