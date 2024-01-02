@@ -180,3 +180,80 @@ class RestaurantCategory(models.Model):
     
     def __str__(self):
         return f'{self.get_category()} -- {self.get_restaurant()}'
+    
+class RestaurantTime(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    hour = models.IntegerField(choices=[(hour, hour) for hour in range(24)])
+    minute = models.IntegerField(choices=[(minute, minute) for minute in range(60)])
+    
+    def get_id(self):
+        return self.id
+    
+    def get_hour(self):
+        return self.hour
+    
+    def get_minute(self):
+        return self.minute
+    
+    def __str__(self):
+        return f'{self.get_hour()}:{self.get_minute()}'
+
+class RestaurantDay(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    open = models.BooleanField(default=True)
+    open_time = models.ForeignKey(RestaurantTime, on_delete=models.CASCADE, related_name='open_time', blank=True, null=True)
+    close_time = models.ForeignKey(RestaurantTime, on_delete=models.CASCADE, related_name='close_time', blank=True, null=True)
+
+    def get_id(self):
+        return self.id
+    
+    def get_open(self):
+        return self.open
+    
+    def get_open_time(self):
+        return self.open_time
+    
+    def get_close_time(self):
+        return self.close_time
+    
+    def __str__(self):
+        if self.get_open() == True:
+            return f'{self.get_open_time()} - {self.get_close_time()}'
+        return f'Closed'
+
+class RestaurantHours(models.Model):
+
+    id = models.AutoField(primary_key=True)
+    monday = models.ForeignKey(RestaurantDay, on_delete=models.CASCADE, related_name='monday')
+    tuesday = models.ForeignKey(RestaurantDay, on_delete=models.CASCADE, related_name='tuesday')
+    wednesday = models.ForeignKey(RestaurantDay, on_delete=models.CASCADE, related_name='wednesday')
+    thursday = models.ForeignKey(RestaurantDay, on_delete=models.CASCADE, related_name='thursday')
+    friday = models.ForeignKey(RestaurantDay, on_delete=models.CASCADE, related_name='friday')
+    saturday = models.ForeignKey(RestaurantDay, on_delete=models.CASCADE, related_name='saturday')
+    sunday = models.ForeignKey(RestaurantDay, on_delete=models.CASCADE, related_name='sunday')
+
+    def get_id(self):
+        return self.id
+    
+    def get_monday(self):
+        return self.monday
+    
+    def get_tuesday(self):
+        return self.tuesday
+    
+    def get_wednesday(self):
+        return self.wednesday
+    
+    def get_thursday(self):
+        return self.thursday
+    
+    def get_friday(self):
+        return self.friday
+    
+    def get_saturday(self):
+        return self.saturday
+    
+    def get_sunday(self):
+        return self.sunday
