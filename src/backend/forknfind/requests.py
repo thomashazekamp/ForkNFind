@@ -40,10 +40,9 @@ def google_maps_individual_search(id):
     headers = {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": "REDACTED_GOOGLE_MAPS_API_KEY",
-        "X-Goog-FieldMask": "name,location,displayName,types,priceLevel,allowsDogs,delivery,dineIn,goodForChildren,goodForGroups,outdoorSeating,parkingOptions,primaryType,formattedAddress,primaryType,primaryTypeDisplayName,paymentOptions,reservable",
+        "X-Goog-FieldMask": "name,location,displayName,types,priceLevel,allowsDogs,delivery,dineIn,goodForChildren,goodForGroups,outdoorSeating,parkingOptions,primaryType,formattedAddress,primaryType,primaryTypeDisplayName,paymentOptions,reservable,regularOpeningHours",
     }
 
-    #print(url)
     response = requests.get(url, headers=headers)
 
     if response.status_code == 200:
@@ -68,12 +67,75 @@ def individual_restaurant_information(id):
         # When restaurant is not in the database
         google_maps_individual_search(id)
 
+def check_open_and_close_time(time, point):
+
+    try:
+        instance = RestaurantTime.objects.get(hour=time[point]['hour'], minute=time[point]['minute'])
+
+    except RestaurantTime.DoesNotExist:
+        instance = RestaurantTime.objects.create(hour=time[point]['hour'], minute=time[point]['minute'])
+    return instance
+
+def check_restaurant_day(open, close):
+
+    try:
+        instance = RestaurantDay.objects.get(open=True, open_time=open, close_time=close)
+
+    except RestaurantDay.DoesNotExist:
+        instance = RestaurantDay.objects.create(open=True, open_time=open, close_time=close)
+    return instance
+
 def add_restaurant_to_database(id, restaurant_info):
 
     google_id = id
     longitude, latitude, name, type, price_level, allows_dogs, delivery, dine_in, good_for_children, good_for_groups, outdoor_seating, address = extract_restaurant_info(restaurant_info)
 
     new_restaurant = Restaurant.objects.create(google_id=google_id, longitude=longitude, latitude=latitude, name=name, type=type, price_level=price_level, allows_dogs=allows_dogs, delivery=delivery, dine_in=dine_in, good_for_children=good_for_children, good_for_groups=good_for_groups, outdoor_seating=outdoor_seating, address=address, average_rating=0)
+    
+    open_times = restaurant_info['regularOpeningHours']['periods']
+
+    tmp_time = RestaurantDay.objects.get(open=False, open_time=None, close_time=None)
+
+    new_times = { 
+        'monday': tmp_time,
+        'tuesday': tmp_time,
+        'wednesday': tmp_time,
+        'thursday': tmp_time,
+        'friday': tmp_time,
+        'saturday': tmp_time,
+        'sunday': tmp_time
+    }
+
+    for time in open_times:
+
+        if time['open']['day'] == 0:
+            new_times['monday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+        elif time['open']['day'] == 1:
+            new_times['tuesday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+        elif time['open']['day'] == 2:
+            new_times['wednesday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+        elif time['open']['day'] == 3:
+            new_times['thursday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+        elif time['open']['day'] == 4:
+            new_times['friday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+        elif time['open']['day'] == 5:
+            new_times['saturday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+        elif time['open']['day'] == 6:
+            new_times['sunday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+
+    print(new_times)
+    print(new_times['monday'].get_id())
+
+    try:
+        print("Test")
+        restaurant_hours = RestaurantHours.objects.get(monday=new_times['monday'], tuesday=new_times['tuesday'], wednesday=new_times['wednesday'], thursday=new_times['thursday'], friday=new_times['friday'], saturday=new_times['saturday'], sunday=new_times['sunday'])
+    
+    except RestaurantHours.DoesNotExist:
+        print("Test_2")
+        restaurant_hours = RestaurantHours.objects.create(monday=new_times['monday'], tuesday=new_times['tuesday'], wednesday=new_times['wednesday'], thursday=new_times['thursday'], friday=new_times['friday'], saturday=new_times['saturday'], sunday=new_times['sunday'])
+    
+    new_restaurant.hours = restaurant_hours
+
     new_restaurant.save()
 
     categories = restaurant_info['types']
