@@ -8,7 +8,9 @@ router.register(r'restaurant', RestaurantViewSet)
 router.register(r'review', ReviewViewSet)
 router.register(r'category', CategoryViewSet)
 router.register(r'restaurantcategory', RestaurantCategoryViewSet)
-
+router.register(r'restauranttime', RestaurantTimeViewSet)
+router.register(r'restaurantday', RestaurantDayViewSet)
+router.register(r'restauranthours', RestaurantHoursViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
