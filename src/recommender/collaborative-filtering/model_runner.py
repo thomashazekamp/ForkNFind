@@ -1,5 +1,6 @@
 from baseline_model import *
 from fastai_model import *
+from sklearn_model import *
 import pandas as pd
 
 def main():
@@ -35,7 +36,8 @@ def main():
 
     baseline_score = baseline(balanced_df)
     fastai_score = fastai(balanced_df)
+    sklearn_score = sklearn(balanced_df)
 
-    print(f'Baseline: {baseline_score}\nFastAI: {fastai_score}')
+    print(f'Baseline: {baseline_score}\nFastAI: {fastai_score}\nSklearn: {sklearn_score}')
 
 main()
