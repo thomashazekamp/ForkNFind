@@ -62,6 +62,20 @@ class APIRestaurantMethodTests(TestCase):
 
     def setUp(self):
 
+        self.restaurant_day = RestaurantDay.objects.create(
+            open=False
+        )
+
+        self.restaurant_hours = RestaurantHours.objects.create(
+            monday=self.restaurant_day,
+            tuesday=self.restaurant_day,
+            wednesday=self.restaurant_day,
+            thursday=self.restaurant_day,
+            friday=self.restaurant_day,
+            saturday=self.restaurant_day,
+            sunday=self.restaurant_day
+        )
+
         self.model_instance = Restaurant.objects.create(
             google_id='google_id_583589498278432',
             longitude=43.78,
@@ -77,6 +91,7 @@ class APIRestaurantMethodTests(TestCase):
             good_for_groups=False,
             outdoor_seating=False,
             average_rating=0,
+            hours=self.restaurant_hours
         )
 
         self.category = Category.objects.create(
@@ -162,35 +177,40 @@ class APIRestaurantMethodTests(TestCase):
         correct_price_level = 'PRICE_LEVEL_INEXPENSIVE'
         self.assertEqual(price_level, correct_price_level)
 
-    def test_allows_dogs(self):
+    def test_get_allows_dogs(self):
         allows_dogs = self.model_instance.get_allows_dogs()
         correct_allows_dogs = True
         self.assertEqual(allows_dogs, correct_allows_dogs)
 
-    def test_delivery(self):
+    def test_get_delivery(self):
         delivery = self.model_instance.get_delivery()
         correct_delivery = False
         self.assertEqual(delivery, correct_delivery)
 
-    def test_dine_in(self):
+    def test_get_dine_in(self):
         dine_in = self.model_instance.get_dine_in()
         correct_dine_in = True
         self.assertEqual(dine_in, correct_dine_in)
 
-    def test_good_for_children(self):
+    def test_get_good_for_children(self):
         good_for_children = self.model_instance.get_good_for_children()
         correct_good_for_children = True
         self.assertEqual(good_for_children, correct_good_for_children)
 
-    def test_good_for_groups(self):
+    def test_get_good_for_groups(self):
         good_for_groups = self.model_instance.get_good_for_groups()
         correct_good_for_groups = False
         self.assertEqual(good_for_groups, correct_good_for_groups)
 
-    def test_outdoor_seating(self):
+    def test_get_outdoor_seating(self):
         outdoor_seating = self.model_instance.get_outdoor_seating()
         correct_outdoor_seating = False
         self.assertEqual(outdoor_seating, correct_outdoor_seating)
+
+    def test_get_hours(self):
+        hours = self.model_instance.get_hours()
+        correct_hours = self.restaurant_hours
+        self.assertEqual(hours, correct_hours)
 
     def test_get_categories(self):
 
@@ -368,6 +388,195 @@ class RestaurantCategoryTests(TestCase):
         to_string = str(self.model_instance)
         correct_to_string = "Chinese -- A Pizza Place"
         self.assertEqual(to_string, correct_to_string)
+
+class APIRestaurantTimeMethodTests(TestCase):
+
+    def setUp(self):
+
+        self.model_instance = RestaurantTime.objects.create(
+            hour=12,
+            minute=30
+        )
+
+    def test_get_id(self):
+
+        id = self.model_instance.get_id()
+        correct_id = 1
+        self.assertEqual(id, correct_id)
+
+    def test_get_hour(self):
+
+        hour = self.model_instance.get_hour()
+        correct_hour = 12
+        self.assertEqual(hour, correct_hour)
+
+    def test_get_minute(self):
+
+        minute = self.model_instance.get_minute()
+        correct_minute = 30
+        self.assertEqual(minute, correct_minute)
+
+    def test_to_string(self):
+
+        to_string = str(self.model_instance)
+        correct_to_string = '12:30'
+        self.assertEqual(to_string, correct_to_string)
+
+class APIRestaurantDayMethodTests(TestCase):
+
+    def setUp(self):
+
+        self.restaurant_time_open = RestaurantTime.objects.create(
+            hour=12,
+            minute=30
+        )
+
+        self.restaurant_time_close = RestaurantTime.objects.create(
+            hour=18,
+            minute=45
+        )
+
+        self.model_instance = RestaurantDay.objects.create(
+            open=True,
+            open_time=self.restaurant_time_open,
+            close_time=self.restaurant_time_close
+        )
+
+        self.model_instance_not_open = RestaurantDay.objects.create(
+            open=False
+        )
+
+    def test_get_id(self):
+
+        id = self.model_instance.get_id()
+        correct_id = 1
+        self.assertEqual(id, correct_id)
+
+        id = self.model_instance_not_open.get_id()
+        correct_id = 2
+        self.assertEqual(id, correct_id)
+
+    def test_get_open(self):
+
+        open = self.model_instance.get_open()
+        correct_open = True
+        self.assertEqual(open, correct_open)
+
+        open = self.model_instance_not_open.get_open()
+        correct_open = False
+        self.assertEqual(open, correct_open)
+
+    def test_get_open_time(self):
+
+        open_time = self.model_instance.get_open_time()
+        correct_open_time = self.restaurant_time_open
+        self.assertEqual(open_time, correct_open_time)
+
+        open_time = self.model_instance_not_open.get_open_time()
+        correct_open_time = None
+        self.assertEqual(open_time, correct_open_time)
+
+    def test_get_close_time(self):
+
+        close_time = self.model_instance.get_close_time()
+        correct_close_time = self.restaurant_time_close
+        self.assertEqual(close_time, correct_close_time)
+
+        close_time = self.model_instance_not_open.get_open_time()
+        correct_close_time = None
+        self.assertEqual(close_time, correct_close_time)
+
+    def test_to_string(self):
+
+        to_string = str(self.model_instance)
+        correct_to_string = '12:30 - 18:45'
+        self.assertEqual(to_string, correct_to_string)
+
+        to_string = str(self.model_instance_not_open)
+        correct_to_string = 'Closed'
+        self.assertEqual(to_string, correct_to_string)
+
+class APIRestaurantHoursMethodTests(TestCase):
+
+    def setUp(self):
+
+        self.restaurant_time_open = RestaurantTime.objects.create(
+            hour=12,
+            minute=30
+        )
+
+        self.restaurant_time_close = RestaurantTime.objects.create(
+            hour=18,
+            minute=45
+        )
+
+        self.restaurant_day_1 = RestaurantDay.objects.create(
+            open=True,
+            open_time=self.restaurant_time_open,
+            close_time=self.restaurant_time_close
+        )
+
+        self.restaurant_day_2 = RestaurantDay.objects.create(
+            open=False
+        )
+
+        self.model_instance = RestaurantHours.objects.create(
+            monday=self.restaurant_day_2,
+            tuesday=self.restaurant_day_1,
+            wednesday=self.restaurant_day_1,
+            thursday=self.restaurant_day_1,
+            friday=self.restaurant_day_1,
+            saturday=self.restaurant_day_2,
+            sunday=self.restaurant_day_2
+        )
+
+    def test_get_id(self):
+
+        id = self.model_instance.get_id()
+        correct_id = 1
+        self.assertEqual(id, correct_id)
+
+    def test_get_monday(self):
+
+        monday = self.model_instance.get_monday()
+        correct_monday = self.restaurant_day_2
+        self.assertEqual(monday, correct_monday)
+
+    def test_get_tuesday(self):
+
+        tuesday = self.model_instance.get_tuesday()
+        correct_tuesday = self.restaurant_day_1
+        self.assertEqual(tuesday, correct_tuesday)
+
+    def test_get_wednesday(self):
+
+        wednesday = self.model_instance.get_wednesday()
+        correct_wednesday = self.restaurant_day_1
+        self.assertEqual(wednesday, correct_wednesday)
+
+    def test_get_thursday(self):
+
+        thursday = self.model_instance.get_thursday()
+        correct_thursday = self.restaurant_day_1
+        self.assertEqual(thursday, correct_thursday)
+
+    def test_get_friday(self):
+
+        friday = self.model_instance.get_friday()
+        correct_friday = self.restaurant_day_1
+        self.assertEqual(friday, correct_friday)
+
+    def test_get_saturday(self):
+
+        saturday = self.model_instance.get_saturday()
+        correct_saturday = self.restaurant_day_2
+        self.assertEqual(saturday, correct_saturday)
+
+    def test_get_sunday(self):
+
+        sunday = self.model_instance.get_sunday()
+        correct_sunday = self.restaurant_day_2
+        self.assertEqual(sunday, correct_sunday)
 
 class haversineFormulaTests(TestCase):
 

@@ -167,6 +167,9 @@ class Restaurant(models.Model):
     def get_outdoor_seating(self):
         return self.outdoor_seating
     
+    def get_hours(self):
+        return self.hours
+    
     def get_categories(self):
 
         categories = RestaurantCategory.objects.filter(restaurant=self.get_id())
