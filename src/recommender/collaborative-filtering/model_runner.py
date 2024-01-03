@@ -2,6 +2,7 @@ from baseline_model import *
 from fastai_model import *
 from sklearn_model import *
 from surprise_model import *
+from lightfm_model import *
 import pandas as pd
 
 def main():
@@ -28,18 +29,21 @@ def main():
  
     balanced_df = pd.concat([rating_1,rating_2,rating_3,rating_4,rating_5])
 
-    #print(rating_1.shape)
-    #print(rating_2.shape)
-    #print(rating_3.shape)
-    #print(rating_4.shape)
-    #print(rating_5.shape)
-    #print(balanced_df.shape)
+    print(rating_1.shape)
+    print(rating_2.shape)
+    print(rating_3.shape)
+    print(rating_4.shape)
+    print(rating_5.shape)
+    print(balanced_df.shape)
 
     baseline_score = baseline(balanced_df)
     fastai_score = fastai(balanced_df)
     sklearn_score = sklearn(balanced_df)
     surprise_score = surprise(balanced_df)
+    lightfm_score = lightfm(balanced_df)
 
-    print(f'Baseline: {baseline_score}\nFastAI: {fastai_score}\nSklearn: {sklearn_score}\nSurprise: {surprise_score}')
+    print(lightfm_score)
+
+    print(f'Baseline: {baseline_score}\nFastAI: {fastai_score}\nSklearn: {sklearn_score}\nSurprise: {surprise_score}\nLightFM: {lightfm_score}')
 
 main()
