@@ -10,7 +10,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class RestaurantSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Restaurant
-        fields = ['id','google_id','longitude','latitude','name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating','average_rating']
+        fields = ['id','google_id','longitude','latitude','name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating', 'hours', 'average_rating']
 
 class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
