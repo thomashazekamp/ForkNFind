@@ -123,9 +123,6 @@ def add_restaurant_to_database(id, restaurant_info):
         elif time['open']['day'] == 6:
             new_times['sunday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
 
-    print(new_times)
-    print(new_times['monday'].get_id())
-
     try:
         print("Test")
         restaurant_hours = RestaurantHours.objects.get(monday=new_times['monday'], tuesday=new_times['tuesday'], wednesday=new_times['wednesday'], thursday=new_times['thursday'], friday=new_times['friday'], saturday=new_times['saturday'], sunday=new_times['sunday'])
