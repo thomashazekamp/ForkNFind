@@ -578,6 +578,12 @@ class APIRestaurantHoursMethodTests(TestCase):
         correct_sunday = self.restaurant_day_2
         self.assertEqual(sunday, correct_sunday)
 
+    def test_to_string(self):
+
+        to_string = str(self.model_instance)
+        correct_to_string = f'Monday: Closed\nTuesday: 12:30 - 18:45\nWednesday: 12:30 - 18:45\nThursday: 12:30 - 18:45\nFriday: 12:30 - 18:45\nSaturday: Closed\nSunday: Closed'
+        self.assertEqual(to_string, correct_to_string)
+
 class haversineFormulaTests(TestCase):
 
     # Equal to 0

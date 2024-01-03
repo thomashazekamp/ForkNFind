@@ -102,6 +102,9 @@ class RestaurantHours(models.Model):
     
     def get_sunday(self):
         return self.sunday
+    
+    def __str__(self):
+        return f'Monday: {self.get_monday()}\nTuesday: {self.get_tuesday()}\nWednesday: {self.get_wednesday()}\nThursday: {self.get_thursday()}\nFriday: {self.get_friday()}\nSaturday: {self.get_saturday()}\nSunday: {self.get_sunday()}'
 
 class Restaurant(models.Model):
 
