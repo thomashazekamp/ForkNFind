@@ -27,4 +27,4 @@ def baseline(data):
     mean_squared_error = sum(squared_errors) / len(predictions)
     rmse = math.sqrt(mean_squared_error)
 
-    print("RMSE:", rmse)
+    return rmse
