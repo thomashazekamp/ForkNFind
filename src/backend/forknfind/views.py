@@ -34,6 +34,18 @@ class RestaurantCategoryViewSet(viewsets.ModelViewSet):
     queryset = RestaurantCategory.objects.all()
     serializer_class = RestaurantCategorySerializer
 
+class RestaurantTimeViewSet(viewsets.ModelViewSet):
+    queryset = RestaurantTime.objects.all()
+    serializer_class = RestaurantTimeSerializer
+
+class RestaurantDayViewSet(viewsets.ModelViewSet):
+    queryset = RestaurantDay.objects.all()
+    serializer_class = RestaurantDaySerializer
+
+class RestaurantHoursViewSet(viewsets.ModelViewSet):
+    queryset = RestaurantHours.objects.all()
+    serializer_class = RestaurantHoursSerializer
+
 class UserRegistrationAPIView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
     permission_classes = [AllowAny]
