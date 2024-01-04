@@ -10,7 +10,7 @@ def main():
     review_data = pd.read_csv("../dataset/processed_dataset/review.csv")
 
     user_counts = review_data['user_id'].value_counts()
-    filtered_user_ids = user_counts[user_counts > 5].index
+    filtered_user_ids = user_counts[user_counts > 25].index
     review_data = review_data[review_data['user_id'].isin(filtered_user_ids)]
 
     rating_1 = review_data[review_data["stars"] == 1]
@@ -44,6 +44,11 @@ def main():
 
     print(lightfm_score)
 
+    
+
+    fast_ai_hyperparameter_score = fastai_hyperparameter(balanced_df)
+
     print(f'Baseline: {baseline_score}\nFastAI: {fastai_score}\nSklearn: {sklearn_score}\nSurprise: {surprise_score}\nLightFM: {lightfm_score}')
+    print(f'Baseline: {baseline_score}\nFastAI: {fast_ai_hyperparameter_score}\n')
 
 main()
