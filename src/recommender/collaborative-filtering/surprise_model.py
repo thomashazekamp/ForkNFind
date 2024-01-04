@@ -11,7 +11,7 @@ def surprise(data):
     benchmark = []
 
     # Iterate over all algorithms
-    for algorithm in [SVD(), SVDpp(), SlopeOne(), NMF(), KNNBaseline(), KNNBasic(), KNNWithMeans(), KNNWithZScore(), BaselineOnly(), CoClustering()]:
+    for algorithm in [SlopeOne(), NMF(), KNNBaseline(), KNNBasic(), KNNWithMeans(), KNNWithZScore(), CoClustering()]:
         # Perform cross validation
         results = cross_validate(algorithm, data, measures=['RMSE'], cv=3, verbose=False)
         
@@ -22,6 +22,8 @@ def surprise(data):
 
     sorted_benchmark = sorted(benchmark, key=lambda df: df['test_rmse'])
 
-    print(sorted_benchmark[0])
+    #print(sorted_benchmark)
+
+    #print(sorted_benchmark[0])
 
     return sorted_benchmark[0]['test_rmse']
