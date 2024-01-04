@@ -47,8 +47,13 @@ def main():
     
 
     fast_ai_hyperparameter_score = fastai_hyperparameter(balanced_df)
+    sklearn_hyperparameter_score = sklean_hyperparameter(balanced_df)
+    lightfm_hyperparameter_score = lightfm_hyperparameter(balanced_df)
+
+    print(lightfm_hyperparameter_score)
 
     print(f'Baseline: {baseline_score}\nFastAI: {fastai_score}\nSklearn: {sklearn_score}\nSurprise: {surprise_score}\nLightFM: {lightfm_score}')
-    print(f'Baseline: {baseline_score}\nFastAI: {fast_ai_hyperparameter_score}\n')
+    print(f'Hyperparameter Scores:')
+    print(f'Baseline: {baseline_score}\nFastAI: {fast_ai_hyperparameter_score}\nSklearn: {sklearn_hyperparameter_score}\nSurprise: {surprise_score}\nLightFM: {lightfm_hyperparameter_score}')
 
 main()
