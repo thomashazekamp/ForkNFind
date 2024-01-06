@@ -5,6 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import MapView, { Marker } from 'react-native-maps';
 
 /*
     References: Nav bar design & logic - https://www.youtube.com/watch?v=g14lCxkasWc&ab_channel=Indently
@@ -26,11 +27,26 @@ export default class Home extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <View>
-                    <Text style={{fontSize:30, color:'white'}}>{this.state.screenText}</Text>
-                </View>
+                    <MapView
+                        style={styles.map}
+                        initialRegion={{
+                            latitude: 37.7749,
+                            longitude: -122.4194,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                    }}
+                    >
+                    <Marker
+                        coordinate={{
+                        latitude: 37.7749,
+                        longitude: -122.4194,
+                        }}
+                        title="Your Location"
+                        description="You are here"
+                    />
+                    </MapView>
 
-                <View style={styles.NavContainer}>
+                    <View style={styles.NavContainer}>
                     <View style={styles.NavBar}>
 
                     <Pressable onPress={() => this.changeText('Reviews')} style={styles.IconBehaviour}>
@@ -57,22 +73,24 @@ export default class Home extends React.Component {
 
                 </View>
             </View>
-        );
-    }
+  );
+};
 }
 
 const styles = StyleSheet.create({
     container: {
+        ...StyleSheet.absoluteFillObject,
         flex: 1,
-        backgroundColor: 'black',
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        justifyContent:'center',
     },
-
+    map: {
+        ...StyleSheet.absoluteFillObject,
+    },
     NavContainer: {
         position: 'absolute',
         alignItems: 'center',
-        bottom: 20,
+        bottom: 40,
     },
 
     NavBar: {
@@ -86,4 +104,4 @@ const styles = StyleSheet.create({
     IconBehaviour: {
         padding: 14,
     }
-});
+  });
