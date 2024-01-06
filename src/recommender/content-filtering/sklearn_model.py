@@ -33,7 +33,7 @@ def cosine_similarity_model_categorys(data):
 
     ratings = data[['business_id', 'stars']]
 
-    rating_train, rating_test = train_test_split(ratings, test_size=0.2, random_state=42)
+    rating_train, rating_test = train_test_split(ratings, test_size=0.2, random_state=38)
 
     rating_train.to_csv("rating_train.csv")
     rating_test.to_csv("rating_test.csv")
@@ -58,7 +58,7 @@ def cosine_similarity_model_attributes(data):
 
     ratings = data[['business_id', 'stars']]
 
-    rating_train, rating_test = train_test_split(ratings, test_size=0.2, random_state=42)
+    rating_train, rating_test = train_test_split(ratings, test_size=0.2, random_state=38)
 
     rating_train.to_csv("rating_train.csv")
     rating_test.to_csv("rating_test.csv")
@@ -83,7 +83,7 @@ def cosine_similarity_model_categorys_and_attributes(data):
 
     ratings = data[['business_id', 'stars']]
 
-    rating_train, rating_test = train_test_split(ratings, test_size=0.2, random_state=42)
+    rating_train, rating_test = train_test_split(ratings, test_size=0.2, random_state=38)
 
     rating_train.to_csv("rating_train.csv")
     rating_test.to_csv("rating_test.csv")
