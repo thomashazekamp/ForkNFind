@@ -12,8 +12,10 @@ def main():
 
     baseline_score = baseline(business_data)
 
-    sklearn_score = cosine_similarity_model(business_data)
+    sklearn_score_categorys = cosine_similarity_model_categorys(business_data)
+    sklearn_score_attributes = cosine_similarity_model_attributes(business_data)
+    sklearn_score_categorys_and_attributes = cosine_similarity_model_categorys_and_attributes(business_data)
 
-    print(f'Baseline: {baseline_score}\nSklearn: {sklearn_score}')
+    print(f'Baseline: {baseline_score}\nSklearn - Categorys: {sklearn_score_categorys}\nSklearn - Attributes: {sklearn_score_attributes}\nSklearn - Categorys & Attributes: {sklearn_score_categorys_and_attributes}')
 
 main()
