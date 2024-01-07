@@ -1,4 +1,4 @@
-import 'react-native-gesture-handler';
+// import 'react-native-gesture-handler';
 // import { StyleSheet, View, Text, StatusBar, Pressable } from 'react-native';
 // import React from 'react';
 
@@ -114,12 +114,15 @@ import * as React from 'react';
 import MainContainer from './navigation/MainContainer';
 
 import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 function App() {
     return (
-        // <NavigationContainer>
-            <MainContainer />
-        // </NavigationContainer>
+        // <View style={styles.container}>
+            <NavigationContainer independent={true}>
+                <MainContainer />
+            </NavigationContainer>
+        // </View>
     );
 }
 

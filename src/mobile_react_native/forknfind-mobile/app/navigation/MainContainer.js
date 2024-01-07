@@ -5,52 +5,98 @@ Reference of layout for navigation and initial design: https://www.youtube.com/w
 */
 
 import * as React from 'react';
-// import { View, Text, StyleSheet, Pressable } from 'react-native';
 
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import { View, StyleSheet} from 'react-native';
+
 // Screens
-import HomeScreen from './screens/HomeScreen';
-import DetailsScreen from './screens/DetailsScreen';
+import ReviewsScreen from './screens/ReviewsScreen';
+import RecommendationsScreen from './screens/RecommendationsScreen';
+import LocationScreen from './screens/LocationScreen';
+import SearchScreen from './screens/SearchScreen';
 import SettingsScreen from './screens/SettingsScreen';
 
-import { Ionicons } from '@expo/vector-icons';
+// import { Ionicons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Entypo } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 // Screen names
-const homeName = 'Home';
-const detailsName = 'Details';
+const reviewsName = 'Reviews';
+const recommendationsName = 'Recommendations';
+const locationName = 'Location';
+const searchName = 'Search';
 const settingsName = 'Settings';
 
 const Tab = createBottomTabNavigator();
 
 export default function MainContainer() {
     return (
-        <NavigationContainer independent={true}>
+        
+        // <View style={styles.container}>
+        
             <Tab.Navigator
-                initialRouteName={homeName}
+                initialRouteName={locationName}
                 screenOptions={({route}) => ({
-                    tabBarIcon: ({focused, color, size}) => {
+                    tabBarIcon: ({color, size}) => {
                         let iconName;
                         let routeName = route.name;
 
-                        if (routeName === homeName) {
-                            iconName = focused ? 'home' : 'home-outline';
-                        } else if (routeName === detailsName) {
-                            iconName = focused ? 'list' : 'list-outline';
+                        // Provide the different icons for the different screens
+                        if (routeName === reviewsName) {
+                            iconName = 'rate-review';
+                            return <MaterialIcons name={iconName} size={size} color={color} />;
+
+                        } else if (routeName === recommendationsName) {
+                            iconName = 'new';
+                            return <Entypo name={iconName} size={size} color={color} />;
+
+                        } else if (routeName === locationName) {
+                            iconName = 'location';
+                            return <Entypo name={iconName} size={size} color={color} />;
+
+                        } else if (routeName === searchName) {
+                            iconName = 'search';
+                            return <FontAwesome name={iconName} size={size} color={color} />;
+
                         } else if (routeName === settingsName) {
-                            iconName = focused ? 'settings' : 'settings-outline';
+                            iconName = 'settings';
+                            return <Ionicons name={iconName} size={size} color={color} />;
                         }
-
-                        return <Ionicons name={iconName} size={size} color={color} />;
                     },
+                    tabBarActiveTintColor: 'black',
+                    // tabBarInactiveBackgroundColor: 'lightgray',
+                    tabBarShowLabel: false,
                     headerShown: false,
+                    // style: {
+                    //     position: 'absolute',
+                    //     alignItems: 'center',
+                    //     bottom: 60,
+                    //     flexDirection: 'row',
+                    //     backgroundColor: '#eee',
+                    //     width: '90%',
+                    //     justifyContent: 'space-evenly',
+                    //     borderRadius: 40,
+                    //     backgroundColor: 'black'
+                    // }
                 })}>
-
-                    <Tab.Screen name={homeName} component={HomeScreen} />
-                    <Tab.Screen name={detailsName} component={DetailsScreen} />
+                    <Tab.Screen name={reviewsName} component={ReviewsScreen} />
+                    <Tab.Screen name={recommendationsName} component={RecommendationsScreen} />
+                    <Tab.Screen name={locationName} component={LocationScreen} />
+                    <Tab.Screen name={searchName} component={SearchScreen} />
                     <Tab.Screen name={settingsName} component={SettingsScreen} />
             </Tab.Navigator>
-        </NavigationContainer>
+        // </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        ...StyleSheet.absoluteFillObject,
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+});

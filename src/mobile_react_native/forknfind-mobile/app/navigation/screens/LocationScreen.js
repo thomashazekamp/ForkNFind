@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
-export default function SettingsScreen({ navigation }) {
+export default function LocationScreen({ navigation }) {
     return (
         <View style={styles.container}>
                 <MapView
@@ -23,11 +23,6 @@ export default function SettingsScreen({ navigation }) {
                         description="You are here"
                     />
                 </MapView>
-            {/* <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text
-                    onPress={() => navigation.navigate('Home')}
-                    style= {{ fontSize: 26, fontWeight: 'bold' }}>Details Screen</Text>
-            </View> */}
         </View>
     );
 }
