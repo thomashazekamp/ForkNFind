@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
 import csv
+import sys
+import json
+
 
 def business():
 
@@ -39,8 +42,6 @@ def business():
     business_data['old_business_id'] = business_data['business_id']
     business_data['business_id'] = range(1, len(business_data) + 1)
 
-
-
     categories = {} # Store each individual category and how many times it appears in the restaurants.
 
     for _, row in business_data.iterrows():
@@ -69,8 +70,6 @@ def business():
         cleaned_categories.append(key) # List of all the categories
         count += 1
 
-    print(cleaned_categories)
-
     for key in cleaned_categories: # Loop through the list of categories
         current_categories = [] # Storage for each row and whether that category appears or not
         for index, row in business_data.iterrows(): # Loop through business dataframe
@@ -91,9 +90,68 @@ def business():
     # Remove the category column from the dataframe
     business_data = business_data.drop('categories', axis=1)
 
-    business_data.to_csv(csv_file_processed)
+    # Attributes that we wont use
+    banned_attributes = ['AcceptsInsurance', 'AgesAllowed', 'Ambience', 'BYOBCorkage', 'BYOB', 'BestNights', 'Corkage', 'CoatCheck', 'HasTV', 'ByAppointmentOnly', 'caters', 'GoodForDancing', 'HappyHour', 'RestaurantsCounterService', 'RestaurantsTableService', 'Music']
+    
+    attributes = [] # Store each individual attribute and how many times it appears in the restaurants.
 
-    # Still have to do it to Attributes for the restaurants
+    for _, row in business_data.iterrows():
+        # Loop through each row in dataframe
+        if not pd.isna(row['attributes']): # Make sure it is not NaN
+            
+            # Convert the string to the original dictionary format
+            cleaned_string = row['attributes'].replace("\"", "")
+            dictionary = eval(cleaned_string)
+
+            for key in dictionary.keys(): # Loop through each individual attribute per restaurant
+                # If the value is a string then check what it represents
+                if type(dictionary[key]) is str:
+                    # Combine the key, attribute name, and value, attribute values,
+                    combined = key + "_" + dictionary[key]
+                    # We dont care for values that are False, None, none or no as they give no context
+                    if dictionary[key] == "False" or dictionary[key] == "None" or dictionary[key] == "none" or dictionary[key] == "no":
+                        pass
+                    else:
+                        # If attribute hasnt been found already and not banned then add it
+                        if combined not in attributes and key not in banned_attributes: 
+                            attributes.append(combined)
+
+    # Conversions to combine attrbutes of similar meaning
+    conversions = {'Alcohol_beer_and_wine':'Alcohol_True','Alcohol_full_bar':'Alcohol_True','WiFi_free':'WiFi_True','WiFi_paid':'WiFi_True','RestaurantsDelivery':'RestaurantsTakeOut',}
+
+    attributes.append("Alcohol_True")
+    attributes.append("WiFi_True")
+
+    attributes = [item for item in attributes if item not in ["Alcohol_beer_and_wine","Alcohol_full_bar","WiFi_free","WiFi_paid","RestaurantsDelivery"]]
+
+    attributes.sort()
+
+    for key in attributes: # Loop through the list of attributes
+        current_attributes = [] # Storage for each row and whether that attributes appears or not
+        for _, row in business_data.iterrows(): # Loop through business dataframe
+            if not pd.isna(row['attributes']): # Make sure the Restaurant has attributes
+                cleaned_string = row['attributes'].replace("\"", "")
+                dictionary = eval(cleaned_string)
+                check = False # Have a check to see if the attributes is found
+                for item in dictionary.keys(): # Convert string into dictionary
+                    if type(dictionary[item]) is str:
+                        combined = item + "_" + dictionary[item]
+                        # Check is the attribute and value one of the items to be converted
+                        if combined in conversions.keys():
+                            combined = conversions[combined]
+                        if combined == key: # If the attributes is found then append 1 to a list
+                            current_attributes.append(1)
+                            check = True
+                if check == False: # If it is not found append a 0 to a list
+                    current_attributes.append(0)
+            else: # If the category column is NaN then add a 0
+                current_attributes.append(0)
+
+        business_data[key] = current_attributes # Save the new column for that new attributes to the dataframe
+
+    business_data = business_data.drop('attributes', axis=1)
+
+    business_data.to_csv(csv_file_processed)
 
     review()
 
