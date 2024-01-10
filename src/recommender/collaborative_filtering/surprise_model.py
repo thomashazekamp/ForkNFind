@@ -41,7 +41,4 @@ def surprise_hyperparameter(data):
     grid_search = GridSearchCV(BaselineOnly, param_grid, measures=['RMSE'], cv=5, n_jobs=-1)
     grid_search.fit(data)
 
-    # Get the best model from the grid search
-    #best_knn_regressor = grid_search.best_estimator_
-
     return grid_search.best_score["rmse"]
