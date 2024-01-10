@@ -36,19 +36,16 @@ def main():
     print(rating_5.shape)
     print(balanced_df.shape)
 
-    #baseline_score = collaborative_filtering_baseline(balanced_df)
-    #fastai_score = fastai(balanced_df)
-    #sklearn_score = sklearn(balanced_df)
-    #surprise_score = surprise(balanced_df)
-    #lightfm_score = lightfm(balanced_df)
+    baseline_score = collaborative_filtering_baseline(balanced_df)
+    fastai_score = fastai(balanced_df)
+    sklearn_score = sklearn(balanced_df)
+    surprise_score = surprise(balanced_df)
+    lightfm_score = lightfm(balanced_df)
 
-    #print(lightfm_score)
-
-    
-
-    #fast_ai_hyperparameter_score = fastai_hyperparameter(balanced_df)
-    #sklearn_hyperparameter_score = sklean_hyperparameter(balanced_df)
-    #lightfm_hyperparameter_score = lightfm_hyperparameter(balanced_df)
+  
+    fast_ai_hyperparameter_score = fastai_hyperparameter(balanced_df)
+    sklearn_hyperparameter_score = sklean_hyperparameter(balanced_df)
+    lightfm_hyperparameter_score = lightfm_hyperparameter(balanced_df)
     surprise_hyperparameter_score = surprise_hyperparameter(balanced_df)
 
     print(surprise_hyperparameter_score)
