@@ -94,3 +94,18 @@ def start_content_recommender():
         masked_id_for_similarity[int(row['restaurant_id'])] = int(index)
 
     return pickle.dumps(similarity_matrix), json.dumps(masked_id_for_similarity)
+
+def get_content_recommendations(matrix, restaurant_id, restaurant_id_masking):
+
+    restaurant_id_masking = json.loads(restaurant_id_masking)
+    matrix = pickle.loads(matrix)
+
+    masked_key = restaurant_id_masking[str(restaurant_id)]
+    
+    item_similarities = matrix[masked_key]
+
+    top_similar_indices = item_similarities.argsort()[-4:][:3]
+
+    real_ids = [[key for key, val in restaurant_id_masking.items() if val == value] for value in top_similar_indices]
+
+    return [int(item) for sublist in real_ids for item in sublist]
