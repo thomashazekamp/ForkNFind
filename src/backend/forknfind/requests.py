@@ -124,11 +124,11 @@ def add_restaurant_to_database(id, restaurant_info):
             new_times['sunday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
 
     try:
-        print("Test")
+        #print("Test")
         restaurant_hours = RestaurantHours.objects.get(monday=new_times['monday'], tuesday=new_times['tuesday'], wednesday=new_times['wednesday'], thursday=new_times['thursday'], friday=new_times['friday'], saturday=new_times['saturday'], sunday=new_times['sunday'])
     
     except RestaurantHours.DoesNotExist:
-        print("Test_2")
+        #print("Test_2")
         restaurant_hours = RestaurantHours.objects.create(monday=new_times['monday'], tuesday=new_times['tuesday'], wednesday=new_times['wednesday'], thursday=new_times['thursday'], friday=new_times['friday'], saturday=new_times['saturday'], sunday=new_times['sunday'])
     
     new_restaurant.hours = restaurant_hours

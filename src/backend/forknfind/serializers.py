@@ -62,6 +62,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
         print(new_user) # For checking the register worked correctly, can be commented out.
 
+        model = HybridRecommender.load()
+        model.update_collaborative_recommender()
+
         return new_user
     
 class RestaurantRegistrationSerializer(serializers.ModelSerializer):
@@ -99,6 +102,9 @@ class ReviewRegistrationSerializer(serializers.ModelSerializer):
 
         new_review = Review.objects.create(user=user, restaurant=restaurant, rating=rating, description=description)
         new_review.save()
+
+        model = HybridRecommender.load()
+        model.update_collaborative_recommender()
 
         return new_review
 
