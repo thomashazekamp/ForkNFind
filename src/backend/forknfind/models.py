@@ -310,3 +310,9 @@ class HybridRecommender(SingletonModel):
         similar_restaurants = get_content_recommendations(self.content_model, restaurant_id, self.restaurant_id_masking)
 
         return similar_restaurants
+    
+    def query_collaborative_recommender(self, user_id):
+        
+        recommended_restaurants = get_collaborative_recommendations(self.collaborative_model, user_id)
+
+        return recommended_restaurants

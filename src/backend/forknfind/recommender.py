@@ -109,3 +109,26 @@ def get_content_recommendations(matrix, restaurant_id, restaurant_id_masking):
     real_ids = [[key for key, val in restaurant_id_masking.items() if val == value] for value in top_similar_indices]
 
     return [int(item) for sublist in real_ids for item in sublist]
+
+def get_collaborative_recommendations(matrix, user_id):
+
+    from .models import Review, Restaurant
+
+    matrix = pickle.loads(matrix)
+
+    queryset = Review.objects.filter(user=user_id)
+    print(queryset)
+
+    restaurant_ids = [item.get_restaurant().get_id() for item in queryset]
+    
+    restaurant_id_to_predict = Restaurant.objects.exclude(id__in=restaurant_ids)
+    restaurant_id_to_predict = [item.get_id() for item in restaurant_id_to_predict]
+
+
+    results = {}
+    for id in restaurant_id_to_predict:
+        results[id] = matrix.predict(user_id, id)[3]
+
+    sorted_dict = dict(sorted(results.items(), key=lambda x: x[1], reverse=True))
+
+    return list(sorted_dict.keys())[:3]

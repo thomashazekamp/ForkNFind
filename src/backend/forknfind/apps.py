@@ -13,5 +13,5 @@ class ForknfindConfig(AppConfig):
 
         model = HybridRecommender.load()
         model.start_recommender()
-        model.query_content_recommender(151)
-
+        #model.query_content_recommender(151)
+        #model.query_collaborative_recommender(1)
