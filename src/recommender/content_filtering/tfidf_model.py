@@ -30,7 +30,7 @@ def get_similar_items(row, cosine_similarity_matrix, train, test_ids):
 
 def compute_similarity_and_loop(data, rating_train, rating_test, feature_columns):
 
-    features = data[feature_columns]
+    features = data[feature_columns].copy()
 
     for col in features.columns:
         features[col] = features[col].apply(lambda value: "" if value == 0 else (col + " "))
