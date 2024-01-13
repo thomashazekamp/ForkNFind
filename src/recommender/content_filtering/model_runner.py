@@ -11,7 +11,7 @@ def main():
     business_data.reset_index(inplace=True)
     business_data.index = business_data.index + 1
 
-    baseline_score = baseline(business_data)
+    baseline_score = content_filtering_baseline(business_data)
 
     sklearn_score_categorys, sklearn_score_attributes, sklearn_score_categorys_and_attributes  = cosine_similarity_models(business_data)
     tfidf_score_categorys, tfidf_score_attributes, tfidf_score_categorys_and_attributes = tf_idf_similarity_models(business_data)

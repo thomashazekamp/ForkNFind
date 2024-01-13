@@ -1,5 +1,5 @@
 from surprise import Reader, Dataset, SVD, SVDpp, SlopeOne, NMF, KNNBaseline, KNNBasic, KNNWithMeans, KNNWithZScore, BaselineOnly, CoClustering
-from surprise.model_selection import cross_validate
+from surprise.model_selection import cross_validate, GridSearchCV
 import pandas as pd
 
 def surprise(data):
@@ -11,7 +11,7 @@ def surprise(data):
     benchmark = []
 
     # Iterate over all algorithms
-    for algorithm in [SlopeOne(), NMF(), KNNBaseline(), KNNBasic(), KNNWithMeans(), KNNWithZScore(), CoClustering()]:
+    for algorithm in [SVD(), SVDpp(), BaselineOnly(), SlopeOne(), NMF(), KNNBaseline(), KNNBasic(), KNNWithMeans(), KNNWithZScore(), CoClustering()]:
         # Perform cross validation
         results = cross_validate(algorithm, data, measures=['RMSE'], cv=3, verbose=False)
         
@@ -22,8 +22,23 @@ def surprise(data):
 
     sorted_benchmark = sorted(benchmark, key=lambda df: df['test_rmse'])
 
-    #print(sorted_benchmark)
-
-    #print(sorted_benchmark[0])
-
     return sorted_benchmark[0]['test_rmse']
+
+
+def surprise_hyperparameter(data):
+
+    reader = Reader(rating_scale=(1,5))
+
+    data = Dataset.load_from_df(data[["user_id","business_id","stars"]], reader=reader)
+
+    param_grid = { 'bsl_options': 
+        { 'method': ['als', 'sgd'],
+        'ref': [0.05, 0.01, 0.02, 0.03],
+        'learning_rate': [0.005, 0.01, 0.02],
+        'n_epochs': [10, 15, 20, 30, 40]
+    }}
+
+    grid_search = GridSearchCV(BaselineOnly, param_grid, measures=['RMSE'], cv=5, n_jobs=-1)
+    grid_search.fit(data)
+
+    return grid_search.best_score["rmse"]

@@ -3,12 +3,11 @@ from sklearn.model_selection import train_test_split
 import random
 import math
 
-def baseline(data):
+def content_filtering_baseline(data):
 
-    information = data[['user_id', 'business_id']]
     rating = data['stars']
 
-    _, _, rating_train, rating_test = train_test_split(information, rating, test_size=0.2, random_state=42)
+    rating_train, rating_test = train_test_split(rating, test_size=0.2, random_state=42)
 
     value_counts = {}
 
