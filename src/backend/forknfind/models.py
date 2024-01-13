@@ -1,10 +1,14 @@
 from typing import Any
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from .recommender import *
 
 # Create your models here.
 class APIUser(AbstractUser):
     
+    def get_id(self):
+        return self.id
+
     def get_username(self):
         return self.username
     
@@ -264,3 +268,74 @@ class RestaurantCategory(models.Model):
     
     def __str__(self):
         return f'{self.get_category()} -- {self.get_restaurant()}'
+    
+
+""" 
+Stack Overflow. (2018, April 9). Answer by Ramkishore M on "How to implement Singleton in Django" [Answer]. from https://stackoverflow.com/a/49736970
+
+Code used to design the singleton class model.
+"""
+
+class SingletonModel(models.Model): # Singleton class so only 1 instance can be created
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs): # Saves the method with pk 1
+        self.pk = 1
+        super(SingletonModel, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs): # Cant be deleted
+        pass
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1) # Gets the instance with pk 1
+        return obj
+
+class HybridRecommender(SingletonModel):
+
+    test = models.TextField()
+    collaborative_model = models.BinaryField()
+    content_model = models.BinaryField()
+    restaurant_id_masking = models.TextField()
+
+    def start_recommender(self):
+
+        self.collaborative_model = start_collaborative_recommender()
+        self.content_model, self.restaurant_id_masking = start_content_recommender()
+        self.save()
+
+    def update_collaborative_recommender(self):
+
+        self.collaborative_model = start_collaborative_recommender()
+        self.save()
+
+    def update_content_recommender(self):
+
+        self.content_model, self.restaurant_id_masking = start_content_recommender()
+        self.save()
+
+    def query_content_recommender(self, restaurant_id):
+
+        similar_restaurants = get_content_recommendations(self.content_model, restaurant_id, self.restaurant_id_masking)
+
+        return similar_restaurants
+    
+    def query_collaborative_recommender(self, user_id):
+
+        recommended_restaurants = get_collaborative_recommendations(self.collaborative_model, user_id)
+
+        return recommended_restaurants
+    
+    def query_hybrid_recommender(self, user_id):
+
+        collab_recommended_restaurants = get_collaborative_recommendations(self.collaborative_model, user_id)
+
+        hybrid_recommendations = []
+        for id in collab_recommended_restaurants:
+
+            hybrid_recommendations.append(id)
+
+            hybrid_recommendations.extend(get_content_recommendations(self.content_model, id, self.restaurant_id_masking))
+
+        return hybrid_recommendations

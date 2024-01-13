@@ -84,5 +84,34 @@ class RestaurantsAroundUserAPIView(APIView):
             if distance < 2:
                 within_distance[item.get_name()] = {'distance':distance, 'location':item.get_location(), 'rating':item.get_average_rating()}
 
+        model = HybridRecommender.load()
+        model.update_content_recommender()
 
         return Response(within_distance, status=status.HTTP_200_OK)
+    
+class RecommendRestaurantContentAPIView(APIView):
+
+    def get(self, request, restaurant_id):
+
+        model = HybridRecommender.load()
+        restaurants = model.query_content_recommender(restaurant_id)
+
+        return Response(restaurants, status=status.HTTP_200_OK)
+    
+class RecommendRestaurantCollaborativeAPIView(APIView):
+
+    def get(self, request):
+
+        model = HybridRecommender.load()
+        restaurants = model.query_collaborative_recommender(request.user.id)
+
+        return Response(restaurants, status=status.HTTP_200_OK)
+    
+class RecommendRestaurantHybridAPIView(APIView):
+
+    def get(self, request):
+
+        model = HybridRecommender.load()
+        restaurants = model.query_hybrid_recommender(request.user.id)
+
+        return Response(restaurants, status=status.HTTP_200_OK)
