@@ -264,3 +264,26 @@ class RestaurantCategory(models.Model):
     
     def __str__(self):
         return f'{self.get_category()} -- {self.get_restaurant()}'
+    
+    
+""" 
+Stack Overflow. (2018, April 9). Answer by Ramkishore M on "How to implement Singleton in Django" [Answer]. from https://stackoverflow.com/a/49736970
+
+Code used to design the singleton class model.
+"""
+
+class SingletonModel(models.Model): # Singleton class so only 1 instance can be created
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs): # Saves the method with pk 1
+        self.pk = 1
+        super(SingletonModel, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs): # Cant be deleted
+        pass
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1) # Gets the instance with pk 1
+        return obj
