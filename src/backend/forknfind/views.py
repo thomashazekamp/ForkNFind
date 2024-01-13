@@ -95,3 +95,12 @@ class RecommendRestaurantContentAPIView(APIView):
         restaurants = model.query_content_recommender(restaurant_id)
 
         return Response(restaurants, status=status.HTTP_200_OK)
+    
+class RecommendRestaurantCollaborativeAPIView(APIView):
+
+    def get(self, request):
+
+        model = HybridRecommender.load()
+        restaurants = model.query_collaborative_recommender(request.user.id)
+
+        return Response(restaurants, status=status.HTTP_200_OK)
