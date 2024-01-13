@@ -31,7 +31,7 @@ export default function SearchScreen({ navigation }) {
             const json = await response.json();
             setData(json.results);
 
-            console.log(json.results);
+            //console.log(json.results);
 
         } catch (error) {
             setError(error);
@@ -47,7 +47,7 @@ export default function SearchScreen({ navigation }) {
                 item.name.first.toUpperCase().includes(query.toUpperCase()) || item.name.last.toUpperCase().includes(query.toUpperCase())
             
         ));
-        console.log(query);
+        //console.log(query);
     }
 
     if (isLoading) { // The loading screen/animation
