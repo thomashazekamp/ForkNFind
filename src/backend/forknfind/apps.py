@@ -15,3 +15,4 @@ class ForknfindConfig(AppConfig):
         model.start_recommender()
         #model.query_content_recommender(151)
         #model.query_collaborative_recommender(1)
+        #model.query_hybrid_recommender(1)

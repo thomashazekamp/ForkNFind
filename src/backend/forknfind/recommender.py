@@ -117,7 +117,6 @@ def get_collaborative_recommendations(matrix, user_id):
     matrix = pickle.loads(matrix)
 
     queryset = Review.objects.filter(user=user_id)
-    print(queryset)
 
     restaurant_ids = [item.get_restaurant().get_id() for item in queryset]
     
