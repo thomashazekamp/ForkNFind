@@ -19,4 +19,5 @@ urlpatterns = [
     path('register/review/', ReviewRegistrationAPIView.as_view(), name="api_register_review"),
     path('find/restaurants/', RestaurantsAroundUserAPIView.as_view(), name="api_find_restaurants"),
     path('search/restaurant/', SearchRestaurantAPIView.as_view() ,name="api_search_restaurants"),
+    path('recommend/content/<int:restaurant_id>/', RecommendRestaurantContentAPIView.as_view(), name="api_recommend_restaurant_content"),
 ]

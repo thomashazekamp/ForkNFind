@@ -86,3 +86,12 @@ class RestaurantsAroundUserAPIView(APIView):
 
 
         return Response(within_distance, status=status.HTTP_200_OK)
+    
+class RecommendRestaurantContentAPIView(APIView):
+
+    def get(self, request, restaurant_id):
+
+        model = HybridRecommender.load()
+        restaurants = model.query_content_recommender(restaurant_id)
+
+        return Response(restaurants, status=status.HTTP_200_OK)
