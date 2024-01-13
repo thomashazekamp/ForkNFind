@@ -296,8 +296,11 @@ class HybridRecommender(SingletonModel):
 
     test = models.TextField()
     collaborative_model = models.BinaryField()
+    content_model = models.BinaryField()
+    restaurant_id_masking = models.TextField()
 
     def start_recommender(self):
 
         self.collaborative_model = start_collaborative_recommender()
+        self.content_model, self.restaurant_id_masking = start_content_recommender()
         self.save()

@@ -1,6 +1,9 @@
 import pandas as pd
 from surprise import Reader, Dataset, BaselineOnly
 import pickle
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import json
 
 
 def start_collaborative_recommender():
@@ -8,7 +11,7 @@ def start_collaborative_recommender():
     from .models import Review
 
     queryset = Review.objects.all()
-    data = [{'user': item.user.get_id(), 'restaurant': item.restaurant.get_id(), 'rating': item.rating} for item in queryset]
+    data = [{'user': item.get_user().get_id(), 'restaurant': item.get_restaurant().get_id(), 'rating': item.get_rating()} for item in queryset]
     review_dataframe = pd.DataFrame.from_records(data)
 
     reader = Reader(rating_scale=(1,5))
@@ -20,3 +23,74 @@ def start_collaborative_recommender():
     model.fit(surprise_data.build_full_trainset())
 
     return pickle.dumps(model)
+
+
+def start_content_recommender():
+
+    from .models import Restaurant, Category
+
+    queryset = Restaurant.objects.all()
+    queryset_categories = Category.objects.all()
+
+    data_categories = [item for item in queryset_categories]
+
+    data = []
+    for item in queryset:
+
+        item_data = {'restaurant_id': item.get_id(), 'allows_dogs': item.get_allows_dogs(), 'delivery': item.get_delivery(), 'dine_in': item.get_dine_in(), 'good_for_children': item.get_good_for_children(), 'good_for_groups': item.get_good_for_groups(), 'outfoor_seating': item.get_outdoor_seating()}
+
+        for key, value in item_data.items():
+
+            if type(value) == bool:
+                if value == True:
+                    item_data[key] = 1
+                else:
+                    item_data[key] = 0
+
+        if item.get_price_level() == "PRICE_LEVEL_INEXPENSIVE":
+            item_data['PRICE_LEVEL_INEXPENSIVE'] = 1
+            item_data['PRICE_LEVEL_MODERATE'] = 0
+            item_data['PRICE_LEVEL_EXPENSIVE'] = 0
+        elif item.get_price_level() == "PRICE_LEVEL_MODERATE":
+            item_data['PRICE_LEVEL_INEXPENSIVE'] = 0
+            item_data['PRICE_LEVEL_MODERATE'] = 1
+            item_data['PRICE_LEVEL_EXPENSIVE'] = 0
+        elif item.get_price_level() == "PRICE_LEVEL_EXPENSIVE":
+            item_data['PRICE_LEVEL_INEXPENSIVE'] = 0
+            item_data['PRICE_LEVEL_MODERATE'] = 0
+            item_data['PRICE_LEVEL_EXPENSIVE'] = 1
+
+        item_categories = item.get_categories()
+
+        for category in data_categories:
+            if category in item_categories:
+                item_data[category.get_category()] = 1
+            else:
+                item_data[category.get_category()] = 0
+                     
+        data.append(item_data)
+
+    restaurant_dataframe = pd.DataFrame.from_records(data)
+
+    feature_columns = restaurant_dataframe.columns.tolist()
+    feature_columns = feature_columns[1:]
+
+    features = restaurant_dataframe[feature_columns].copy()
+
+    for col in features.columns:
+        features[col] = features[col].apply(lambda value: "" if value == 0 else (col + " "))
+
+    features['sentence'] = features.apply(lambda row: "".join(row), axis=1)
+
+    features = features.drop(columns=features.columns[:-1])
+
+    tfidf_vector = TfidfVectorizer()
+    tfidf_matrix = tfidf_vector.fit_transform(features['sentence'])
+    similarity_matrix = cosine_similarity(tfidf_matrix, tfidf_matrix)
+
+    masked_id_for_similarity = {}
+
+    for index, row in restaurant_dataframe.iterrows():
+        masked_id_for_similarity[int(row['restaurant_id'])] = int(index)
+
+    return pickle.dumps(similarity_matrix), json.dumps(masked_id_for_similarity)
