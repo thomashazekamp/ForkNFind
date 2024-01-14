@@ -22,4 +22,5 @@ urlpatterns = [
     path('recommend/content/<int:restaurant_id>/', RecommendRestaurantContentAPIView.as_view(), name="api_recommend_restaurant_content"),
     path('recommend/collaborative/', RecommendRestaurantCollaborativeAPIView.as_view(), name="api_recommend_restaurant_collaborative"),
     path('recommend/hybrid/', RecommendRestaurantHybridAPIView.as_view(), name="api_recommend_restaurant_hybrid"),
+    path('review/user/', ReviewUserAPIView.as_view(), name="api_user_reviews")
 ]

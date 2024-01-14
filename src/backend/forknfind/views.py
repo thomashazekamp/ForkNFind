@@ -115,3 +115,13 @@ class RecommendRestaurantHybridAPIView(APIView):
         restaurants = model.query_hybrid_recommender(request.user.id)
 
         return Response(restaurants, status=status.HTTP_200_OK)
+    
+class ReviewUserAPIView(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+
+        user = self.request.user
+        test = Review.objects.filter(user=user)
+        return test
