@@ -192,9 +192,14 @@ class Restaurant(models.Model):
     
     def get_average_rating(self):
 
-        # Will have calculations in here in the future
+        queryset = Review.objects.filter(restaurant_id=self.get_id())
 
-        return self.average_rating
+        divisor = len(queryset)
+        total = 0
+        for item in queryset:
+            total += item.get_rating()
+        
+        return round(total / divisor, 1)
     
     def debug_string(self):
         return f'ID: {self.get_id()}\nGoogle ID: {self.get_google_id()}\nLocation: {self.get_location()}\nName: {self.get_name()}\nAverage Rating: {self.get_average_rating()}'
