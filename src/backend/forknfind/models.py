@@ -196,10 +196,16 @@ class Restaurant(models.Model):
 
         divisor = len(queryset)
         total = 0
+
+        if divisor == 0:
+            return 0
+
         for item in queryset:
             total += item.get_rating()
         
-        return round(total / divisor, 1)
+        self.average_rating = round(total / divisor, 1)
+
+        return self.average_rating
     
     def debug_string(self):
         return f'ID: {self.get_id()}\nGoogle ID: {self.get_google_id()}\nLocation: {self.get_location()}\nName: {self.get_name()}\nAverage Rating: {self.get_average_rating()}'
