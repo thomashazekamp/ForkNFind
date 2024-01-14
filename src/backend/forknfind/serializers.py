@@ -7,11 +7,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = APIUser
         fields = ['id', 'username', 'email', 'first_name', 'last_name'] # Show these fields
 
-class RestaurantSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Restaurant
-        fields = ['id','google_id','longitude','latitude','name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating', 'hours', 'average_rating']
-
 class ReviewSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Review
@@ -33,14 +28,33 @@ class RestaurantTimeSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['hour','minute']
 
 class RestaurantDaySerializer(serializers.HyperlinkedModelSerializer):
+    open_time = RestaurantTimeSerializer()
+    close_time = RestaurantTimeSerializer()
+
     class Meta:
         model = RestaurantDay
         fields = ['open','open_time','close_time']
 
 class RestaurantHoursSerializer(serializers.HyperlinkedModelSerializer):
+    monday = RestaurantDaySerializer()
+    tuesday = RestaurantDaySerializer()
+    wednesday = RestaurantDaySerializer()
+    thursday = RestaurantDaySerializer()
+    friday = RestaurantDaySerializer()
+    saturday = RestaurantDaySerializer()
+    sunday = RestaurantDaySerializer()
+
     class Meta:
         model = RestaurantHours
         fields = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
+
+class RestaurantSerializer(serializers.HyperlinkedModelSerializer):
+    hours = RestaurantHoursSerializer()
+
+    class Meta:
+        model = Restaurant
+        fields = ['id','google_id','longitude','latitude','name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating', 'hours', 'average_rating']
+
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
 
