@@ -125,3 +125,14 @@ class ReviewUserAPIView(generics.ListAPIView):
         user = self.request.user
         test = Review.objects.filter(user=user)
         return test
+    
+class ReviewRestaurantAPIView(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+
+        restaurant_id = self.kwargs.get('restaurant_id')
+        test = Review.objects.filter(restaurant_id=restaurant_id)
+        return test
+
