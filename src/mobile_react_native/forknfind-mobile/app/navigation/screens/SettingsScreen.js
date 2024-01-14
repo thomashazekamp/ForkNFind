@@ -25,6 +25,10 @@ export default function SettingsScreen({ navigation }) {
         }
     };
 
+    const toggleLogout = () => { // Logout of account
+        alert('You have been logged out!');
+    }
+
     const savePassword = () => { // Provide alert & close tab
         alert('New password saved!');
         toggleModal('save'); // Close the modal after saving
@@ -33,15 +37,22 @@ export default function SettingsScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <Text style={styles.titleStyle}>Settings</Text>
-
+            
+            {/* Account details */}
             <TouchableOpacity style={styles.settingOption} onPress={() => toggleModal('details')}>
                 <Text>Account Details</Text>
-                {/* <Entypo name="arrow-long-right" size={24} color="black" /> */}
                 <EvilIcons name="arrow-right" size={24} color="black" />
             </TouchableOpacity>
 
+            {/* Change password */}
             <TouchableOpacity style={styles.settingOption} onPress={() => toggleModal('password')}>
                 <Text>Change Password</Text>
+                <EvilIcons name="arrow-right" size={24} color="black" />
+            </TouchableOpacity>
+
+            {/* Logout */}
+            <TouchableOpacity style={styles.settingOption} onPress={() => toggleLogout()}>
+                <Text>Logout</Text>
                 <EvilIcons name="arrow-right" size={24} color="black" />
             </TouchableOpacity>
 
@@ -53,10 +64,23 @@ export default function SettingsScreen({ navigation }) {
                             <EvilIcons name="arrow-left" size={24} color="black" />
                         </TouchableOpacity>
                         <Text style={styles.modalTitle}>Account Details</Text>
-                        <Text>Name: Test</Text>
-                        <Text>Email: Test@gmail.com</Text>
-                        <Text>Location: Dublin, Ireland</Text>
-                        <Text>Num. of Reviews: 5</Text>
+
+                        <View style={styles.modalDetailsBlock}>
+                            <Text style={{color: 'grey'}}>Name</Text>
+                            <Text style={{fontWeight: 'bold'}}>Joe Something</Text>
+                        </View>
+                        <View style={styles.modalDetailsBlock}>
+                            <Text style={{color: 'grey'}}>Email</Text>
+                            <Text style={{fontWeight: 'bold'}}>joe.something@gmail.com</Text>
+                        </View>
+                        <View style={styles.modalDetailsBlock}>
+                            <Text style={{color: 'grey'}}>Location</Text>
+                            <Text style={{fontWeight: 'bold'}}>San Francisco, CA</Text>
+                        </View>
+                        <View style={styles.modalDetailsBlock}>
+                            <Text style={{color: 'grey'}}>Number of Reviews</Text>
+                            <Text style={{fontWeight: 'bold'}}>5</Text>
+                        </View>
                     </View>
                 </View>
             </Modal>
@@ -162,5 +186,9 @@ const styles = StyleSheet.create({
     },
     backButton: {
         alignSelf: 'flex-start',
+    },
+    modalDetailsBlock: {
+        marginTop: 10,
+        marginBottom: 10,
     },
 });
