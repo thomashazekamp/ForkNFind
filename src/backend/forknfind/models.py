@@ -23,6 +23,7 @@ class APIUser(AbstractUser):
         return self.last_name
     
     # Getting the email
+    def get_email(self):
         return self.email
     
     # Getting the full name of the class
