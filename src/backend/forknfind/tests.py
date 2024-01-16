@@ -125,25 +125,34 @@ class APIUserMethodTests(TestCase):
         correct_to_string = "dalye54"
         self.assertEqual(to_string, correct_to_string)
 
-class APIRestaurantMethodTests(TestCase):
+# Unit tests for the Restaurant class
+class RestaurantMethodTests(TestCase):
 
-    def setUp(self):
+    # Initial set up of data
+    # Creates 1 instance of the class Restaurant
+    # Creates 1 instance of the class RestaurantHours
+    # Creates 1 instance of the class RestaurantDay
+    def setUpTestData():
 
-        self.restaurant_day = RestaurantDay.objects.create(
+        RestaurantDay.objects.create(
             open=False
         )
 
-        self.restaurant_hours = RestaurantHours.objects.create(
-            monday=self.restaurant_day,
-            tuesday=self.restaurant_day,
-            wednesday=self.restaurant_day,
-            thursday=self.restaurant_day,
-            friday=self.restaurant_day,
-            saturday=self.restaurant_day,
-            sunday=self.restaurant_day
+        restaurant_day = RestaurantDay.objects.get(id=1)
+
+        RestaurantHours.objects.create(
+            monday=restaurant_day,
+            tuesday=restaurant_day,
+            wednesday=restaurant_day,
+            thursday=restaurant_day,
+            friday=restaurant_day,
+            saturday=restaurant_day,
+            sunday=restaurant_day,
         )
 
-        self.model_instance = Restaurant.objects.create(
+        restaurant_hours = RestaurantHours.objects.get(id=1)
+
+        Restaurant.objects.create(
             google_id='google_id_583589498278432',
             longitude=43.78,
             latitude=17.35,
@@ -158,149 +167,275 @@ class APIRestaurantMethodTests(TestCase):
             good_for_groups=False,
             outdoor_seating=False,
             average_rating=0,
-            hours=self.restaurant_hours
+            hours=restaurant_hours
         )
 
-        self.category = Category.objects.create(
+        restaurant = Restaurant.objects.get(id=1)
+
+        Category.objects.create(
             category='Chinese'
         )
 
-        self.restaurant_category = RestaurantCategory.objects.create(
-            category=self.category,
-            restaurant=self.model_instance
+        category = Category.objects.get(id=1)
+
+        RestaurantCategory.objects.create(
+            category=category,
+            restaurant=restaurant
         )
 
-        self.category_2 = Category.objects.create(
+        Category.objects.create(
             category='Indian'
         )
 
-        self.restaurant_category_2 = RestaurantCategory.objects.create(
-            category=self.category_2,
-            restaurant=self.model_instance
+        category_2 = Category.objects.get(id=2)
+
+        RestaurantCategory.objects.create(
+            category=category_2,
+            restaurant=restaurant
         )
 
+        APIUser.objects.create(
+            username='dalye54',
+            first_name='Eoin',
+            last_name='Daly',
+            email='eoin.daly54@mail.dcu.ie',
+            password='password'
+        )
+
+        user = APIUser.objects.get(id=1)
+
+        Review.objects.create(
+            user=user,
+            restaurant=restaurant,
+            rating=4,
+            description="Lovely Restaurant"
+        )
+
+        Review.objects.create(
+            user=user,
+            restaurant=restaurant,
+            rating=2,
+            description="Terrible Restaurant"
+        )
+
+    # Test to validate the get_id() method
+    # Expected result is that the id 1 is returned from the method
     def test_get_id(self):
 
-        id = self.model_instance.get_id()
+        restaurant = Restaurant.objects.get(id=1)
+        id = restaurant.get_id()
         correct_id = 1
         self.assertEqual(id, correct_id)
 
+    # Test to validate the get_google_id() method
+    # Epected result is that the google_id 'google_id_583589498278432' is returned from the method
     def test_get_google_id(self):
 
-        google_id = self.model_instance.get_google_id()
+        restaurant = Restaurant.objects.get(id=1)
+        google_id = restaurant.get_google_id()
         correct_google_id = "google_id_583589498278432"
         self.assertEqual(google_id, correct_google_id)
 
+    # Test to validate the get_longitude() method
+    # Epected result is that the longitude 43.78 is returned from the method
     def test_get_longitude(self):
 
-        longitude = self.model_instance.get_longitude()
+        restaurant = Restaurant.objects.get(id=1)
+        longitude = restaurant.get_longitude()
         correct_longitude = 43.78
         self.assertEqual(longitude, correct_longitude)
 
-    # To test the it is not rounding the number
+    # Test to validate the get_longitude() method is not rounding number
+    # Epected result is that the longitude 43.78 is returned from the method which is not equal to 44
     def test_get_longitude_fail_case(self):
 
-        longitude = self.model_instance.get_longitude()
+        restaurant = Restaurant.objects.get(id=1)
+        longitude = restaurant.get_longitude()
         correct_longitude = 44
         self.assertNotEqual(longitude, correct_longitude)
 
+    # Test to validate the get_latitude() method
+    # Epected result is that the latitude 17.35 is returned from the method
     def test_get_latitude(self):
 
-        latitude = self.model_instance.get_latitude()
+        restaurant = Restaurant.objects.get(id=1)
+        latitude = restaurant.get_latitude()
         correct_latitude = 17.35
         self.assertEqual(latitude, correct_latitude)
 
-    # To test the it is not rounding the number
+    # Test to validate the get_latitude() method is not rounding number
+    # Epected result is that the latitude 17.35 is returned from the method which is not equal to 17
     def test_get_latitude_fail_case(self):
 
-        latitude = self.model_instance.get_latitude()
+        restaurant = Restaurant.objects.get(id=1)
+        latitude = restaurant.get_latitude()
         correct_latitude = 17
         self.assertNotEqual(latitude, correct_latitude)
 
+    # Test to validate the get_location() method
+    # Expected result is that the tuple (43.78, 17.35) is returned from the method
     def test_get_location(self):
 
-        location = self.model_instance.get_location()
+        restaurant = Restaurant.objects.get(id=1)
+        location = restaurant.get_location()
         correct_location = (43.78, 17.35)
         self.assertEqual(location, correct_location)
 
+    # Test to validate the get_name() method
+    # Expected result is that the name "A Pizza Place" is returned from the method
     def test_get_name(self):
 
-        name = self.model_instance.get_name()
+        restaurant = Restaurant.objects.get(id=1)
+        name = restaurant.get_name()
         correct_name = "A Pizza Place"
         self.assertEqual(name, correct_name)
 
+    # Test to validate the get_address() method
+    # Expected result is that the address 'Dublin' is returned from the method
     def test_get_address(self):
-        address = self.model_instance.get_address()
+
+        restaurant = Restaurant.objects.get(id=1)
+        address = restaurant.get_address()
         correct_address = 'Dublin'
         self.assertEqual(address, correct_address)
 
+    # Test to validate the get_type() method
+    # Expected result is that the type 'pizza' is returned from the method
     def test_get_type(self):
-        type = self.model_instance.get_type()
+
+        restaurant = Restaurant.objects.get(id=1)
+        type = restaurant.get_type()
         correct_type = 'pizza'
         self.assertEqual(type, correct_type)
 
+    # Test to validate the get_price_level() method
+    # Expected result is that the price_level 'PRICE_LEVEL_INEXPENSIVE' is returned from the method
     def test_get_price_level(self):
-        price_level = self.model_instance.get_price_level()
+
+        restaurant = Restaurant.objects.get(id=1)
+        price_level = restaurant.get_price_level()
         correct_price_level = 'PRICE_LEVEL_INEXPENSIVE'
         self.assertEqual(price_level, correct_price_level)
 
+    # Test to validate the get_allows_dogs() method
+    # Expected result is that the boolean True is returned from the method
     def test_get_allows_dogs(self):
-        allows_dogs = self.model_instance.get_allows_dogs()
+
+        restaurant = Restaurant.objects.get(id=1)
+        allows_dogs = restaurant.get_allows_dogs()
         correct_allows_dogs = True
         self.assertEqual(allows_dogs, correct_allows_dogs)
 
+    # Test to validate the get_delivery() method
+    # Expected result is that the boolean False is returned from the method
     def test_get_delivery(self):
-        delivery = self.model_instance.get_delivery()
+
+        restaurant = Restaurant.objects.get(id=1)
+        delivery = restaurant.get_delivery()
         correct_delivery = False
         self.assertEqual(delivery, correct_delivery)
 
+    # Test to validate the get_dine_in() method
+    # Expected result is that the boolean True is returned from the method
     def test_get_dine_in(self):
-        dine_in = self.model_instance.get_dine_in()
+
+        restaurant = Restaurant.objects.get(id=1)
+        dine_in = restaurant.get_dine_in()
         correct_dine_in = True
         self.assertEqual(dine_in, correct_dine_in)
 
+    # Test to validate the get_good_for_children() method
+    # Expected result is that the boolean True is returned from the method
     def test_get_good_for_children(self):
-        good_for_children = self.model_instance.get_good_for_children()
+
+        restaurant = Restaurant.objects.get(id=1)
+        good_for_children = restaurant.get_good_for_children()
         correct_good_for_children = True
         self.assertEqual(good_for_children, correct_good_for_children)
 
+    # Test to validate the get_good_for_groups() method
+    # Expected result is that the boolean False is returned from the method
     def test_get_good_for_groups(self):
-        good_for_groups = self.model_instance.get_good_for_groups()
+
+        restaurant = Restaurant.objects.get(id=1)
+        good_for_groups = restaurant.get_good_for_groups()
         correct_good_for_groups = False
         self.assertEqual(good_for_groups, correct_good_for_groups)
 
+    # Test to validate the get_outdoor_seating() method
+    # Expected result is that the boolean False is returned from the method
     def test_get_outdoor_seating(self):
-        outdoor_seating = self.model_instance.get_outdoor_seating()
+
+        restaurant = Restaurant.objects.get(id=1)
+        outdoor_seating = restaurant.get_outdoor_seating()
         correct_outdoor_seating = False
         self.assertEqual(outdoor_seating, correct_outdoor_seating)
 
+    # Test to validate the get_hours() method
+    # Expected result is that the restaurant_hours instance is returned from the method
     def test_get_hours(self):
-        hours = self.model_instance.get_hours()
-        correct_hours = self.restaurant_hours
+
+        restaurant = Restaurant.objects.get(id=1)
+        hours = restaurant.get_hours()
+        correct_hours = RestaurantHours.objects.get(id=1)
         self.assertEqual(hours, correct_hours)
 
-    def test_get_categories(self):
+    # Test to validate the get_categories() method
+    # Expected result is that no categories will be returned from the method, as we will delete the join instances
+    def test_get_categories_empty(self):
 
-        categories = self.model_instance.get_categories()
+        RestaurantCategory.objects.all().delete()
+        restaurant = Restaurant.objects.get(id=1)
+        categories = restaurant.get_categories()
+        category_names = [category.get_category() for category in categories]
+        correct_categories = []
+        self.assertEqual(category_names, correct_categories)
+
+
+    # Test to validate the get_categories() method
+    # Expected result is that categories will be returned from the method, as we have all the join instances
+    def test_get_categories_full(self):
+
+        restaurant = Restaurant.objects.get(id=1)
+        categories = restaurant.get_categories()
         category_names = [category.get_category() for category in categories]
         correct_categories = ["Chinese", "Indian"]
         self.assertEqual(category_names, correct_categories)
 
-    def test_get_average_rating(self):
+    # Test to validate the get_average_rating() method
+    # Expected result is that no average_rating will be returned from the method, as we will delete the Review instances
+    def test_get_average_rating_empty(self):
 
-        average_rating = self.model_instance.get_average_rating()
+        Review.objects.all().delete()
+        restaurant = Restaurant.objects.get(id=1)
+        average_rating = restaurant.get_average_rating()
         correct_average_rating = 0
         self.assertEqual(average_rating, correct_average_rating)
 
+    # Test to validate the get_average_rating() method
+    # Expected result is that average_rating will be returned as 3.0, as we will have the review instances
+    def test_get_average_rating_full(self):
+
+        restaurant = Restaurant.objects.get(id=1)
+        average_rating = restaurant.get_average_rating()
+        correct_average_rating = 3
+        self.assertEqual(average_rating, correct_average_rating)
+
+    # Test to validate the debug_string() method
+    # Expected result is f'ID: 1\nGoogle ID: google_id_583589498278432\nLocation: (43.78, 17.35)\nName: A Pizza Place\nAverage Rating: 3.0' will be returned
     def test_debug_string(self):
 
-        debug_format = self.model_instance.debug_string()
-        correct_debug_format = f'ID: 1\nGoogle ID: google_id_583589498278432\nLocation: (43.78, 17.35)\nName: A Pizza Place\nAverage Rating: 0'
+        restaurant = Restaurant.objects.get(id=1)
+        debug_format = restaurant.debug_string()
+        correct_debug_format = f'ID: 1\nGoogle ID: google_id_583589498278432\nLocation: (43.78, 17.35)\nName: A Pizza Place\nAverage Rating: 3.0'
         self.assertEqual(debug_format, correct_debug_format)
 
+    # Test to validate the __str__() method
+    # Expected result is that "A Pizza Place" is returned from the method
     def test_to_string(self):
 
-        to_string = str(self.model_instance)
+        restaurant = Restaurant.objects.get(id=1)
+        to_string = str(restaurant)
         correct_to_string = "A Pizza Place"
         self.assertEqual(to_string, correct_to_string)
 
