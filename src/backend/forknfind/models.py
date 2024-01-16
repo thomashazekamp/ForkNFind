@@ -30,6 +30,26 @@ class APIUser(AbstractUser):
     def get_full_name(self):
         return self.get_firstName() + " " + self.get_lastName()
     
+    # Setting a new username for the instance
+    def set_username(self, new_username):
+        self.username = new_username
+        return self.get_username()
+    
+    # Setting a new first name for the instance
+    def set_firstName(self, new_first_name):
+        self.first_name = new_first_name
+        return self.get_firstName()
+    
+    # Setting a new last name for the instance
+    def set_lastName(self, new_last_name):
+        self.last_name = new_last_name
+        return self.get_lastName()
+
+    # Setting a new email name for the instance
+    def set_email(self, new_email):
+        self.email = new_email
+        return self.get_email()
+
     # Getting the debug string of the class, set up so it includes important information when trying to debug using f strings
     def debug_string(self):
         return f'Username: {self.get_username()}\nFirst Name: {self.get_firstName()}\nLast Name: {self.get_lastName()}\nEmail: {self.get_email()}'
