@@ -9,10 +9,10 @@ class ForknfindConfig(AppConfig):
 
         time.sleep(1) # wait for 1 seconds
 
+        # import the recommendation model
         from .models import HybridRecommender
 
+        # call the recommendation model, as it is a singleton model can just call it using .load()
         model = HybridRecommender.load()
+        # start the recommender using its method .start_recommender()
         model.start_recommender()
-        #model.query_content_recommender(151)
-        #model.query_collaborative_recommender(1)
-        #model.query_hybrid_recommender(1)
