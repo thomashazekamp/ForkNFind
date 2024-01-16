@@ -2,13 +2,14 @@ from django.test import TestCase
 from .models import *
 from .formula import *
 
-# Create your tests here.
+# Unit tests for the APIUser class
 class APIUserMethodTests(TestCase):
 
-    # Set up an instance of the APIUser class
-    def setUp(self):
+    # Initial set up of data
+    # Creates 1 instance of the class APIUser
+    def setUpTestData():
 
-        self.model_instance = APIUser.objects.create(
+        APIUser.objects.create(
             username='dalye54',
             first_name='Eoin',
             last_name='Daly',
@@ -16,45 +17,111 @@ class APIUserMethodTests(TestCase):
             password='password'
         )
 
+    # Test to validate the get_id() method
+    # Expected result is that the id 1 is returned from the method
+    def test_get_id(self):
+
+        user = APIUser.objects.get(id=1)
+        id = user.get_id()
+        correct_id = 1
+        self.assertEqual(id, correct_id)
+
+    # Test to validate the get_username() method
+    # Expected result is that the username 'dalye54' is returned from the method
     def test_get_username(self):
 
-        username = self.model_instance.get_username()
+        user = APIUser.objects.get(id=1)
+        username = user.get_username()
         correct_username = "dalye54"
         self.assertEqual(username, correct_username)
     
+    # Test to validate the get_firstName() method
+    # Expected result is that the firstName 'Eoin' is returned from the method
     def test_get_firstName(self):
 
-        first_name = self.model_instance.get_firstName()
+        user = APIUser.objects.get(id=1)
+        first_name = user.get_firstName()
         correct_first_name = "Eoin"
         self.assertEqual(first_name, correct_first_name)
 
+    # Test to validate the get_lastName() method
+    # Expected result is that the lastName 'Daly' is returned from the method
     def test_get_lastName(self):
 
-        last_name = self.model_instance.get_lastName()
+        user = APIUser.objects.get(id=1)
+        last_name = user.get_lastName()
         correct_last_name = "Daly"
         self.assertEqual(last_name, correct_last_name)
 
+    # Test to validate the get_email() method
+    # Expected result is that the email 'eoin.daly54@mail.dcu.ie' is returned from the method
     def test_get_email(self):
 
-        email = self.model_instance.get_email()
+        user = APIUser.objects.get(id=1)
+        email = user.get_email()
         correct_email = "eoin.daly54@mail.dcu.ie"
         self.assertEqual(email, correct_email)
 
+    # Test to validate the get_full_name() method
+    # Expected result is that the full_name 'Eoin Daly' is returned from the method
     def test_get_full_name(self):
 
-        full_name = self.model_instance.get_full_name()
+        user = APIUser.objects.get(id=1)
+        full_name = user.get_full_name()
         correct_full_name = "Eoin Daly"
         self.assertEqual(full_name, correct_full_name)
 
+    # Test to validate the set_username() method
+    # Expected result is that the username for the instance is changed to "testuser1"
+    def test_set_username(self):
+
+        user = APIUser.objects.get(id=1)
+        username = user.set_username("testuser1")
+        correct_username = "testuser1"
+        self.assertEqual(username, correct_username)
+
+    # Test to validate the set_firstName() method
+    # Expected result is that the first_name for the instance is changed to "Ronaldo"
+    def test_set_firstName(self):
+
+        user = APIUser.objects.get(id=1)
+        first_name = user.set_firstName("Ronaldo")
+        correct_first_name = "Ronaldo"
+        self.assertEqual(first_name, correct_first_name)
+
+    # Test to validate the set_lastName() method
+    # Expected result is that the last_name for the instance is changed to "Ronaldo"
+    def test_set_lastName(self):
+
+        user = APIUser.objects.get(id=1)
+        last_name = user.set_lastName("Ronaldo")
+        correct_last_name = "Ronaldo"
+        self.assertEqual(last_name, correct_last_name)
+
+    # Test to validate the set_email() method
+    # Expected result is that the email for the instance is changed to "test@gmail.com"
+    def test_set_email(self):
+
+        user = APIUser.objects.get(id=1)
+        email = user.set_email("test@gmail.com")
+        correct_email = "test@gmail.com"
+        self.assertEqual(email, correct_email)
+
+    # Test to validate the get_debug_string() method
+    # Expected result is that the full_name f'Username: dalye54\nFirst Name: Eoin\nLast Name: Daly\nEmail: eoin.daly54@mail.dcu.ie' is returned from the method
     def test_debug_string(self):
         
-        debug_format = self.model_instance.debug_string()
+        user = APIUser.objects.get(id=1)
+        debug_format = user.debug_string()
         correct_debug_format = f'Username: dalye54\nFirst Name: Eoin\nLast Name: Daly\nEmail: eoin.daly54@mail.dcu.ie'
         self.assertEqual(debug_format, correct_debug_format)
 
+    # Test to validate the __str__() method
+    # Expected result is that 'dalye54' is returned from the method
     def test_to_string(self):
 
-        to_string = str(self.model_instance)
+        user = APIUser.objects.get(id=1)
+        to_string = str(user)
         correct_to_string = "dalye54"
         self.assertEqual(to_string, correct_to_string)
 
