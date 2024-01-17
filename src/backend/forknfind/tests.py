@@ -132,6 +132,9 @@ class RestaurantMethodTests(TestCase):
     # Creates 1 instance of the class Restaurant
     # Creates 1 instance of the class RestaurantHours
     # Creates 1 instance of the class RestaurantDay
+    # Creates 2 instances of the class Category
+    # Creates 2 instances of the class RestaurantCategory
+    # Creates 2 instances of the class Review
     def setUpTestData():
 
         RestaurantDay.objects.create(
@@ -439,11 +442,16 @@ class RestaurantMethodTests(TestCase):
         correct_to_string = "A Pizza Place"
         self.assertEqual(to_string, correct_to_string)
 
-class APIReviewMethodTests(TestCase):
+# Unit tests for the Review class
+class ReviewMethodTests(TestCase):
 
-    def setUp(self):
+    # Initial set up of data
+    # Creates 1 instance of the class APIUser
+    # Creates 1 instance of the class Restaurant
+    # Creates 1 instance of the class Review
+    def setUpTestData():
 
-        self.user = APIUser.objects.create(
+        APIUser.objects.create(
             username='dalye54',
             first_name='Eoin',
             last_name='Daly',
@@ -451,62 +459,89 @@ class APIReviewMethodTests(TestCase):
             password='password'
         )
 
-        self.restaurant = Restaurant.objects.create(
+        user = APIUser.objects.get(id=1)
+
+        Restaurant.objects.create(
             google_id='google_id_583589498278432',
             longitude=43.78,
             latitude=17.35,
             name='A Pizza Place',
             average_rating=0,
         )
+
+        restaurant = Restaurant.objects.get(id=1)
       
-        self.model_instance = Review.objects.create(
-            user=self.user,
-            restaurant=self.restaurant,
+        Review.objects.create(
+            user=user,
+            restaurant=restaurant,
             rating=1,
             description='I had a great time :).'
         )
 
+    # Test to validate the get_id() method
+    # Expected result is that the id 1 is returned from the method
     def test_get_id(self):
 
-        id = self.model_instance.get_id()
+        review = Review.objects.get(id=1)
+        id = review.get_id()
         correct_id = 1
         self.assertEqual(id, correct_id)
 
+    # Test to validate the get_user() method
+    # Expected result is that the user created is returned from the method
     def test_get_user(self):
-        user = self.model_instance.get_user()
-        correct_user = self.user
+
+        review = Review.objects.get(id=1)
+        user = review.get_user()
+        correct_user = APIUser.objects.get(id=1)
         self.assertEqual(user, correct_user)
 
+    # Test to validate the get_restaurant() method
+    # Expected result is that the restaurant created is returned from the method
     def test_get_restaurant(self):
 
-        restaurant = self.model_instance.get_restaurant()
-        correct_restaurant = self.restaurant
+        review = Review.objects.get(id=1)
+        restaurant = review.get_restaurant()
+        correct_restaurant = Restaurant.objects.get(id=1)
         self.assertEqual(restaurant, correct_restaurant)
 
+    # Test to validate the get_rating() method
+    # Expected result is that the rating is returned from the method
     def test_get_rating(self):
 
-        rating = self.model_instance.get_rating()
+        review = Review.objects.get(id=1)
+        rating = review.get_rating()
         correct_rating = 1
         self.assertEqual(rating, correct_rating)
 
+    # Test to validate the get_description() method
+    # Expected result is that the description is returned from the method
     def test_get_description(self):
 
-        description = self.model_instance.get_description()
+        review = Review.objects.get(id=1)
+        description = review.get_description()
         correct_description = "I had a great time :)."
         self.assertEqual(description, correct_description)
 
+    # Test to validate the get_description() method
+    # Expected result is that the description is returned from the method
     def test_debug_string(self):
 
-        debug_format = self.model_instance.debug_string()
+        review = Review.objects.get(id=1)
+        debug_format = review.debug_string()
         correct_debug_format = f'ID: 1\nUser: dalye54\nRestaurant: A Pizza Place\nRating: 1\nDescription: I had a great time :).'
         self.assertEqual(debug_format, correct_debug_format)
 
+    # Test to validate the __str__() method
+    # Expected result is that "dalye54 -- A Pizza Place: 1" is returned from the method
     def test_to_string(self):
 
-        to_string = str(self.model_instance)
+        review = Review.objects.get(id=1)
+        to_string = str(review)
         correct_to_string = "dalye54 -- A Pizza Place: 1"
         self.assertEqual(to_string, correct_to_string)
 
+# Unit tests for the Category class
 class CategoryMethodTests(TestCase):
 
     def setUp(self):
