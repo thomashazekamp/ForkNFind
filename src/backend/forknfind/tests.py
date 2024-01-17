@@ -712,77 +712,123 @@ class RestaurantTimeMethodTests(TestCase):
         correct_to_string = '12:30'
         self.assertEqual(to_string, correct_to_string)
 
-class APIRestaurantDayMethodTests(TestCase):
+# Unit tests for the RestaurantDay class
+class RestaurantDayMethodTests(TestCase):
 
-    def setUp(self):
+    # Initial set up of data
+    # Creates 2 instances of the class RestaurantTime
+    # Creates 2 instance of the class RestaurantDay
+    def setUpTestData():
 
-        self.restaurant_time_open = RestaurantTime.objects.create(
+        RestaurantTime.objects.create(
             hour=12,
             minute=30
         )
 
-        self.restaurant_time_close = RestaurantTime.objects.create(
+        restauranttime_open = RestaurantTime.objects.get(id=1)
+
+        RestaurantTime.objects.create(
             hour=18,
             minute=45
         )
 
-        self.model_instance = RestaurantDay.objects.create(
+        restauranttime_close = RestaurantTime.objects.get(id=2)
+
+        RestaurantDay.objects.create(
             open=True,
-            open_time=self.restaurant_time_open,
-            close_time=self.restaurant_time_close
+            open_time=restauranttime_open,
+            close_time=restauranttime_close
         )
 
-        self.model_instance_not_open = RestaurantDay.objects.create(
+        RestaurantDay.objects.create(
             open=False
         )
 
-    def test_get_id(self):
+    # Test to validate the get_id() method
+    # Expected result is that the id 1 is returned from the method on the open RestaurantDay instance
+    def test_get_id_open(self):
 
-        id = self.model_instance.get_id()
+        restaurantday_open = RestaurantDay.objects.get(id=1)
+        id = restaurantday_open.get_id()
         correct_id = 1
         self.assertEqual(id, correct_id)
 
-        id = self.model_instance_not_open.get_id()
+    # Test to validate the get_id() method
+    # Expected result is that the id 2 is returned from the method on the closed RestaurantDay instance
+    def test_get_id_closed(self):
+
+        restaurantday_closed = RestaurantDay.objects.get(id=2)
+        id = restaurantday_closed.get_id()
         correct_id = 2
         self.assertEqual(id, correct_id)
 
-    def test_get_open(self):
+    # Test to validate the get_open() method
+    # Expected result is that the boolean True is returned from the method on the open RestaurantDay instance
+    def test_get_open_open(self):
 
-        open = self.model_instance.get_open()
+        restaurantday_open = RestaurantDay.objects.get(id=1)
+        open = restaurantday_open.get_open()
         correct_open = True
         self.assertEqual(open, correct_open)
 
-        open = self.model_instance_not_open.get_open()
+    # Test to validate the get_open() method
+    # Expected result is that the boolean False is returned from the method on the closed RestaurantDay instance
+    def test_get_open_closed(self):
+
+        restaurantday_closed = RestaurantDay.objects.get(id=2)
+        open = restaurantday_closed.get_open()
         correct_open = False
         self.assertEqual(open, correct_open)
 
-    def test_get_open_time(self):
+    # Test to validate the get_open_time() method
+    # Expected result is that the instance of RestaurantTime is returned from the method on the open RestaurantDay instance
+    def test_get_open_time_open(self):
 
-        open_time = self.model_instance.get_open_time()
-        correct_open_time = self.restaurant_time_open
+        restaurantday_open = RestaurantDay.objects.get(id=1)
+        open_time = restaurantday_open.get_open_time()
+        correct_open_time = RestaurantTime.objects.get(id=1)
         self.assertEqual(open_time, correct_open_time)
 
-        open_time = self.model_instance_not_open.get_open_time()
+    # Test to validate the get_open_time() method
+    # Expected result is that None is returned from the method on the closed RestaurantDay instance
+    def test_get_open_time_closed(self):
+
+        restaurantday_closed = RestaurantDay.objects.get(id=2)
+        open_time = restaurantday_closed.get_open_time()
         correct_open_time = None
         self.assertEqual(open_time, correct_open_time)
 
-    def test_get_close_time(self):
+    # Test to validate the get_close_time() method
+    # Expected result is that the instance of RestaurantTime is returned from the method on the open RestaurantDay instance
+    def test_get_close_time_open(self):
 
-        close_time = self.model_instance.get_close_time()
-        correct_close_time = self.restaurant_time_close
+        restaurantday_open = RestaurantDay.objects.get(id=1)
+        close_time = restaurantday_open.get_close_time()
+        correct_close_time = RestaurantTime.objects.get(id=2)
         self.assertEqual(close_time, correct_close_time)
 
-        close_time = self.model_instance_not_open.get_open_time()
+    # Test to validate the get_close_time() method
+    # Expected result is that None is returned from the method on the closed RestaurantDay instance
+    def test_get_close_time_close(self):
+
+        restaurantday_closed = RestaurantDay.objects.get(id=2)
+        close_time = restaurantday_closed.get_open_time()
         correct_close_time = None
         self.assertEqual(close_time, correct_close_time)
 
-    def test_to_string(self):
+    # Test to validate the __str__() method
+    # Expected result is that '12:30 - 18:45' is returned from the method
+    def test_to_string_open(self):
 
-        to_string = str(self.model_instance)
+        to_string = str(RestaurantDay.objects.get(id=1))
         correct_to_string = '12:30 - 18:45'
         self.assertEqual(to_string, correct_to_string)
 
-        to_string = str(self.model_instance_not_open)
+    # Test to validate the __str__() method
+    # Expected result is that 'Closed' is returned from the method
+    def test_to_string_closed(self):
+
+        to_string = str(RestaurantDay.objects.get(id=2))
         correct_to_string = 'Closed'
         self.assertEqual(to_string, correct_to_string)
 
