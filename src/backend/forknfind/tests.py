@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .models import *
 from .formula import *
+import random
 
 # Unit tests for the APIUser class
 class APIUserMethodTests(TestCase):
@@ -958,6 +959,259 @@ class RestaurantHoursMethodTests(TestCase):
         to_string = str(RestaurantHours.objects.get(id=1))
         correct_to_string = f'Monday: Closed\nTuesday: 12:30 - 18:45\nWednesday: 12:30 - 18:45\nThursday: 12:30 - 18:45\nFriday: 12:30 - 18:45\nSaturday: Closed\nSunday: Closed'
         self.assertEqual(to_string, correct_to_string)
+
+# HybirdRecommender inherits from SingletonModel, saves all recommender models
+class HybridRecommenderMethodTests(TestCase):
+
+    # Initial set up of data
+    # Creates 1 instance of the class HybridRecommender 
+    # Creates 20 instances of the class APIUser
+    # Creates 20 instances of the class Restaurant
+    # Creates 100 instances of the class Review
+    # Creates 1 isntance of the class RestaurantDay
+    # Creates 1 instance of the class RestaurantHours
+    # Creates 2 instances of the class Category
+    # Creates 2 instances of the class RestaurantCategory
+    def setUpTestData():
+
+        HybridRecommender.objects.create()
+
+        # Create 20 unique users
+        for i in range(1, 21):
+            APIUser.objects.create(
+            username='dalye54' + str(i),
+            first_name='Eoin',
+            last_name='Daly',
+            email='eoin.daly54@mail.dcu.ie',
+            password='password'
+        )
+
+        RestaurantDay.objects.create(
+            open=False
+        )
+
+        restaurant_day = RestaurantDay.objects.get(id=1)
+
+        RestaurantHours.objects.create(
+            monday=restaurant_day,
+            tuesday=restaurant_day,
+            wednesday=restaurant_day,
+            thursday=restaurant_day,
+            friday=restaurant_day,
+            saturday=restaurant_day,
+            sunday=restaurant_day,
+        )
+
+        restaurant_hours = RestaurantHours.objects.get(id=1)
+
+        Category.objects.create(
+            category='Chinese'
+        )
+
+        category = Category.objects.get(id=1)
+
+        Category.objects.create(
+            category='Indian'
+        )
+
+        category_2 = Category.objects.get(id=2)
+
+        Category.objects.create(
+            category='Pasta'
+        )
+
+        category_3 = Category.objects.get(id=3)
+
+        Category.objects.create(
+            category='Mexican'
+        )
+
+        category_4 = Category.objects.get(id=4)
+
+        # Create 10 unique restaurants with these attributes and link them to the categories with id 1 and 2
+        for i in range(1,11):
+            Restaurant.objects.create(
+                google_id='google_id_583589498278432',
+                longitude=43.78,
+                latitude=17.35,
+                name='A Pizza Place',
+                address='Dublin',
+                type='pizza',
+                price_level='PRICE_LEVEL_INEXPENSIVE',
+                allows_dogs=True,
+                delivery=False,
+                dine_in=True,
+                good_for_children=True,
+                good_for_groups=False,
+                outdoor_seating=False,
+                average_rating=0,
+                hours=restaurant_hours
+            )
+
+            restaurant = Restaurant.objects.get(id=i)
+
+            RestaurantCategory.objects.create(
+                category=category,
+                restaurant=restaurant
+            )
+
+            RestaurantCategory.objects.create(
+                category=category_2,
+                restaurant=restaurant
+            ) 
+
+        # Create 10 more unique restaurants with these attributes and link them to the categories with id 3 and 4
+        for i in range(1,11):
+            Restaurant.objects.create(
+                google_id='google_id_392483294832478', 
+                longitude=70.14,
+                latitude=23.95,
+                name='A Pasta Place',
+                address='New York',
+                type='Pasta',
+                price_level='PRICE_LEVEL_EXPENSIVE',
+                allows_dogs=False,
+                delivery=True,
+                dine_in=False,
+                good_for_children=False,
+                good_for_groups=True,
+                outdoor_seating=True,
+                average_rating=0,
+                hours=restaurant_hours
+            )
+
+            restaurant = Restaurant.objects.get(id=i + 10)
+
+            RestaurantCategory.objects.create(
+                category=category_3,
+                restaurant=restaurant
+            )
+
+            RestaurantCategory.objects.create(
+                category=category_4,
+                restaurant=restaurant
+            )  
+
+        # Create 100 unique reviews in total, with each user having 5 reviews for a random 5 restaurants
+        for i in range(1, 21):
+            user = APIUser.objects.get(id=i)
+            for _ in range(5):
+                Review.objects.create(
+                    user=user,
+                    restaurant=Restaurant.objects.get(id=random.randint(1,20)),
+                    rating=(random.randint(1,5)),
+                    description="Restaurant"
+                )
+               
+    # Test to validate the start_recommender() method
+    # Expected result is that the attributes are no longer their default attributes and the models have been initialised
+    def test_start_recommender(self):
+        
+        # Get the instance of the hybridrecommender
+        hybridrecommender = HybridRecommender.objects.get(id=1)
+
+        # Check that all attributes are in their default state
+        self.assertEqual(hybridrecommender.collaborative_model, b'')
+        self.assertEqual(hybridrecommender.content_model, b'')
+        self.assertEqual(hybridrecommender.restaurant_id_masking, '')
+
+        # Start the recommender
+        hybridrecommender.start_recommender()
+
+        # Check that they are no longer the default values and check the restaurant_id_masking has been updated correctly
+        self.assertNotEqual(hybridrecommender.collaborative_model, b'')
+        self.assertNotEqual(hybridrecommender.content_model, b'')
+        self.assertEqual(hybridrecommender.restaurant_id_masking, '{"1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "6": 5, "7": 6, "8": 7, "9": 8, "10": 9, "11": 10, "12": 11, "13": 12, "14": 13, "15": 14, "16": 15, "17": 16, "18": 17, "19": 18, "20": 19}')
+
+    # Test to validate the update_collaborative_recommender() method
+    # Expected result is that the collaborative_model has been updated by calling the method, meaning it will no longer be equal to the original value
+    def test_update_collaborative_recommender(self):
+
+        # Get the instance of the hybridrecommender
+        hybridrecommender = HybridRecommender.objects.get(id=1)
+
+        # Start the recommender
+        hybridrecommender.start_recommender()
+
+        # Save old value
+        original_value_of_model = hybridrecommender.collaborative_model
+
+        # Create a new user and review
+        user = APIUser.objects.create( username='new_user_test', first_name='New', last_name='Test', email='new.test@mail.dcu.ie', password='password')
+        Review.objects.create( user=user, restaurant=Restaurant.objects.get(id=random.randint(1,20)), rating=(random.randint(1,5)), description="Restaurant")
+
+        # Update the system as a new user has been added
+        hybridrecommender.update_collaborative_recommender()
+
+        # Validate that the original collaborative_model is not the same as the new one
+        self.assertNotEqual(original_value_of_model, hybridrecommender.collaborative_model) 
+
+    # Test to validate the update_content_recommender() method
+    # Expected result is that the content_model has been updated by calling the method, meaning it will no longer be equal to the original value
+    def test_update_content_recommender(self):
+
+        # Get the instance of the hybridrecommender
+        hybridrecommender = HybridRecommender.objects.get(id=1)
+
+        # Start the recommender
+        hybridrecommender.start_recommender()
+
+        # Save old value
+        original_value_of_model = hybridrecommender.content_model
+
+        # Create a new restaurant
+        Restaurant.objects.create( google_id='google_id_392483294832478', longitude=70.14, latitude=23.95, name='A Pasta Place', address='New York', type='Pasta', price_level='PRICE_LEVEL_EXPENSIVE', allows_dogs=False, delivery=True, dine_in=False, good_for_children=False, good_for_groups=True, outdoor_seating=True, average_rating=0, hours=RestaurantHours.objects.get(id=1) )
+
+        # Update the system as a new user has been added
+        hybridrecommender.update_content_recommender()
+
+        # Validate that the original collaborative_model is not the same as the new one
+        self.assertNotEqual(original_value_of_model, hybridrecommender.content_model) 
+
+    # Test to validate the query_content_recommender method
+    # Expected result is the output of 3 integers in a list
+    def test_query_content_recommender(self):
+
+        # Get the instance of the hybridrecommender
+        hybridrecommender = HybridRecommender.objects.get(id=1)
+
+        # Start the recommender
+        hybridrecommender.start_recommender()
+
+        # Get the recommended restaurants
+        returned_list = hybridrecommender.query_content_recommender(random.randint(1,20))
+
+        self.assertEqual(len(returned_list), 3)
+
+    # Test to validate the query_collaborative_recommender method
+    # Expected result is the output of 3 integers in a list
+    def test_query_collaborative_recommender(self):
+
+        # Get the instance of the hybridrecommender
+        hybridrecommender = HybridRecommender.objects.get(id=1)
+
+        # Start the recommender
+        hybridrecommender.start_recommender()
+
+        # Get the recommended restaurants
+        returned_list = hybridrecommender.query_collaborative_recommender(random.randint(1,20))
+
+        self.assertEqual(len(returned_list), 3)
+
+    # Test to validate the query_hybrid_recommender method
+    # Expected result is the output of 12 integers in a list
+    def test_query_hybrid_recommender(self):
+
+        # Get the instance of the hybridrecommender
+        hybridrecommender = HybridRecommender.objects.get(id=1)
+
+        # Start the recommender
+        hybridrecommender.start_recommender()
+
+        # Get the recommended restaurants
+        returned_list = hybridrecommender.query_hybrid_recommender(random.randint(1,20))
+
+        self.assertEqual(len(returned_list), 12)
 
 class haversineFormulaTests(TestCase):
 
