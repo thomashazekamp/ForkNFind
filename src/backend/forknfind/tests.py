@@ -544,33 +544,47 @@ class ReviewMethodTests(TestCase):
 # Unit tests for the Category class
 class CategoryMethodTests(TestCase):
 
-    def setUp(self):
+    # Initial set up of data
+    # Creates 1 instance of the class Category
+    def setUpTestData():
 
-        self.model_instance = Category.objects.create(
+        Category.objects.create(
             category="Chinese"
         )
 
+    # Test to validate the get_id() method
+    # Expected result is that the id 1 is returned from the method
     def test_get_id(self):
 
-        id = self.model_instance.get_id()
+        category = Category.objects.get(id=1)
+        id = category.get_id()
         correct_id = 1
         self.assertEqual(id, correct_id)
 
+    # Test to validate the get_category() method
+    # Expected result is that the category "Chinese" is returned from the method
     def test_get_category(self):
 
-        category = self.model_instance.get_category()
+        category = Category.objects.get(id=1)
+        category = category.get_category()
         correct_category = "Chinese"
         self.assertEqual(category, correct_category)
 
+    # Test to validate the debug_string() method
+    # Expected result is f'ID: 1\nCategory: Chinese' will be returned
     def test_debug_string(self):
 
-        debug_format = self.model_instance.debug_string()
+        category = Category.objects.get(id=1)
+        debug_format = category.debug_string()
         correct_debug_format = f'ID: 1\nCategory: Chinese'
         self.assertEqual(debug_format, correct_debug_format)
 
+    # Test to validate the to_string() method
+    # Expected result is "Chinese" will be returned
     def test_to_string(self):
 
-        to_string = str(self.model_instance)
+        category = Category.objects.get(id=1)
+        to_string = str(category)
         correct_to_string = "Chinese"
         self.assertEqual(to_string, correct_to_string)
 
