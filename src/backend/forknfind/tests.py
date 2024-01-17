@@ -664,36 +664,51 @@ class RestaurantCategoryTests(TestCase):
         correct_to_string = "Chinese -- A Pizza Place"
         self.assertEqual(to_string, correct_to_string)
 
-class APIRestaurantTimeMethodTests(TestCase):
+# Restaurant Time
+class RestaurantTimeMethodTests(TestCase):
 
-    def setUp(self):
+    # Initial set up of data
+    # Creates 1 instance of the class RestaurantTime
+    def setUpTestData():
 
-        self.model_instance = RestaurantTime.objects.create(
+        RestaurantTime.objects.create(
             hour=12,
             minute=30
         )
 
+    # Test to validate the get_id() method
+    # Expected result is that the id 1 is returned from the method
     def test_get_id(self):
 
-        id = self.model_instance.get_id()
+        restauranttime = RestaurantTime.objects.get(id=1)
+        id = restauranttime.get_id()
         correct_id = 1
         self.assertEqual(id, correct_id)
 
+    # Test to validate the get_hour() method
+    # Expected result is that the hour 12 is returned from the method
     def test_get_hour(self):
 
-        hour = self.model_instance.get_hour()
+        restauranttime = RestaurantTime.objects.get(id=1)
+        hour = restauranttime.get_hour()
         correct_hour = 12
         self.assertEqual(hour, correct_hour)
 
+    # Test to validate the get_minute() method
+    # Expected result is that the minute 30 is returned from the method
     def test_get_minute(self):
 
-        minute = self.model_instance.get_minute()
+        restauranttime = RestaurantTime.objects.get(id=1)
+        minute = restauranttime.get_minute()
         correct_minute = 30
         self.assertEqual(minute, correct_minute)
 
+    # Test to validate the __str__() method
+    # Expected result is that '12:30' is returned from the method
     def test_to_string(self):
 
-        to_string = str(self.model_instance)
+        restauranttime = RestaurantTime.objects.get(id=1)
+        to_string = str(restauranttime)
         correct_to_string = '12:30'
         self.assertEqual(to_string, correct_to_string)
 
