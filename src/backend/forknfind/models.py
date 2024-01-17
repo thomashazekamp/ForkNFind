@@ -436,9 +436,6 @@ class SingletonModel(models.Model): # Singleton class so only 1 instance can be 
         self.pk = 1
         super(SingletonModel, self).save(*args, **kwargs)
 
-    def delete(self, *args, **kwargs): # Cant be deleted
-        pass
-
     @classmethod
     def load(cls):
         obj, created = cls.objects.get_or_create(pk=1) # Gets the instance with pk 1
@@ -447,7 +444,6 @@ class SingletonModel(models.Model): # Singleton class so only 1 instance can be 
 # HybirdRecommender inherits from SingletonModel, saves all recommender models
 class HybridRecommender(SingletonModel):
 
-    test = models.TextField()
     # Collaborative model attribute, saved as a binary field
     collaborative_model = models.BinaryField()
     # content model attribute, saved as a binary field
