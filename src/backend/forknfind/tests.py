@@ -832,91 +832,130 @@ class RestaurantDayMethodTests(TestCase):
         correct_to_string = 'Closed'
         self.assertEqual(to_string, correct_to_string)
 
-class APIRestaurantHoursMethodTests(TestCase):
+# Unit tests for the RestaurantHours class
+class RestaurantHoursMethodTests(TestCase):
 
-    def setUp(self):
+    # Initial set up of data
+    # Creates 2 instances of the class RestaurantTime
+    # Creates 2 instances of the class RestaurantDay
+    # Creates 1 instance of the class RestaurantHours
+    def setUpTestData():
 
-        self.restaurant_time_open = RestaurantTime.objects.create(
+        RestaurantTime.objects.create(
             hour=12,
             minute=30
         )
 
-        self.restaurant_time_close = RestaurantTime.objects.create(
+        restauranttime_open = RestaurantTime.objects.get(id=1)
+
+        RestaurantTime.objects.create(
             hour=18,
             minute=45
         )
 
-        self.restaurant_day_1 = RestaurantDay.objects.create(
+        restauranttime_close = RestaurantTime.objects.get(id=2)
+
+        RestaurantDay.objects.create(
             open=True,
-            open_time=self.restaurant_time_open,
-            close_time=self.restaurant_time_close
+            open_time=restauranttime_open,
+            close_time=restauranttime_close
         )
 
-        self.restaurant_day_2 = RestaurantDay.objects.create(
+        restaurantday_open = RestaurantDay.objects.get(id=1)
+
+        RestaurantDay.objects.create(
             open=False
         )
 
-        self.model_instance = RestaurantHours.objects.create(
-            monday=self.restaurant_day_2,
-            tuesday=self.restaurant_day_1,
-            wednesday=self.restaurant_day_1,
-            thursday=self.restaurant_day_1,
-            friday=self.restaurant_day_1,
-            saturday=self.restaurant_day_2,
-            sunday=self.restaurant_day_2
+        restaurantday_close = RestaurantDay.objects.get(id=2)
+
+        RestaurantHours.objects.create(
+            monday=restaurantday_close,
+            tuesday=restaurantday_open,
+            wednesday=restaurantday_open,
+            thursday=restaurantday_open,
+            friday=restaurantday_open,
+            saturday=restaurantday_close,
+            sunday=restaurantday_close
         )
 
+    # Test to validate the get_id() method
+    # Expected result is that the id 1 is returned from the method
     def test_get_id(self):
 
-        id = self.model_instance.get_id()
+        restauranthours = RestaurantHours.objects.get(id=1)
+        id = restauranthours.get_id()
         correct_id = 1
         self.assertEqual(id, correct_id)
 
+    # Test to validate the get_monday() method
+    # Expected result is that the instance of RestaurantDay is returned from the method
     def test_get_monday(self):
 
-        monday = self.model_instance.get_monday()
-        correct_monday = self.restaurant_day_2
+        restauranthours = RestaurantHours.objects.get(id=1)
+        monday = restauranthours.get_monday()
+        correct_monday = RestaurantDay.objects.get(id=2)
         self.assertEqual(monday, correct_monday)
 
+    # Test to validate the get_tuesday() method
+    # Expected result is that the instance of RestaurantDay is returned from the method
     def test_get_tuesday(self):
 
-        tuesday = self.model_instance.get_tuesday()
-        correct_tuesday = self.restaurant_day_1
+        restauranthours = RestaurantHours.objects.get(id=1)
+        tuesday = restauranthours.get_tuesday()
+        correct_tuesday = RestaurantDay.objects.get(id=1)
         self.assertEqual(tuesday, correct_tuesday)
 
+    # Test to validate the get_wednesday() method
+    # Expected result is that the instance of RestaurantDay is returned from the method
     def test_get_wednesday(self):
 
-        wednesday = self.model_instance.get_wednesday()
-        correct_wednesday = self.restaurant_day_1
+        restauranthours = RestaurantHours.objects.get(id=1)
+        wednesday = restauranthours.get_wednesday()
+        correct_wednesday = RestaurantDay.objects.get(id=1)
         self.assertEqual(wednesday, correct_wednesday)
 
+    # Test to validate the get_thursday() method
+    # Expected result is that the instance of RestaurantDay is returned from the method
     def test_get_thursday(self):
 
-        thursday = self.model_instance.get_thursday()
-        correct_thursday = self.restaurant_day_1
+        restauranthours = RestaurantHours.objects.get(id=1)
+        thursday = restauranthours.get_thursday()
+        correct_thursday = RestaurantDay.objects.get(id=1)
         self.assertEqual(thursday, correct_thursday)
 
+    # Test to validate the get_friday() method
+    # Expected result is that the instance of RestaurantDay is returned from the method
     def test_get_friday(self):
 
-        friday = self.model_instance.get_friday()
-        correct_friday = self.restaurant_day_1
+        restauranthours = RestaurantHours.objects.get(id=1)
+        friday = restauranthours.get_friday()
+        correct_friday = RestaurantDay.objects.get(id=1)
         self.assertEqual(friday, correct_friday)
 
+    # Test to validate the get_saturday() method
+    # Expected result is that the instance of RestaurantDay is returned from the method
     def test_get_saturday(self):
 
-        saturday = self.model_instance.get_saturday()
-        correct_saturday = self.restaurant_day_2
+        restauranthours = RestaurantHours.objects.get(id=1)
+        saturday = restauranthours.get_saturday()
+        correct_saturday = RestaurantDay.objects.get(id=2)
         self.assertEqual(saturday, correct_saturday)
 
+    # Test to validate the get_sunday() method
+    # Expected result is that the instance of RestaurantDay is returned from the method
     def test_get_sunday(self):
 
-        sunday = self.model_instance.get_sunday()
-        correct_sunday = self.restaurant_day_2
+        restauranthours = RestaurantHours.objects.get(id=1)
+        sunday = restauranthours.get_sunday()
+        correct_sunday = RestaurantDay.objects.get(id=2)
         self.assertEqual(sunday, correct_sunday)
 
+    # Test to validate the __str__() method
+    # Expected result is that f'Monday: Closed\nTuesday: 12:30 - 18:45\nWednesday: 12:30 - 18:45\nThursday: 12:30 - 18:45\nFriday: 12:30 - 18:45\nSaturday: Closed\nSunday: Closed' is returned from the method
     def test_to_string(self):
 
-        to_string = str(self.model_instance)
+        to_string = str(RestaurantHours.objects.get(id=1))
         correct_to_string = f'Monday: Closed\nTuesday: 12:30 - 18:45\nWednesday: 12:30 - 18:45\nThursday: 12:30 - 18:45\nFriday: 12:30 - 18:45\nSaturday: Closed\nSunday: Closed'
         self.assertEqual(to_string, correct_to_string)
 
