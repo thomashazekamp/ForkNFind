@@ -588,11 +588,16 @@ class CategoryMethodTests(TestCase):
         correct_to_string = "Chinese"
         self.assertEqual(to_string, correct_to_string)
 
+# Unit tests for the RestaurantCategory class
 class RestaurantCategoryTests(TestCase):
 
-    def setUp(self):
+    # Initial set up of data
+    # Creates 1 instance of the class Restaurant
+    # Creates 1 instance of the class Category
+    # Creates 1 instance of the class RestaurantCategory
+    def setUpTestData():
 
-        self.restaurant = Restaurant.objects.create(
+        Restaurant.objects.create(
             google_id='google_id_583589498278432',
             longitude=43.78,
             latitude=17.35,
@@ -600,43 +605,62 @@ class RestaurantCategoryTests(TestCase):
             average_rating=0,
         )
 
-        self.category = Category.objects.create(
+        restaurant = Restaurant.objects.get(id=1)
+
+        Category.objects.create(
             category='Chinese'
         )
 
-        self.model_instance = RestaurantCategory.objects.create(
+        category = Category.objects.get(id=1)
 
-            category=self.category,
-            restaurant=self.restaurant,
+        RestaurantCategory.objects.create(
+
+            category=category,
+            restaurant=restaurant,
         )
 
+    # Test to validate the get_id() method
+    # Expected result is that the id 1 is returned from the method
     def test_get_id(self):
 
-        id = self.model_instance.get_id()
+        restaurantcategory = RestaurantCategory.objects.get(id=1)
+        id = restaurantcategory.get_id()
         correct_id = 1
         self.assertEqual(id, correct_id)
 
+    # Test to validate the get_category() method
+    # Expected result is that the category instance is returned from the method
     def test_get_category(self):
 
-        category = self.model_instance.get_category()
-        correct_category = self.category
+        restaurantcategory = RestaurantCategory.objects.get(id=1)
+        category = restaurantcategory.get_category()
+        correct_category = Category.objects.get(id=1)
         self.assertEqual(category, correct_category)
 
+    # Test to validate the get_restaurant() method
+    # Expected result is that the restaurant instance is returned from the method
     def test_get_restaurant(self):
 
-        restaurant = self.model_instance.get_restaurant()
-        correct_restaurant = self.restaurant
+        restaurantcategory = RestaurantCategory.objects.get(id=1)
+        restaurant = restaurantcategory.get_restaurant()
+        correct_restaurant = Restaurant.objects.get(id=1)
         self.assertEqual(restaurant, correct_restaurant)
 
+    # Test to validate the debug_string() method
+    # Expected result is that the full_name f'ID: 1\nCategory: Chinese\nRestaurant: A Pizza Place' is returned from the method
     def test_debug_string(self):
 
-        debug_format = self.model_instance.debug_string()
+        restaurantcategory = RestaurantCategory.objects.get(id=1)
+        debug_format = restaurantcategory.debug_string()
         correct_debug_format = f'ID: 1\nCategory: Chinese\nRestaurant: A Pizza Place'
         self.assertEqual(debug_format, correct_debug_format)
 
+    # Test to validate the __str__() method
+    # Expected result is that 'Chinese -- A Pizza Place' is returned from the method
     def test_to_string(self):
 
-        to_string = str(self.model_instance)
+        restaurantcategory = RestaurantCategory.objects.get(id=1)
+        to_string = str(restaurantcategory)
         correct_to_string = "Chinese -- A Pizza Place"
         self.assertEqual(to_string, correct_to_string)
 
