@@ -151,7 +151,7 @@ class SearchRestaurantFilter(filters.FilterSet):
 
     # filters that can be used when searching
     name = filters.CharFilter(lookup_expr='icontains')
-    addess = filters.CharFilter(lookup_expr='icontains')
+    address = filters.CharFilter(lookup_expr='icontains')
     type = filters.CharFilter(lookup_expr='icontains')
     price_level = filters.CharFilter(lookup_expr='icontains')
     allows_dogs = filters.BooleanFilter()

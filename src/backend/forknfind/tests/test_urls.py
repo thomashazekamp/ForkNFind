@@ -14,7 +14,7 @@ class APIRegisterUserTests(APITestCase):
     # Creates 20 instances of the class APIUser
     # Creates 20 instances of the class Restaurant
     # Creates 100 instances of the class Review
-    # Creates 1 isntance of the class RestaurantDay
+    # Creates 1 instance of the class RestaurantDay
     # Creates 1 instance of the class RestaurantHours
     # Creates 2 instances of the class Category
     # Creates 2 instances of the class RestaurantCategory
@@ -136,7 +136,7 @@ class APIRegisterReviewTests(APITestCase):
     # Initial set up of data
     # Creates 1 instances of the class APIUser
     # Creates 1 instances of the class Restaurant
-    # Creates 1 isntance of the class RestaurantDay
+    # Creates 1 instance of the class RestaurantDay
     # Creates 1 instance of the class RestaurantHours
     def setUpTestData():
 
@@ -225,7 +225,7 @@ class APIRegisterReviewTests(APITestCase):
     # Creates 20 instances of the class APIUser
     # Creates 20 instances of the class Restaurant
     # Creates 100 instances of the class Review
-    # Creates 1 isntance of the class RestaurantDay
+    # Creates 1 instance of the class RestaurantDay
     # Creates 1 instance of the class RestaurantHours
     # Creates 2 instances of the class Category
     # Creates 2 instances of the class RestaurantCategory
@@ -330,7 +330,7 @@ class APIRegisterReviewTests(APITestCase):
     # Expected result is three valid restaurant id's being returned in a list
     def test_get_api_content_recommendation(self):
 
-        # post the data to the url in json format
+        # send a get request for data
         response = self.client.get("/recommend/content/1/", format="json")
 
         # verify the response data is ok
@@ -358,7 +358,7 @@ class APIRecommendRestaurantCollaborativeTests(APITestCase):
     # Creates 20 instances of the class APIUser
     # Creates 20 instances of the class Restaurant
     # Creates 100 instances of the class Review
-    # Creates 1 isntance of the class RestaurantDay
+    # Creates 1 instance of the class RestaurantDay
     # Creates 1 instance of the class RestaurantHours
     # Creates 2 instances of the class Category
     # Creates 2 instances of the class RestaurantCategory
@@ -469,7 +469,7 @@ class APIRecommendRestaurantCollaborativeTests(APITestCase):
         # set the login user
         self.client.force_authenticate(user=user)
 
-        # post the data to the url in json format
+        # send a get request for data
         response = self.client.get("/recommend/collaborative/", format="json")
 
         # verify the response data is ok
@@ -497,7 +497,7 @@ class APIRecommendRestaurantHybridTests(APITestCase):
     # Creates 20 instances of the class APIUser
     # Creates 20 instances of the class Restaurant
     # Creates 100 instances of the class Review
-    # Creates 1 isntance of the class RestaurantDay
+    # Creates 1 instance of the class RestaurantDay
     # Creates 1 instance of the class RestaurantHours
     # Creates 2 instances of the class Category
     # Creates 2 instances of the class RestaurantCategory
@@ -608,7 +608,7 @@ class APIRecommendRestaurantHybridTests(APITestCase):
         # set the login user
         self.client.force_authenticate(user=user)
 
-        # post the data to the url in json format
+        # send a get request for data
         response = self.client.get("/recommend/hybrid/", format="json")
 
         # verify the response data is ok
@@ -626,3 +626,525 @@ class APIRecommendRestaurantHybridTests(APITestCase):
                 Restaurant.objects.get(id=id)
             except ObjectDoesNotExist:
                 self.fail(f"API broken: Failed with ID {id}")
+
+
+# Unit tests for the Searching Restaurants API
+class APISearchRestaurantTests(APITestCase):
+
+    # Initial set up of data
+    # Creates 4 instances of the class Restaurant
+    # Creates 1 instance of the class RestaurantDay
+    # Creates 1 instance of the class RestaurantHours
+    def setUpTestData():
+
+        RestaurantDay.objects.create(
+            open=False
+        )
+
+        restaurant_day = RestaurantDay.objects.get(id=1)
+
+        RestaurantHours.objects.create(
+            monday=restaurant_day,
+            tuesday=restaurant_day,
+            wednesday=restaurant_day,
+            thursday=restaurant_day,
+            friday=restaurant_day,
+            saturday=restaurant_day,
+            sunday=restaurant_day,
+        )
+
+        restaurant_hours = RestaurantHours.objects.get(id=1)
+
+        # Create 4 unique restaurants with these attributes and link them to the categories with id 1 and 2
+        Restaurant.objects.create(
+            google_id='google_id_583589498278432',
+            longitude=43.78,
+            latitude=17.35,
+            name='A Pizza Place',
+            address='Dublin',
+            type='pizza',
+            price_level='PRICE_LEVEL_INEXPENSIVE',
+            allows_dogs=True,
+            delivery=False,
+            dine_in=True,
+            good_for_children=True,
+            good_for_groups=False,
+            outdoor_seating=False,
+            average_rating=3,
+            hours=restaurant_hours
+        )
+
+        Restaurant.objects.create(
+            google_id='google_id_583589498478432',
+            longitude=43.78,
+            latitude=17.35,
+            name='A Pasta Place',
+            address='Cork',
+            type='pasta',
+            price_level='PRICE_LEVEL_MODERATE',
+            allows_dogs=False,
+            delivery=True, 
+            dine_in=False, 
+            good_for_children=False,
+            good_for_groups=True,
+            outdoor_seating=True,
+            average_rating=4,
+            hours=restaurant_hours
+        )
+
+        Restaurant.objects.create(
+            google_id='google_id_583583498278432',
+            longitude=43.78,
+            latitude=17.35,
+            name='A Chinese Place',
+            address='Belfast',
+            type='chinese',
+            price_level='PRICE_LEVEL_INEXPENSIVE',
+            allows_dogs=True,
+            delivery=True,
+            dine_in=False,
+            good_for_children=False,
+            good_for_groups=True,
+            outdoor_seating=True,
+            average_rating=1,
+            hours=restaurant_hours
+        )
+
+        Restaurant.objects.create(
+            google_id='google_id_583589198278432',
+            longitude=43.78,
+            latitude=17.35,
+            name='Apache Pizza',
+            address='Donegal',
+            type='pizza',
+            price_level='PRICE_LEVEL_MODERATE',
+            allows_dogs=False,
+            delivery=False,
+            dine_in=True,
+            good_for_children=True,
+            good_for_groups=False,
+            outdoor_seating=False,
+            average_rating=5,
+            hours=restaurant_hours
+        )
+
+    # Set up data for each test
+    # Creates 1 instances of the APIClient
+    def setUp(self):
+        self.client = APIClient()
+
+    # Testing search functionality using the names of restaurants
+    # Expected result is three restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_name_parameter(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?name=place", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        print(data)
+
+        # verify that a list is returned with 3 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 3)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the names of restaurants
+    # Expected result is three restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_name_parameter(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?name=place", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 3 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 3)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the addresses of restaurants
+    # Expected result is one restaurants is returned from search and the id is checked against the database
+    def test_search_restaurant_address_parameter(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?address=dublin", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 1 item
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 1)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the type of restaurants
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_type_parameter(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?type=pizza", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the price level of restaurants
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_price_level_parameter(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?price_level=PRICE_LEVEL_MODERATE", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the allow dogs of restaurants, value inputted false
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_allow_dogs_parameter_false(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?allows_dogs=false", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the allow dogs of restaurants, value inputted true
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_allow_dogs_parameter_true(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?allows_dogs=true", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the delivery of restaurants, value inputted false
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_delivery_parameter_false(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?delivery=false", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the delivery of restaurants, value inputted true
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_delivery_parameter_true(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?delivery=true", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the dine in of restaurants, value inputted false
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_dine_in_parameter_false(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?dine_in=false", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the dine in of restaurants, value inputted true
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_dine_in_parameter_true(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?dine_in=true", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the good for children of restaurants, value inputted false
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_good_for_children_parameter_false(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?good_for_children=false", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the good for children of restaurants, value inputted true
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_good_for_children_parameter_true(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?good_for_children=true", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the good for groups of restaurants, value inputted false
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_good_for_groups_parameter_false(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?good_for_groups=false", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the good for groups of restaurants, value inputted true
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_good_for_groups_parameter_true(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?good_for_groups=true", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the outdoor seating of restaurants, value inputted false
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_outdoor_seating_parameter_false(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?outdoor_seating=false", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the outdoor seating of restaurants, value inputted true
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_outdoor_seating_parameter_true(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?outdoor_seating=true", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
+
+    # Testing search functionality using the average rating of restaurants
+    # Expected result is two restaurants are returned from search and their id's are checked against the database
+    def test_search_restaurant_average_rating_parameter_true(self):
+        
+        # send a get request for data
+        response = self.client.get("/search/restaurant/?average_rating=4", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 2 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 2)
+
+        for line in data:
+
+            try:
+                Restaurant.objects.get(id=line['id'])
+            except ObjectDoesNotExist:
+                self.fail(f"API broken: Failed with ID {line['id']}")
