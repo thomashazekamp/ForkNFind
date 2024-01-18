@@ -4,6 +4,8 @@ from ..views import *
 from ..models import *
 import random
 from django.core.exceptions import ObjectDoesNotExist
+from unittest import mock
+from ..requests import google_maps_nearby_search
 
 # Unit tests for the Register User API
 class APIRegisterUserTests(APITestCase):
@@ -1456,3 +1458,158 @@ class APIReviewRestaurantTests(APITestCase):
         # verify that a list is returned with 0 items
         self.assertEqual(type(data), list)
         self.assertEqual(len(data), 0)
+
+# Mocked the external API call to the Google services
+def google_maps_nearby_search_mock(tmp, tmp2):
+    return {"places": [
+            {"id": "google_id_583589498278432", "displayName": {"text": "A Pizza Place", "languageCode": "en"}},
+            {"id": "google_id_583589498478432", "displayName": {"text": "A Pasta Place", "languageCode": "en"}},
+            {"id": "google_id_583583498278432", "displayName": {"text": "A Chinese Place", "languageCode": "en"}},
+            {"id": "google_id_583589198278432", "displayName": {"text": "Apache Pizza", "languageCode": "en"}},
+            {"id": "google_id_5835986198278432", "displayName": {"text": "Apache Pizza", "languageCode": "en"}},
+        ]}
+
+
+# Unit tests for the Find Restaurants API
+class APIFindRestaurantsTests(APITestCase):
+
+    # Initial set up of data
+    # Creates 5 instances of the class Restaurant
+    # Creates 1 instance of the class RestaurantDay
+    # Creates 1 instance of the class RestaurantHours
+    def setUpTestData():
+
+        RestaurantDay.objects.create(
+            open=False
+        )
+
+        restaurant_day = RestaurantDay.objects.get(id=1)
+
+        RestaurantHours.objects.create(
+            monday=restaurant_day,
+            tuesday=restaurant_day,
+            wednesday=restaurant_day,
+            thursday=restaurant_day,
+            friday=restaurant_day,
+            saturday=restaurant_day,
+            sunday=restaurant_day,
+        )
+
+        restaurant_hours = RestaurantHours.objects.get(id=1)
+
+        # Create 5 unique restaurants with these attributes and link them to the categories with id 1 and 2
+        Restaurant.objects.create(
+            google_id='google_id_583589498278432',
+            longitude=43.78,
+            latitude=17.35,
+            name='A Pizza Place',
+            address='Dublin',
+            type='pizza',
+            price_level='PRICE_LEVEL_INEXPENSIVE',
+            allows_dogs=True,
+            delivery=False,
+            dine_in=True,
+            good_for_children=True,
+            good_for_groups=False,
+            outdoor_seating=False,
+            average_rating=3,
+            hours=restaurant_hours
+        )
+
+        Restaurant.objects.create(
+            google_id='google_id_583589498478432',
+            longitude=43.78,
+            latitude=17.35,
+            name='A Pasta Place',
+            address='Cork',
+            type='pasta',
+            price_level='PRICE_LEVEL_MODERATE',
+            allows_dogs=False,
+            delivery=True, 
+            dine_in=False, 
+            good_for_children=False,
+            good_for_groups=True,
+            outdoor_seating=True,
+            average_rating=4,
+            hours=restaurant_hours
+        )
+
+        Restaurant.objects.create(
+            google_id='google_id_583583498278432',
+            longitude=43.78,
+            latitude=17.35,
+            name='A Chinese Place',
+            address='Belfast',
+            type='chinese',
+            price_level='PRICE_LEVEL_INEXPENSIVE',
+            allows_dogs=True,
+            delivery=True,
+            dine_in=False,
+            good_for_children=False,
+            good_for_groups=True,
+            outdoor_seating=True,
+            average_rating=1,
+            hours=restaurant_hours
+        )
+
+        Restaurant.objects.create(
+            google_id='google_id_583589198278432',
+            longitude=60.78,
+            latitude=17.35,
+            name='Apache Pizza',
+            address='Donegal',
+            type='pizza',
+            price_level='PRICE_LEVEL_MODERATE',
+            allows_dogs=False,
+            delivery=False,
+            dine_in=True,
+            good_for_children=True,
+            good_for_groups=False,
+            outdoor_seating=False,
+            average_rating=5,
+            hours=restaurant_hours
+        )
+
+        Restaurant.objects.create(
+            google_id='google_id_5835986198278432',
+            longitude=60.78,
+            latitude=17.35,
+            name='Apache Pizza',
+            address='Mayo',
+            type='pizza',
+            price_level='PRICE_LEVEL_MODERATE',
+            allows_dogs=False,
+            delivery=False,
+            dine_in=True,
+            good_for_children=True,
+            good_for_groups=False,
+            outdoor_seating=False,
+            average_rating=4,
+            hours=restaurant_hours
+        )
+
+    # Set up data for each test
+    # Creates 1 instances of the APIClient
+    def setUp(self):
+        self.client = APIClient()
+
+    # Testing finding restaurants within 2km of user
+    # Expected result is 3 restaurants will be returned as they are within the distance
+    # Mocking function so when it is called it goes to the mocked function skipping the google request
+    @mock.patch('forknfind.requests.google_maps_nearby_search', side_effect=google_maps_nearby_search_mock)
+    def test_find_restaurants_nearby(self, _):
+
+        # data of user location
+        data = {"longitude": 43.78, "latitude": 17.35}
+
+        # post the data to the url in json format
+        response = self.client.post("/find/restaurants/", data=data, format="json")
+
+        # verify the response data has been created
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+        
+        # verify that a dict is returned with 3 items
+        self.assertEqual(type(data), dict)
+        self.assertEqual(len(data), 3)
