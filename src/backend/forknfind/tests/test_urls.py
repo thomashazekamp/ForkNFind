@@ -1149,7 +1149,7 @@ class APISearchRestaurantTests(APITestCase):
             except ObjectDoesNotExist:
                 self.fail(f"API broken: Failed with ID {line['id']}")
 
-# Unit tests for the Searching Restaurants API
+# Unit tests for the Getting User Reviews API
 class APIReviewUserTests(APITestCase):
 
     # Initial set up of data
@@ -1178,7 +1178,6 @@ class APIReviewUserTests(APITestCase):
 
         restaurant_hours = RestaurantHours.objects.get(id=1)
 
-        # Create 4 unique restaurants with these attributes and link them to the categories with id 1 and 2
         Restaurant.objects.create(
             google_id='google_id_583589498278432',
             longitude=43.78,
@@ -1301,6 +1300,159 @@ class APIReviewUserTests(APITestCase):
 
         data = response.json()
 
+        # verify that a list is returned with 0 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 0)
+
+# Unit tests for the Getting Restaurant Reviews API
+class APIReviewRestaurantTests(APITestCase):
+
+    # Initial set up of data
+    # Creates 2 instance of the class APIUser
+    # Creates 3 instances of the class Restaurant
+    # Creates 2 instances of the class Review
+    # Creates 1 instance of the class RestaurantDay
+    # Creates 1 instance of the class RestaurantHours
+    def setUpTestData():
+
+        RestaurantDay.objects.create(
+            open=False
+        )
+
+        restaurant_day = RestaurantDay.objects.get(id=1)
+
+        RestaurantHours.objects.create(
+            monday=restaurant_day,
+            tuesday=restaurant_day,
+            wednesday=restaurant_day,
+            thursday=restaurant_day,
+            friday=restaurant_day,
+            saturday=restaurant_day,
+            sunday=restaurant_day,
+        )
+
+        restaurant_hours = RestaurantHours.objects.get(id=1)
+
+        Restaurant.objects.create(
+            google_id='google_id_583589498278432',
+            longitude=43.78,
+            latitude=17.35,
+            name='A Pizza Place',
+            address='Dublin',
+            type='pizza',
+            price_level='PRICE_LEVEL_INEXPENSIVE',
+            allows_dogs=True,
+            delivery=False,
+            dine_in=True,
+            good_for_children=True,
+            good_for_groups=False,
+            outdoor_seating=False,
+            average_rating=3,
+            hours=restaurant_hours
+        )
+
+        Restaurant.objects.create(
+            google_id='google_id_583589498478432',
+            longitude=43.78,
+            latitude=17.35,
+            name='A Pasta Place',
+            address='Cork',
+            type='pasta',
+            price_level='PRICE_LEVEL_MODERATE',
+            allows_dogs=False,
+            delivery=True, 
+            dine_in=False, 
+            good_for_children=False,
+            good_for_groups=True,
+            outdoor_seating=True,
+            average_rating=4,
+            hours=restaurant_hours
+        )
+
+        Restaurant.objects.create(
+            google_id='google_id_583589198278432',
+            longitude=43.78,
+            latitude=17.35,
+            name='Apache Pizza',
+            address='Donegal',
+            type='pizza',
+            price_level='PRICE_LEVEL_MODERATE',
+            allows_dogs=False,
+            delivery=False,
+            dine_in=True,
+            good_for_children=True,
+            good_for_groups=False,
+            outdoor_seating=False,
+            average_rating=5,
+            hours=restaurant_hours
+        )
+
+        APIUser.objects.create(
+            username='dalye54',
+            first_name='Eoin',
+            last_name='Daly',
+            email='eoin.daly54@mail.dcu.ie',
+            password='password'
+        )
+
+        APIUser.objects.create(
+            username='johndoe',
+            first_name='john',
+            last_name='doe',
+            email='john.doe@mail.dcu.ie',
+            password='password'
+        )
+
+        Review.objects.create(
+            user=APIUser.objects.get(id=1),
+            restaurant=Restaurant.objects.get(id=1),
+            rating=5,
+            description="Nice restaurant"   
+        )
+
+        Review.objects.create(
+            user=APIUser.objects.get(id=2),
+            restaurant=Restaurant.objects.get(id=2),
+            rating=1,
+            description="Not nice restaurant"   
+        )
+
+    # Set up data for each test
+    # Creates 1 instances of the APIClient
+    def setUp(self):
+        self.client = APIClient()
+
+    # Testing getting the reviews made for a given restaurant
+    # Expected result is 1 review is returned as the restaurant has only 1 review in the database
+    def test_get_specified_restaurant_reviews(self):
+
+        # send a get request for data
+        response = self.client.get("/review/restaurant/1/", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
         # verify that a list is returned with 1 items
+        self.assertEqual(type(data), list)
+        self.assertEqual(len(data), 1)
+
+        # check the review has same id as the one we created in setupdata
+        self.assertEqual(data[0]['id'], 1)
+
+    # Testing getting the reviews made for a given restaurant
+    # Expected result is no reviews are returned as restaurant has yet to receive one
+    def test_get_specified_restaurant_reviews_if_no_review_has_been_made_for_restaurant(self):
+
+        # send a get request for data
+        response = self.client.get("/review/restaurant/3/", format="json")
+
+        # verify the response data is ok
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that a list is returned with 0 items
         self.assertEqual(type(data), list)
         self.assertEqual(len(data), 0)

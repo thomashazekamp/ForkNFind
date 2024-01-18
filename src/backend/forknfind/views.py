@@ -161,7 +161,6 @@ class ReviewUserAPIView(generics.ListAPIView):
 # ReviewRestaurantAPIView
 class ReviewRestaurantAPIView(generics.ListAPIView):
     serializer_class = ReviewSerializer
-    permission_classes = [IsAuthenticated]
 
     # querset of reviews
     def get_queryset(self):
