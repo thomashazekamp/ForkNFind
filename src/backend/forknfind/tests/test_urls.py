@@ -4,7 +4,7 @@ from ..views import *
 from ..models import *
 import random
 
-# Unit tests for the APIRegisterUser API
+# Unit tests for the Register User API
 class APIRegisterUserTests(APITestCase):
 
     # Needed as after a user's account is created the recommender updates for that new user
@@ -128,3 +128,89 @@ class APIRegisterUserTests(APITestCase):
         self.assertEqual(user.get_email(),data['email'])
         self.assertEqual(user.get_firstName(),data['first_name'])
         self.assertEqual(user.get_lastName(),data['last_name'])
+
+# Unit tests for the Register Review API
+class APIRegisterReviewTests(APITestCase):
+
+    # Initial set up of data
+    # Creates 1 instances of the class APIUser
+    # Creates 1 instances of the class Restaurant
+    # Creates 1 isntance of the class RestaurantDay
+    # Creates 1 instance of the class RestaurantHours
+    def setUpTestData():
+
+        APIUser.objects.create(
+            username='dalye54',
+            first_name='Eoin',
+            last_name='Daly',
+            email='eoin.daly54@mail.dcu.ie',
+            password='password'
+        )
+
+        RestaurantDay.objects.create(
+            open=False
+        )
+
+        restaurant_day = RestaurantDay.objects.get(id=1)
+
+        RestaurantHours.objects.create(
+            monday=restaurant_day,
+            tuesday=restaurant_day,
+            wednesday=restaurant_day,
+            thursday=restaurant_day,
+            friday=restaurant_day,
+            saturday=restaurant_day,
+            sunday=restaurant_day,
+        )
+
+        restaurant_hours = RestaurantHours.objects.get(id=1)
+
+        Restaurant.objects.create(
+            google_id='google_id_583589498278432',
+            longitude=43.78,
+            latitude=17.35,
+            name='A Pizza Place',
+            address='Dublin',
+            type='pizza',
+            price_level='PRICE_LEVEL_INEXPENSIVE',
+            allows_dogs=True,
+            delivery=False,
+            dine_in=True,
+            good_for_children=True,
+            good_for_groups=False,
+            outdoor_seating=False,
+            average_rating=0,
+            hours=restaurant_hours
+        )
+
+    # Set up data for each test
+    # Creates 1 instances of the APIClient
+    def setUp(self):
+
+        self.client = APIClient()
+
+    def test_post_api_register_review(self):
+
+        # get the user we will be logging into
+        user = APIUser.objects.get(id=1)
+
+        # data to create new review
+        self.client.force_authenticate(user=user)
+
+        # data to create new review
+        data = {"restaurant": "1", "rating": "4", "description": "Was a really good time and i enjoyed my food a lot."}
+
+        # post the data to the url in json format
+        response = self.client.post("/register/review/", data=data, format="json")
+
+        # verify the response data has been created
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # get the created user
+        review = Review.objects.get(id=1)
+
+        # verify the data in the review is the same as what we sent
+        self.assertEqual(review.get_user(), user)
+        self.assertEqual(review.get_restaurant(), Restaurant.objects.get(id=1))
+        self.assertEqual(review.get_rating(), int(data['rating']))
+        self.assertEqual(review.get_description(), data['description'])
