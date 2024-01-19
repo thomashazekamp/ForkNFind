@@ -64,10 +64,18 @@ class RestaurantHoursSerializer(serializers.HyperlinkedModelSerializer):
 class RestaurantSerializer(serializers.HyperlinkedModelSerializer):
     # include the serializer of this instance so all the information is shown
     hours = RestaurantHoursSerializer()
+    categories = serializers.SerializerMethodField()
 
     class Meta:
         model = Restaurant
-        fields = ['id','google_id','longitude','latitude','name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating', 'hours', 'average_rating'] # Show these fields
+        fields = ['id','google_id','longitude','latitude','name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating', 'hours', 'average_rating', 'categories'] # Show these fields
+
+    # getting categories associated with restaurants
+    def get_categories(self, obj):
+        
+        instances = obj.get_categories()
+
+        return [item.get_category() for item in instances]
 
 # UserRegistrationSerializer
 class UserRegistrationSerializer(serializers.ModelSerializer):
