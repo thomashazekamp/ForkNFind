@@ -69,7 +69,7 @@ class ReviewRegistrationAPIView(generics.CreateAPIView):
 
 # SearchRestaurantAPIView using filtersets for the search functionality
 class SearchRestaurantAPIView(generics.ListAPIView):
-    serializer_class = RestaurantSerializer
+    serializer_class = RestaurantSearchSerializer
     permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend]
     filterset_class = SearchRestaurantFilter
@@ -77,6 +77,13 @@ class SearchRestaurantAPIView(generics.ListAPIView):
     # queryset of restaurants
     def get_queryset(self):
         return Restaurant.objects.all()
+    
+    # context for serializer
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['latitude'] = self.kwargs.get('latitude')
+        context['longitude'] = self.kwargs.get('longitude')
+        return context
 
 # RestaurantsAroundUserAPIView
 class RestaurantsAroundUserAPIView(APIView):

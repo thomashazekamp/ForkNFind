@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from django_filters import rest_framework as filters
+from .formula import *
 
 # UserSerializer
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -165,3 +166,17 @@ class SearchRestaurantFilter(filters.FilterSet):
     class Meta:
         model = Restaurant
         fields = ['name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating','average_rating'] # Show these fields
+
+# RestaurantSearchSerializer
+class RestaurantSearchSerializer(serializers.HyperlinkedModelSerializer):
+    # include additional fields of information for the instance
+    distance_from_user = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Restaurant
+        fields = ['id','name','type','price_level','average_rating', 'distance_from_user'] # Show these fields
+
+    # gets the distance from the user making the query to the restaurant
+    def get_distance_from_user(self, obj):
+
+        return haversine((float(self.context.get('latitude')),float(self.context.get('longitude'))) ,obj.get_location())
