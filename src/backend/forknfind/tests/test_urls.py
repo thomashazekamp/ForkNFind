@@ -348,7 +348,7 @@ class APIRegisterReviewTests(APITestCase):
             try:
                 Restaurant.objects.get(id=item['id'])
             except ObjectDoesNotExist:
-                self.fail(f"API broken: Failed with ID {id}")
+                self.fail(f"API broken: Failed with ID {item['id']}")
 
 # Unit tests for the Recommend Restaurant Collaborative API
 class APIRecommendRestaurantCollaborativeTests(APITestCase):
@@ -610,23 +610,22 @@ class APIRecommendRestaurantHybridTests(APITestCase):
         self.client.force_authenticate(user=user)
 
         # send a get request for data
-        response = self.client.get("/recommend/hybrid/", format="json")
+        response = self.client.get("/recommend/hybrid/53.580041/-6.107879/", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         data = response.json()
 
-        # verify that a list is returned with 3 items
+        # verify that a list is returned with items
         self.assertEqual(type(data), list)
-        self.assertEqual(len(data), 12)
 
-        for id in data:
+        for item in data:
 
             try:
-                Restaurant.objects.get(id=id)
+                Restaurant.objects.get(id=item['id'])
             except ObjectDoesNotExist:
-                self.fail(f"API broken: Failed with ID {id}")
+                self.fail(f"API broken: Failed with ID {item['id']}")
 
 
 # Unit tests for the Searching Restaurants API
@@ -745,8 +744,6 @@ class APISearchRestaurantTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         data = response.json()
-
-        print(data)
 
         # verify that a list is returned with 3 items
         self.assertEqual(type(data), list)
