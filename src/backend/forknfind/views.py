@@ -131,8 +131,6 @@ class RecommendRestaurantContentAPIView(APIView):
             # get the restaurant info
             restaurant = Restaurant.objects.get(id=item)
 
-            print(restaurant, restaurant.get_id())
-
             # append it tp the response data
             response_data.append({
                 "id": restaurant.get_id(),
@@ -162,14 +160,37 @@ class RecommendRestaurantCollaborativeAPIView(APIView):
 # RecommendRestaurantHybridAPIView
 class RecommendRestaurantHybridAPIView(APIView):
 
-    def get(self, request):
+    def get(self, request, longitude, latitude):
 
         # load the recommender and query the hybrid recommender
         model = HybridRecommender.load()
         restaurants = model.query_hybrid_recommender(request.user.id)
 
+        # loop through the id's getting the restaurant information
+        response_data = []
+        unique_list = []
+        for item in restaurants:
+
+            # hybrid could have duplicate id's so make sure nothing can be returned twice
+            if item not in unique_list:
+                unique_list.append(item)
+                
+                # get the restaurant info
+                restaurant = Restaurant.objects.get(id=item)
+
+                # append it tp the response data
+                response_data.append({
+                    "id": restaurant.get_id(),
+                    "name": restaurant.get_name(),
+                    "type": restaurant.get_type(),
+                    "price_level": restaurant.get_price_level(),
+                    "average_rating": restaurant.get_average_rating(),
+                    "distance_from_user": haversine((float(longitude), float(latitude)), restaurant.get_location()),
+                    "open_or_close": get_open_or_close(restaurant)
+                })
+
         # return the recommended restaurants
-        return Response(restaurants, status=status.HTTP_200_OK)
+        return Response(response_data, status=status.HTTP_200_OK)
 
 # ReviewUserAPIView
 class ReviewUserAPIView(generics.ListAPIView):
