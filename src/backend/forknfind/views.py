@@ -2,6 +2,7 @@ from .models import *
 from .serializers import *
 from .requests import *
 from .formula import *
+from .time_check import *
 
 from django.shortcuts import render
 from rest_framework import viewsets, generics, filters
@@ -11,7 +12,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
 
 # UserViewSet, queryset of all APIUser instances
 class UserViewSet(viewsets.ModelViewSet):
@@ -114,18 +114,38 @@ class RestaurantsAroundUserAPIView(APIView):
 
         # return the closest restaurants
         return Response(within_distance, status=status.HTTP_200_OK)
-    
+            
 # RecommendRestaurantContentAPIView
 class RecommendRestaurantContentAPIView(APIView):
 
-    def get(self, request, restaurant_id):
+    def get(self, request, restaurant_id, longitude, latitude):
 
         # load recommender and query the content recommender
         model = HybridRecommender.load()
         restaurants = model.query_content_recommender(restaurant_id)
 
+        # loop through the id's getting the restaurant information
+        response_data = []
+        for item in restaurants:
+
+            # get the restaurant info
+            restaurant = Restaurant.objects.get(id=item)
+
+            print(restaurant, restaurant.get_id())
+
+            # append it tp the response data
+            response_data.append({
+                "id": restaurant.get_id(),
+                "name": restaurant.get_name(),
+                "type": restaurant.get_type(),
+                "price_level": restaurant.get_price_level(),
+                "average_rating": restaurant.get_average_rating(),
+                "distance_from_user": haversine((float(longitude), float(latitude)), restaurant.get_location()),
+                "open_or_close": get_open_or_close(restaurant)
+        })
+            
         # return the recommended restaurants
-        return Response(restaurants, status=status.HTTP_200_OK)
+        return Response(response_data, status=status.HTTP_200_OK)
 
 # RecommendRestaurantCollaborativeAPIView
 class RecommendRestaurantCollaborativeAPIView(APIView):
