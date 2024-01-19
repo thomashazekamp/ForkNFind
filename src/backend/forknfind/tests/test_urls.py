@@ -739,7 +739,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_name_parameter(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?name=place", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?name=place", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -764,7 +764,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_name_parameter(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?name=place", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?name=place", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -787,7 +787,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_address_parameter(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?address=dublin", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?address=dublin", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -810,7 +810,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_type_parameter(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?type=pizza", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?type=pizza", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -833,7 +833,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_price_level_parameter(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?price_level=PRICE_LEVEL_MODERATE", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?price_level=PRICE_LEVEL_MODERATE", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -856,7 +856,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_allow_dogs_parameter_false(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?allows_dogs=false", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?allows_dogs=false", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -879,7 +879,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_allow_dogs_parameter_true(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?allows_dogs=true", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?allows_dogs=true", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -902,7 +902,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_delivery_parameter_false(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?delivery=false", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?delivery=false", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -925,7 +925,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_delivery_parameter_true(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?delivery=true", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?delivery=true", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -948,7 +948,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_dine_in_parameter_false(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?dine_in=false", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?dine_in=false", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -971,7 +971,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_dine_in_parameter_true(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?dine_in=true", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?dine_in=true", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -994,7 +994,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_good_for_children_parameter_false(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?good_for_children=false", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?good_for_children=false", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -1017,7 +1017,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_good_for_children_parameter_true(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?good_for_children=true", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?good_for_children=true", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -1040,7 +1040,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_good_for_groups_parameter_false(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?good_for_groups=false", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?good_for_groups=false", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -1063,7 +1063,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_good_for_groups_parameter_true(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?good_for_groups=true", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?good_for_groups=true", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -1086,7 +1086,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_outdoor_seating_parameter_false(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?outdoor_seating=false", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?outdoor_seating=false", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -1109,7 +1109,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_outdoor_seating_parameter_true(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?outdoor_seating=true", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?outdoor_seating=true", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -1132,7 +1132,7 @@ class APISearchRestaurantTests(APITestCase):
     def test_search_restaurant_average_rating_parameter_true(self):
         
         # send a get request for data
-        response = self.client.get("/search/restaurant/?average_rating=4", format="json")
+        response = self.client.get("/search/restaurant/53.580041/-6.107879/?average_rating=4", format="json")
 
         # verify the response data is ok
         self.assertEqual(response.status_code, status.HTTP_200_OK)
