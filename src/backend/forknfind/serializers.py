@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 from django_filters import rest_framework as filters
 from .formula import *
+from datetime import datetime, time
 
 # UserSerializer
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -167,16 +168,64 @@ class SearchRestaurantFilter(filters.FilterSet):
         model = Restaurant
         fields = ['name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating','average_rating'] # Show these fields
 
+# Used as part of the RestaurantSearchSerializer
+# Calculates whether a resturant is open or closed
+def time_check_function(restaurantday):
+
+    # check if the restaurant opens on this day
+    if restaurantday.get_open() == False:
+        return "Closed"
+
+    # get the instances of RestaurantTime
+    open_time = restaurantday.get_open_time()
+    close_time = restaurantday.get_close_time()
+
+    # converts to instances of Time
+    open_time = time(open_time.get_hour(), open_time.get_minute())
+    close_time = time(close_time.get_hour(), close_time.get_minute())
+
+    # the current time the request has been made
+    current_time = datetime.now().time()
+
+    # check if the current time is between the open time and close time
+    if open_time <= current_time <= close_time:
+        return "Open"
+    else:
+        return "Closed"
+
 # RestaurantSearchSerializer
 class RestaurantSearchSerializer(serializers.HyperlinkedModelSerializer):
     # include additional fields of information for the instance
     distance_from_user = serializers.SerializerMethodField()
+    open_or_close = serializers.SerializerMethodField()
 
     class Meta:
         model = Restaurant
-        fields = ['id','name','type','price_level','average_rating', 'distance_from_user'] # Show these fields
+        fields = ['id','name','type','price_level','average_rating', 'distance_from_user', 'open_or_close'] # Show these fields
 
     # gets the distance from the user making the query to the restaurant
     def get_distance_from_user(self, obj):
 
         return haversine((float(self.context.get('latitude')),float(self.context.get('longitude'))) ,obj.get_location())
+
+    def get_open_or_close(self, obj):
+        
+        # work out the current day
+        current_datetime = datetime.now()
+        current_day = current_datetime.weekday()
+
+        if current_day == 0:
+            return time_check_function(obj.get_hours().get_monday())
+        elif current_day == 1:
+            return time_check_function(obj.get_hours().get_tuesday())
+        elif current_day == 2:
+            return time_check_function(obj.get_hours().get_wednesday())
+        elif current_day == 3:
+            return time_check_function(obj.get_hours().get_thursday())
+        elif current_day == 4:
+            return time_check_function(obj.get_hours().get_friday())
+        elif current_day == 5:
+            return time_check_function(obj.get_hours().get_saturday())
+        elif current_day == 6:
+            return time_check_function(obj.get_hours().get_sunday())
+        
