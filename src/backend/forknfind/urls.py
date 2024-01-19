@@ -22,7 +22,7 @@ urlpatterns = [
     path('search/restaurant/<latitude>/<longitude>/', SearchRestaurantAPIView.as_view() ,name="api_search_restaurants"), # API to search restaurants 
     path('recommend/content/<int:restaurant_id>/<latitude>/<longitude>/', RecommendRestaurantContentAPIView.as_view(), name="api_recommend_restaurant_content"), # API to query content recommender
     path('recommend/collaborative/', RecommendRestaurantCollaborativeAPIView.as_view(), name="api_recommend_restaurant_collaborative"), # API to query collaborative recommender
-    path('recommend/hybrid/', RecommendRestaurantHybridAPIView.as_view(), name="api_recommend_restaurant_hybrid"), # API to query hybrid recommender
+    path('recommend/hybrid/<latitude>/<longitude>/', RecommendRestaurantHybridAPIView.as_view(), name="api_recommend_restaurant_hybrid"), # API to query hybrid recommender
     path('review/user/', ReviewUserAPIView.as_view(), name="api_user_reviews"), # API to see all user reviews
     path('review/restaurant/<int:restaurant_id>/', ReviewRestaurantAPIView.as_view(), name="api_restaurant_reviews"), # API to see all restaurant reviews
 ]
