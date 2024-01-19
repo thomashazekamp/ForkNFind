@@ -1,15 +1,12 @@
 import React, { useState} from 'react';
 // import { View, Text, StyleSheet,  } from 'react-native';
 import { View, Text, Switch, TouchableOpacity, Modal, TouchableHighlight, TextInput, StyleSheet} from 'react-native';
-import {MapView, Marker} from 'react-native-maps';
 
-import { Entypo } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default function RecommendationsScreen({ navigation }) {
 
-    const [passwordModalVisibility, setPasswordModalVisibility] = useState(false);
     const [detailsModalVisibility, setDetailsModalVisibility] = useState(false);
 
     const toggleModal = (option) => {
@@ -198,6 +195,36 @@ export default function RecommendationsScreen({ navigation }) {
                 </View>
             </TouchableOpacity>
 
+            {/* Item 1 modal */}
+            <Modal animationType="slide" transparent={true} visible={detailsModalVisibility} onRequestClose={() => toggleModal('item1')}>
+                <ScrollView contentContainerStyle={styles.modalContentContainer} showsVerticalScrollIndicator={false}>
+                    <View style={styles.modalContent}>
+                        <View>
+                            <TouchableOpacity style={styles.backButton} onPress={() => toggleModal('item1')}>
+                                <EvilIcons name="arrow-left" size={24} color="black" />
+                            </TouchableOpacity>
+                            <Text style={styles.modalTitle}>Reviews</Text>
+                        </View>
+
+                        <View style={styles.modalDetailsBlock}>
+                            <Text style={{color: 'grey'}}>Review from: </Text>
+                            <Text style={{fontWeight: 'bold'}}>Joe Something</Text>
+                        </View>
+                        <View style={{borderWidth: 1, borderColor: 'green', borderRadius: 10, padding: 10}}>
+                            <Text>This place was really good, will order food here again!</Text>
+                        </View>
+
+                        <View style={styles.modalDetailsBlock}>
+                            <Text style={{color: 'grey'}}>Review from: </Text>
+                            <Text style={{fontWeight: 'bold'}}>Joe Other</Text>
+                        </View>
+                        <View style={{borderWidth: 1, borderColor: 'red', borderRadius: 10, padding: 10}}>
+                            <Text>This place was terrible good, will never order food here again!</Text>
+                        </View>
+
+                    </View>
+                </ScrollView>
+            </Modal>
         </ScrollView>
 
         
@@ -284,4 +311,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start'
     },
+    modalContentContainer: {
+        flexGrow: 1,
+      },
 });
