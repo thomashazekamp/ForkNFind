@@ -1613,3 +1613,24 @@ class APIFindRestaurantsTests(APITestCase):
         # verify that a dict is returned with 3 items
         self.assertEqual(type(data), dict)
         self.assertEqual(len(data), 3)
+
+    # Testing finding restaurants within 2km of user
+    # Expected result is 0 restaurants will be returned as no restaurants will be within range
+    # Mocking function so when it is called it goes to the mocked function skipping the google request
+    @mock.patch('forknfind.requests.google_maps_nearby_search', side_effect=google_maps_nearby_search_mock)
+    def test_find_restaurants_nearby(self, _):
+
+        # data of user location
+        data = {"longitude": 43.78, "latitude": 19.35}
+
+        # post the data to the url in json format
+        response = self.client.post("/find/restaurants/", data=data, format="json")
+
+        # verify the response data has been created
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+        
+        # verify that a dict is returned with 3 items
+        self.assertEqual(type(data), dict)
+        self.assertEqual(len(data), 0)
