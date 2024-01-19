@@ -174,6 +174,7 @@ class RecommendRestaurantHybridAPIView(APIView):
             # hybrid could have duplicate id's so make sure nothing can be returned twice
             if item not in unique_list:
                 unique_list.append(item)
+                
                 # get the restaurant info
                 restaurant = Restaurant.objects.get(id=item)
 
