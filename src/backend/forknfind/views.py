@@ -227,7 +227,7 @@ class UserPasswordUpdateAPIView(APIView):
         new_password = request.data.get('new_password')
 
         # check old password
-        if request.user.check_password(current_password) == False:
+        if request.user.password != current_password:
             return Response({'error': 'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)
         
         # if no errors then set new password
