@@ -8,7 +8,7 @@ Reference: https://www.youtube.com/watch?v=Q4S9M9rJAxk&ab_channel=PradipDebnath
 */
 
 import * as React from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, ActivityIndicator, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, Pressable, TextInput, ActivityIndicator, FlatList, Image, SafeAreaView } from 'react-native';
 
 const API_ENDPOINT = 'https://randomuser.me/api/?results=30'; // TODO: Add own API endpoint
 
@@ -68,7 +68,7 @@ export default function SearchScreen({ navigation }) {
     }
 
     return (
-        <View style={{ flex: 1, marginHorizontal: 20}}>
+        <SafeAreaView style={{ flex: 1, marginHorizontal: 20}}>
             <TextInput 
             placeholder="Search" 
             clearButtonMode='always'
@@ -90,7 +90,7 @@ export default function SearchScreen({ navigation }) {
                     </View>
                 </View>
             )}/>
-        </View>
+        </SafeAreaView>
     );
 }
 
