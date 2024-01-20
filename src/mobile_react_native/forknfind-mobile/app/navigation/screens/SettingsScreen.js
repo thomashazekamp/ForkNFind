@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 // import { View, Text, StyleSheet,  } from 'react-native';
-import { View, Text, Switch, TouchableOpacity, Modal, TouchableHighlight, TextInput, StyleSheet} from 'react-native';
+import { View, Text, Switch, TouchableOpacity, Modal, TouchableHighlight, TextInput, StyleSheet, SafeAreaView} from 'react-native';
 
 import { Entypo } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
@@ -35,7 +35,7 @@ export default function SettingsScreen({ navigation }) {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Text style={styles.titleStyle}>Settings</Text>
             
             {/* Account details */}
@@ -111,7 +111,7 @@ export default function SettingsScreen({ navigation }) {
                     </View>
                 </View>
             </Modal>
-        </View>
+        </SafeAreaView>
     );
 }
 

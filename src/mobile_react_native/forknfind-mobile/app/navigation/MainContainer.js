@@ -35,7 +35,7 @@ const Tab = createBottomTabNavigator();
 export default function MainContainer() {
     return (
         
-        // <View style={styles.container}>
+        <View style={styles.container}>
         
             <Tab.Navigator
                 initialRouteName={locationName}
@@ -88,15 +88,15 @@ export default function MainContainer() {
                     <Tab.Screen name={searchName} component={SearchScreen} />
                     <Tab.Screen name={settingsName} component={SettingsScreen} />
             </Tab.Navigator>
-        // </View>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+        // flex: 1,
+        // justifyContent: 'flex-end',
+        // alignItems: 'center',
     },
 });
