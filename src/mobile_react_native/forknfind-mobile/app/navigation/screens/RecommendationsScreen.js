@@ -259,12 +259,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 10,
     },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
     modalContent: {
         marginTop: 50,
         ...StyleSheet.absoluteFillObject,
@@ -278,34 +272,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
         alignSelf: 'center',
-    },
-    modalText: {
-        marginBottom: 10,
-        alignSelf: 'center',
-        color: 'grey'
-    },
-    modalInputBox: {
-        marginBottom: 10,
-        borderBottomWidth: 1,
-        borderColor: '#ccc',
-        padding: 8,
-        borderRadius: 5,
-    },
-    modalButtonContainer: {
-        flexDirection: 'row',
-        marginTop: 10,
-    },
-    modalButton: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        borderRadius: 10,
-        flex: 1,
-        marginRight: 5,
-    },
-    modalButtonText: {
-        color: 'black',
-        textAlign: 'center',
     },
     backButton: {
         alignSelf: 'flex-start',
