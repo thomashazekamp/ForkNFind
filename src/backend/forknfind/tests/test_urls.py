@@ -1630,3 +1630,75 @@ class APIFindRestaurantsTests(APITestCase):
         # verify that a dict is returned with 3 items
         self.assertEqual(type(data), dict)
         self.assertEqual(len(data), 0)
+
+# Unit tests for the Getting User Reviews API
+class APIReviewUserTests(APITestCase):
+
+    # Initial set up of data
+    # Creates 1 instance of the class APIUser
+    def setUpTestData():
+
+        APIUser.objects.create(
+            username='dalye54',
+            first_name='Eoin',
+            last_name='Daly',
+            email='eoin.daly54@mail.dcu.ie',
+            password='password'
+        )
+
+    # Set up data for each test
+    # Creates 1 instances of the APIClient
+    def setUp(self):
+        self.client = APIClient()
+
+    # Testing changing a password for a user
+    # Expected result is for it to fail as we are sending the incorrect current password
+    def test_incorrect_password_change_request(self):
+
+        # get the user we will be logging into
+        user = APIUser.objects.get(id=1)
+
+        # set the login user
+        self.client.force_authenticate(user=user)
+
+        # data to be sent
+        data = {"current_password": "test", "new_password": "newpassword"}
+
+        # send a get request for data
+        response = self.client.post("/user/password/update/", data=data, format="json")
+
+        # verify the response data is an error
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+        data = response.json()
+
+        # verify that the response data is an error
+        self.assertEqual(data, {'error': 'Incorrect password'})
+
+    # Testing changing a password for a user
+    # Expected result is for it to succeed as we are sening the correct current password
+    def test_success_password_change_request(self):
+
+        # get the user we will be logging into
+        user = APIUser.objects.get(id=1)
+
+        # set the login user
+        self.client.force_authenticate(user=user)
+
+        # data to be sent
+        post_data = {"current_password": "password", "new_password": "test"}
+
+        # send a get request for data
+        response = self.client.post("/user/password/update/", data=post_data, format="json")
+
+        # verify the response data is an error
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        data = response.json()
+
+        # verify that the response data is an error
+        self.assertEqual(data, {'detail': 'Success'})
+
+        # verify the new password has been updated
+        user = APIUser.objects.get(id=1)
+        self.assertTrue(user.check_password(post_data['new_password']))
