@@ -219,3 +219,19 @@ class ReviewRestaurantAPIView(generics.ListAPIView):
         # return the reviews
         return test
 
+class UserPasswordUpdateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        current_password = request.data.get('current_password')
+        new_password = request.data.get('new_password')
+
+        # check old password
+        if request.user.check_password(current_password) == False:
+            return Response({'error': 'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # if no errors then set new password
+        request.user.set_password(new_password)
+        request.user.save()
+
+        return Response({'detail': 'Success'}, status=status.HTTP_200_OK)
