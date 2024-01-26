@@ -105,7 +105,7 @@ class RestaurantsAroundUserAPIView(APIView):
         # loop through using haversine forumla to see if they are within distance, in this case its 2km
         for item in queryset:
             distance = haversine((float(longitude), float(latitude)), item.get_location())
-            if distance < 2:
+            if distance < 5:
                 within_distance[item.get_id()] = {'location':item.get_location()}
 
         # reload hybrid recommender as new restaurants added

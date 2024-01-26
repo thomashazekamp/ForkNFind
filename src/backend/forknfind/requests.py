@@ -17,12 +17,12 @@ def google_maps_nearby_search(longitude, latitude):
     # data to send, has to be a restaurant, ranked via distance and longitude and latitude coordinates passed in
     data = {
         "includedTypes": ["restaurant"],
-        "maxResultCount": 5,
+        "maxResultCount": 20,
         "rankPreference": "DISTANCE",
         "locationRestriction": {
             "circle": {
-                "center": {"latitude": longitude, "longitude": latitude},
-                "radius": 1000.0,
+                "center": {"longitude": longitude, "latitude": latitude},
+                "radius": 2000.0,
             }
         }
     }
@@ -115,40 +115,55 @@ def add_restaurant_to_database(id, restaurant_info):
     # create a new instance for the restaurant
     new_restaurant = Restaurant.objects.create(google_id=google_id, longitude=longitude, latitude=latitude, name=name, type=type, price_level=price_level, allows_dogs=allows_dogs, delivery=delivery, dine_in=dine_in, good_for_children=good_for_children, good_for_groups=good_for_groups, outdoor_seating=outdoor_seating, address=address, average_rating=0)
 
-    # get the opening times for the restaurant    
-    open_times = restaurant_info['regularOpeningHours']['periods']
+    try:
+        # get the opening times for the restaurant    
+        open_times = restaurant_info['regularOpeningHours']['periods']
 
-    # get the tmp_time which is when the restaurant doesn't open that day
-    tmp_time = RestaurantDay.objects.get(open=False, open_time=None, close_time=None)
+        # get the tmp_time which is when the restaurant doesn't open that day
+        tmp_time = RestaurantDay.objects.get(open=False, open_time=None, close_time=None)
 
-    new_times = { 
-        'monday': tmp_time,
-        'tuesday': tmp_time,
-        'wednesday': tmp_time,
-        'thursday': tmp_time,
-        'friday': tmp_time,
-        'saturday': tmp_time,
-        'sunday': tmp_time
-    }
+        new_times = { 
+            'monday': tmp_time,
+            'tuesday': tmp_time,
+            'wednesday': tmp_time,
+            'thursday': tmp_time,
+            'friday': tmp_time,
+            'saturday': tmp_time,
+            'sunday': tmp_time
+        }
 
-    # loop through the data to add the real times the restaurant opens and closes at
-    for time in open_times:
+        # loop through the data to add the real times the restaurant opens and closes at
+        for time in open_times:
 
-        # for each check if the instances already exist of both the times and the days
-        if time['open']['day'] == 0:
-            new_times['monday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
-        elif time['open']['day'] == 1:
-            new_times['tuesday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
-        elif time['open']['day'] == 2:
-            new_times['wednesday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
-        elif time['open']['day'] == 3:
-            new_times['thursday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
-        elif time['open']['day'] == 4:
-            new_times['friday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
-        elif time['open']['day'] == 5:
-            new_times['saturday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
-        elif time['open']['day'] == 6:
-            new_times['sunday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+            # for each check if the instances already exist of both the times and the days
+            if time['open']['day'] == 0:
+                new_times['monday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+            elif time['open']['day'] == 1:
+                new_times['tuesday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+            elif time['open']['day'] == 2:
+                new_times['wednesday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+            elif time['open']['day'] == 3:
+                new_times['thursday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+            elif time['open']['day'] == 4:
+                new_times['friday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+            elif time['open']['day'] == 5:
+                new_times['saturday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+            elif time['open']['day'] == 6:
+                new_times['sunday'] = check_restaurant_day(check_open_and_close_time(time, 'open'), check_open_and_close_time(time, 'close'))
+
+    except KeyError:
+
+        tmp_time = RestaurantDay.objects.get(open=False, open_time=None, close_time=None)
+
+        new_times = { 
+            'monday': tmp_time,
+            'tuesday': tmp_time,
+            'wednesday': tmp_time,
+            'thursday': tmp_time,
+            'friday': tmp_time,
+            'saturday': tmp_time,
+            'sunday': tmp_time
+        }
 
     # see if a instance of the week already exists, if not create one
     try:
@@ -186,8 +201,8 @@ def add_restaurant_to_database(id, restaurant_info):
 # extracting the data from the restaurant json returned from google
 def extract_restaurant_info(restaurant_info):
 
-    longitude = restaurant_info['location']['latitude']
-    latitude = restaurant_info['location']['longitude']
+    longitude = restaurant_info['location']['longitude']
+    latitude = restaurant_info['location']['latitude']
     name = restaurant_info['displayName']['text']
 
     # lots of trys and errors incase the data is not there, if it is save it, if not leave blank
