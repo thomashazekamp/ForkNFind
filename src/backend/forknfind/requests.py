@@ -200,9 +200,18 @@ def extract_restaurant_info(restaurant_info):
     except:
         address = "unknown"
     try:
-        price_level = restaurant_info['priceLevel']
+        value = restaurant_info['priceLevel']
+        print(value)
+        print(value == "PRICE_LEVEL_INEXPENSIVE")
+        print(value == "PRICE_LEVEL_MODERATE")
+        if value == "PRICE_LEVEL_INEXPENSIVE":
+            price_level = 'low'
+        elif value == "PRICE_LEVEL_MODERATE":
+            price_level = "medium"
+        else:
+            price_level = "high"
     except KeyError:
-        price_level = 'PRICE_LEVEL_INEXPENSIVE'
+        price_level = 'low'
     try:
         allows_dogs = restaurant_info['allowsDogs']
     except KeyError:
