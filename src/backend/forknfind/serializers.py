@@ -182,6 +182,7 @@ class RestaurantSearchSerializer(serializers.HyperlinkedModelSerializer):
     # include additional fields of information for the instance
     distance_from_user = serializers.SerializerMethodField()
     open_or_close_value = serializers.SerializerMethodField()
+    average_rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Restaurant
@@ -196,3 +197,6 @@ class RestaurantSearchSerializer(serializers.HyperlinkedModelSerializer):
         
         return get_open_or_close(obj)
         
+    def get_average_rating(Self, obj):
+        
+        return obj.get_average_rating()

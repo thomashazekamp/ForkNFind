@@ -1,39 +1,82 @@
-import * as React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import MapView, { Marker, Callout } from 'react-native-maps';
 
+import * as Location from 'expo-location';
+
+import NearbyRestaurantsAPIRequest from '../requests/NearbyRestaurantsAPIRequest';
+import RestaurantCardMap from '../components/RestaurantCardMap';
+
+// Functional Component LoginScreen
+// navigation - used to link to other screens created
 export default function LocationScreen({ navigation }) {
+
+    // Use states to manage the information
+    const [deviceLocation, setDeviceLocation] = useState(null);
+    const [data, setData] = useState(null)
+
+    // Reference: https://stackoverflow.com/questions/68955119/react-native-expo-location-returns-location-service-unavailable-during-initial-u
+    // Response by user Dharman, Aug 27th 2021
+    // This code was adapted from a solution found online on stack overflow
+    useEffect(() => {
+        (async () => {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status === 'granted') {
+            const locationData = await Location.getCurrentPositionAsync({});
+            setDeviceLocation(locationData);
+
+            NearbyRestaurantsAPIRequest(setData, locationData);
+
+        }
+        })();
+    }, []);
+
     return (
+        // Map view code using React library
         <View style={styles.container}>
+            <StatusBar barStyle="light-content" />
+                {data !== null ? 
                 <MapView
                     style={styles.map}
                     initialRegion={{
-                        latitude: 37.7749,
-                        longitude: -122.4194,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
+                        latitude: deviceLocation["coords"]["latitude"],
+                        longitude: deviceLocation["coords"]["longitude"],
+                        latitudeDelta: 0.045,
+                        longitudeDelta: 0.02,
                 }}
                 >
+                    {/* Mark user location */}
                     <Marker
                         coordinate={{
-                        latitude: 37.7749,
-                        longitude: -122.4194,
+                        latitude: deviceLocation["coords"]["latitude"],
+                        longitude: deviceLocation["coords"]["longitude"],
                         }}
                         title="Your Location"
                         description="You are here"
                     />
+                    {/* Mark the restaurant locations by looping through data */}
+                    {Object.keys(data).map(key => ( <Marker key={key} coordinate={{ latitude: data[key]["location"][1], longitude: data[key]["location"][0]}} >
+                        <Callout tooltip={true} >
+                            <RestaurantCardMap restaurantData={data[key]} />
+                        </Callout>
+                    </Marker> ))}
                 </MapView>
+                :
+                <View />
+                }
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    // Container takig the whole screen
     container: {
         ...StyleSheet.absoluteFillObject,
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
     },
+    // map taking up all the space
     map: {
         ...StyleSheet.absoluteFillObject,
     }

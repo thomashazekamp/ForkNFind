@@ -1,0 +1,38 @@
+
+import LoginAPIRequest from "./LoginAPIRequest";
+
+// Function CreateAccountAPIRequest
+// setIsLoggedIn - use state passed in that will be updated if the login is successful
+// username - the username inputted by the user
+// password - the password inputted by the user
+// email - the email inputted by the user
+// firstName - the firstName inputted by the user
+// lastName - the lastName inputted by the user
+const CreateAccountAPIRequest = ({setIsLoggedIn, username, password, email, firstName, lastName}) => {
+
+    console.log(JSON.stringify({username: username, password: password, email: email, first_name: firstName, last_name: lastName}))
+
+    // Fetch the API with this information
+    fetch("http://192.168.1.82:8000/register/user/", 
+    {
+        method: 'POST',
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({username: username, password: password, email: email, first_name: firstName, last_name: lastName})
+    }).then(response=>response.json())
+    .then(data=>{
+
+        // if the API was a success then login to the users account with the new information
+        if (data['username'] == username && data['email'] == email && data['first_name'] == firstName && data['last_name'] == lastName) {
+            LoginAPIRequest({setIsLoggedIn, username, password})
+        }
+    })
+    .catch(error => {
+        console.error('Network request failed:', error);
+      })
+    ;
+}  
+
+export default CreateAccountAPIRequest

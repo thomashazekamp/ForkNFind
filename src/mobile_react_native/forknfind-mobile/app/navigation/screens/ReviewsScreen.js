@@ -1,11 +1,231 @@
-import * as React from 'react';
-import { View, Text, StyleSheet, Pressable, SafeAreaView } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 
-export default function ReviewsScreen({ navigation }) {
+import { AntDesign } from '@expo/vector-icons';
+import { ScrollView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import ReviewCard from '../components/ReviewCard';
+import GetAllUserReviews from '../requests/GetAllUserReviews';
+import ReviewSortBy from '../components/ReviewSortBy';
+
+// Functional Component ReviewScreen
+// navigation - used to link to other screens created
+export default function ReviewScreen({ navigation }) {
+
+    // Use states for updating the page when new information is came across
+    const [data, setData] = useState([]);
+    const [originalData, setOriginalData] = useState(data);
+    const [selectedReviews, setSelectedReviews] = useState("all");
+    const [modalSortVisible, setModalSortVisible] = useState(false);
+    const [sortVisual, setSortVisual] = useState("All Relevance");
+
+    // On startup query the API to get the recommendation information
+    useEffect(() => {
+        GetAllUserReviews(setData, setOriginalData);
+    }, []);
+
+    // If the sort button is hit get the modal visible
+    const changeSort = () => {
+
+        setModalSortVisible(!modalSortVisible);
+    }
+
+    // Use effect for when the type of reviews selected are changed, currently not fully implemented
+    useEffect(() => {
+
+        if (selectedReviews == "positive") {
+
+            console.log("positive")
+        } else if (selectedReviews == "all") {
+    
+            setData(originalData)
+    
+        } else if (selectedReviews == "negative") {
+    
+            console.log("negative")
+
+        } 
+    }, [selectedReviews]);
+
+    // Use effect called when the sort has been updated
+    useEffect(() => {
+
+        // Depending on which was selected update the data to be sorted in that way
+        if (sortVisual == "All Relevance") {
+
+            console.log("here")
+            console.log(originalData)
+            setData(originalData)
+        } else if (sortVisual == "Ratings (Ascending)") {
+    
+            // Sort the data such that the lowest ratings are first and gradually getting higher
+            const array = Object.values(data);
+            array.sort((a, b) => a.rating - b.rating);
+            setData(array)
+    
+        } else if (sortVisual == "Ratings (Descending)") {
+    
+            const array = Object.values(data);
+            array.sort((a, b) => b.rating - a.rating);
+            setData(array)
+
+        } else if (sortVisual == "Date (Ascending)") {
+    
+            // Date not implement yet
+            console.log("ratings change");
+        } else if (sortVisual == "Date (Descending)") {
+    
+            console.log("ratings change");
+        }
+    }, [sortVisual]);
+
+    
     return (
-        <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text
-                style= {{ fontSize: 26, fontWeight: 'bold' }}>Reviews Screen</Text>
-        </SafeAreaView>
+        <View style={{backgroundColor: '#F5F7FC'}}>
+        <SafeAreaView style={styles.container}/>
+            <StatusBar barStyle="dark-content" />
+            <ScrollView style={styles.containerScrollView}>
+                {/* Top nav abr code allowing for switch between different types of reviews */}
+                <View style={styles.topNavBar} >
+                    { selectedReviews == "positive" ? 
+                        <TouchableOpacity style={styles.navBarContentSelected} onPress={() => {  }}>
+                            <Text style={styles.topNavBarTextSelected}>
+                                Positive
+                            </Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={styles.navBarContent} onPress={() => { setSelectedReviews("positive") }}>
+                            <Text style={styles.topNavBarText}>
+                                Positive
+                            </Text>
+                        </TouchableOpacity>
+                    }
+                    { selectedReviews == "all" ? 
+                        <TouchableOpacity style={styles.navBarContentSelected} onPress={() => {  }}>
+                            <Text style={styles.topNavBarTextSelected}>
+                                All
+                            </Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={styles.navBarContent} onPress={() => { setSelectedReviews("all") }}>
+                            <Text style={styles.topNavBarText}>
+                                All
+                            </Text>
+                        </TouchableOpacity>
+                    }
+                    { selectedReviews == "negative" ? 
+                        <TouchableOpacity style={styles.navBarContentSelected} onPress={() => {  }}>
+                            <Text style={styles.topNavBarTextSelected}>
+                                Negative
+                            </Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={styles.navBarContent} onPress={() => { setSelectedReviews("negative") }}>
+                            <Text style={styles.topNavBarText}>
+                                Negative
+                            </Text>
+                        </TouchableOpacity>
+                    }        
+                </View>
+                <View style={styles.headingContainer}>
+                    <Text style={styles.establishmentNumber}>{data.length} Reviews</Text> 
+                    {/* When clicked the modal for sorting appears */}
+                    <TouchableOpacity style={styles.sortByContainer} onPress={() => changeSort()}>
+                        <Text style={styles.establishmentSortBy} > {sortVisual} </Text>
+                        <AntDesign name="caretdown" size={12} color='#1C58F2' style={{paddingTop: "1%", paddingLeft: "1%"}}/>
+                    </TouchableOpacity>
+                    <ReviewSortBy visible={modalSortVisible} onClose={() => setModalSortVisible(false)} setSortVisual={setSortVisual} />
+                </View>                
+                <View>
+                {/* Loop through the restaurant information so that it is displayed */}
+                {data.map(item => (
+                    <ReviewCard key={item.id} data={item} />
+                ))}
+                </View>
+                <View style={styles.deadSpace}/>
+                <View style={styles.deaderSpace}/>
+            </ScrollView>
+        </View>
+        
     );
-}
+};
+
+const styles = StyleSheet.create({
+    // screen styling
+    container: {
+        flex: 1,
+        backgroundColor: '#F5F7FC'
+    },
+    // Scroll view styling
+    containerScrollView: {
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    // Dead space so that while scrolling you see the correct colour
+    deadSpace: {
+        height: 200,
+        backgroundColor: '#F5F7FC',
+    },
+    deaderSpace: {
+        height: "40%",
+        backgroundColor: '#F5F7FC',
+    },
+    headingContainer: {
+        paddingTop: '5%',
+        paddingLeft: '5%',
+        paddingRight: '5%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    // Styling for the establishment text
+    establishmentNumber: {
+        fontWeight: '700',
+        fontSize: 16,
+        color: '#525357',
+    },
+    // Styling for the sort by container
+    sortByContainer: {
+        flexDirection: 'row',
+    },
+    // Styling for the establishment sort by text
+    establishmentSortBy: {
+        fontWeight: '700',
+        fontSize: 16,
+        color: '#1C58F2', //333333
+    },
+    // top nav bar styling
+    topNavBar: {
+        marginLeft: '10%',
+        marginRight: '10%',
+        borderRadius: 20000,
+        height: 50,
+        flexDirection: 'row', 
+    },
+    // content in the nav bar
+    navBarContent: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    // selected parts of the nav bar
+    navBarContentSelected: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#1C58F2',
+        borderRadius: 20000,
+    },
+    // top nav bar text
+    topNavBarText: {
+        fontWeight: '700',
+        fontSize: 17,
+        color: 'black',
+    },
+    // top nav bar text for selected 
+    topNavBarTextSelected: {
+        fontWeight: '700',
+        fontSize: 17,
+        color: 'white',
+    }
+});

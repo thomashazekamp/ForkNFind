@@ -64,18 +64,18 @@ def start_content_recommender():
                     item_data[key] = 0
 
         # checks to see which price level appears, whichever appears gets a 1 and the others a 0
-        if item.get_price_level() == "PRICE_LEVEL_INEXPENSIVE":
-            item_data['PRICE_LEVEL_INEXPENSIVE'] = 1
-            item_data['PRICE_LEVEL_MODERATE'] = 0
-            item_data['PRICE_LEVEL_EXPENSIVE'] = 0
-        elif item.get_price_level() == "PRICE_LEVEL_MODERATE":
-            item_data['PRICE_LEVEL_INEXPENSIVE'] = 0
-            item_data['PRICE_LEVEL_MODERATE'] = 1
-            item_data['PRICE_LEVEL_EXPENSIVE'] = 0
-        elif item.get_price_level() == "PRICE_LEVEL_EXPENSIVE":
-            item_data['PRICE_LEVEL_INEXPENSIVE'] = 0
-            item_data['PRICE_LEVEL_MODERATE'] = 0
-            item_data['PRICE_LEVEL_EXPENSIVE'] = 1
+        if item.get_price_level() == "low":
+            item_data['low'] = 1
+            item_data['medium'] = 0
+            item_data['high'] = 0
+        elif item.get_price_level() == "medium":
+            item_data['low'] = 0
+            item_data['medium'] = 1
+            item_data['high'] = 0
+        elif item.get_price_level() == "high":
+            item_data['low'] = 0
+            item_data['medium'] = 0
+            item_data['high'] = 1
 
         # get the categories for the restaurant
         item_categories = item.get_categories()

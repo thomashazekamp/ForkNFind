@@ -178,6 +178,13 @@ class RestaurantHours(models.Model):
 # Class uses to save information about each restaurant
 class Restaurant(models.Model):
 
+    # Choices for restaurant price levels
+    restaurant_price_choices = [
+        ('low', 'Low'),
+        ('medium', 'Medium'),
+        ('high', 'High'),
+    ]
+
     # Unique id for each instance of this class
     id = models.AutoField(primary_key=True)
     # unique id used by google for each instance of this class
@@ -195,7 +202,7 @@ class Restaurant(models.Model):
     # main type of the restaurant
     type = models.CharField(max_length=100, default='')
     # price level of the restaurant
-    price_level = models.CharField(max_length=100, default='')
+    price_level = models.CharField(max_length=100, choices=restaurant_price_choices, default='low')
     # allow dogs attribute which is boolean
     allows_dogs = models.BooleanField(default=False)
     # delivery attribute which is boolean
