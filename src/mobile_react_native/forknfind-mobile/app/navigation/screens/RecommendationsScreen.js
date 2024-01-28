@@ -1,288 +1,145 @@
-import React, { useState} from 'react';
-// import { View, Text, StyleSheet,  } from 'react-native';
-import { View, Text, Switch, TouchableOpacity, Modal, TouchableHighlight, TextInput, StyleSheet} from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 
-import { EvilIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import RestaurantCard from '../components/RestaurantCard';
+import HybridRecommendationsAPIRequest from '../requests/HybridRecommendationsAPIRequest';
+import RestaurantSortBy from '../components/RestaurantSortBy';
+
+// Functional Component RecommendationsScreen
+// navigation - used to link to other screens created
 export default function RecommendationsScreen({ navigation }) {
 
-    const [detailsModalVisibility, setDetailsModalVisibility] = useState(false);
+    // Use states for updating the page when new information is came across
+    const [data, setData] = useState([]);
+    const [originalData, setOriginalData] = useState(data);
+    const [modalSortVisible, setModalSortVisible] = useState(false);
+    const [sortVisual, setSortVisual] = useState("All Relevance");
 
-    const toggleModal = (option) => {
-    //setOption(option);
-        if (option === 'item1') { // Modal for account details
-            setDetailsModalVisibility(!detailsModalVisibility);
-        }
+    // On startup query the API to get the recommendation information
+    useEffect(() => {
+        HybridRecommendationsAPIRequest(setData, setOriginalData);
+    }, []);
+
+    // If the sort button is hit get the modal visible
+    const changeSort = () => {
+
+        setModalSortVisible(!modalSortVisible);
     }
+
+    // Use effect called when the sort has been updated
+    useEffect(() => {
+
+        // Depending on which was selected update the data to be sorted in that way
+        if (sortVisual == "All Relevance") {
+
+            setData(originalData)
+        } else if (sortVisual == "Ratings (Ascending)") {
+    
+            // Sort the data such that the lowest ratings are first and gradually getting higher
+            const array = Object.values(data);
+            array.sort((a, b) => a.average_rating - b.average_rating);
+            setData(array)
+    
+        } else if (sortVisual == "Ratings (Descending)") {
+    
+            const array = Object.values(data);
+            array.sort((a, b) => b.average_rating - a.average_rating);
+            setData(array)
+
+        } else if (sortVisual == "Alphabetical (A - Z)") {
+    
+            const array = Object.values(data);
+            array.sort((a, b) => a.name.localeCompare(b.name));
+            setData(array);
+        } else if (sortVisual == "Alphabetical (Z - A)") {
+    
+            const array = Object.values(data);
+            array.sort((a, b) => b.name.localeCompare(a.name));
+            setData(array);
+        } else if (sortVisual == "Distance (Ascending)") {
+    
+            const array = Object.values(data);
+            array.sort((a, b) => a.distance_from_user - b.distance_from_user);
+            setData(array)
+        } else if (sortVisual == "Distance (Descending)") {
+    
+            const array = Object.values(data);
+            array.sort((a, b) => b.distance_from_user - a.distance_from_user);
+            setData(array)
+        }
+    }, [sortVisual]);
+    
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={{backgroundColor: '#F5F7FC'}}>
+        <SafeAreaView style={styles.container}/>
+            <StatusBar barStyle="dark-content" />
             <ScrollView style={styles.containerScrollView}>
-                <Text style={styles.titleStyle}>Recommendations</Text>
-                
-                {/* Item 1 */}
-                <TouchableOpacity style={styles.itemContainer} onPress={() => toggleModal('item1')}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>Apache Pizza</Text>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>€€</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                            <EvilIcons style={{padding: 5,}}name="star" size={24} color="black" />
-                            <Text style={{padding: 5,}}>4/5</Text>
-                        </View>
-                        <Text style={{padding: 5, }}>8.5km</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Pizza</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Italian</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '35%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Fast Food</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.itemContainer} onPress={() => toggleModal('item1')}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>Apache Pizza</Text>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>€€</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                            <EvilIcons style={{padding: 5,}}name="star" size={24} color="black" />
-                            <Text style={{padding: 5,}}>4/5</Text>
-                        </View>
-                        <Text style={{padding: 5, }}>8.5km</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Pizza</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Italian</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '35%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Fast Food</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.itemContainer} onPress={() => toggleModal('item1')}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>Apache Pizza</Text>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>€€</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                            <EvilIcons style={{padding: 5,}}name="star" size={24} color="black" />
-                            <Text style={{padding: 5,}}>4/5</Text>
-                        </View>
-                        <Text style={{padding: 5, }}>8.5km</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Pizza</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Italian</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '35%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Fast Food</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.itemContainer} onPress={() => toggleModal('item1')}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>Apache Pizza</Text>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>€€</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                            <EvilIcons style={{padding: 5,}}name="star" size={24} color="black" />
-                            <Text style={{padding: 5,}}>4/5</Text>
-                        </View>
-                        <Text style={{padding: 5, }}>8.5km</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Pizza</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Italian</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '35%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Fast Food</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.itemContainer} onPress={() => toggleModal('item1')}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>Apache Pizza</Text>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>€€</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                            <EvilIcons style={{padding: 5,}}name="star" size={24} color="black" />
-                            <Text style={{padding: 5,}}>4/5</Text>
-                        </View>
-                        <Text style={{padding: 5, }}>8.5km</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Pizza</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Italian</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '35%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Fast Food</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.itemContainer} onPress={() => toggleModal('item1')}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>Apache Pizza</Text>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>€€</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                            <EvilIcons style={{padding: 5,}}name="star" size={24} color="black" />
-                            <Text style={{padding: 5,}}>4/5</Text>
-                        </View>
-                        <Text style={{padding: 5, }}>8.5km</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Pizza</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Italian</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '35%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Fast Food</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.itemContainer} onPress={() => toggleModal('item1')}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>Apache Pizza</Text>
-                        <Text style={{ padding: 5, fontWeight: 'bold'}}>€€</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                            <EvilIcons style={{padding: 5,}}name="star" size={24} color="black" />
-                            <Text style={{padding: 5,}}>4/5</Text>
-                        </View>
-                        <Text style={{padding: 5, }}>8.5km</Text>
-                    </View>
-                    <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Pizza</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '25%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Italian</Text>
-                        </View>
-                        <View style={{borderWidth: 1, padding: 10, borderColor: '#ccc', borderRadius: 10, justifyContent: 'space-evenly', flexDirection: 'row', width: '35%', backgroundColor: '#ccc', margin: 5}}>
-                            <Text>Fast Food</Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-
-                {/* Item 1 modal */}
-                <Modal animationType="slide" transparent={true} visible={detailsModalVisibility} onRequestClose={() => toggleModal('item1')}>
-                    <ScrollView contentContainerStyle={styles.modalContentContainer} showsVerticalScrollIndicator={false}>
-                        <View style={styles.modalContent}>
-                            <View>
-                                <TouchableOpacity style={styles.backButton} onPress={() => toggleModal('item1')}>
-                                    <EvilIcons name="arrow-left" size={24} color="black" />
-                                </TouchableOpacity>
-                                <Text style={styles.modalTitle}>Reviews</Text>
-                            </View>
-
-                            <View style={styles.modalDetailsBlock}>
-                                <Text style={{color: 'grey'}}>Review from: </Text>
-                                <Text style={{fontWeight: 'bold'}}>Joe Something</Text>
-                            </View>
-                            <View style={{borderWidth: 1, borderColor: 'green', borderRadius: 10, padding: 10}}>
-                                <Text>This place was really good, will order food here again!</Text>
-                            </View>
-
-                            <View style={styles.modalDetailsBlock}>
-                                <Text style={{color: 'grey'}}>Review from: </Text>
-                                <Text style={{fontWeight: 'bold'}}>Joe Other</Text>
-                            </View>
-                            <View style={{borderWidth: 1, borderColor: 'red', borderRadius: 10, padding: 10}}>
-                                <Text>This place was terrible good, will never order food here again!</Text>
-                            </View>
-
-                        </View>
-                    </ScrollView>
-                </Modal>
+                <View style={styles.headingContainer}>
+                    <Text style={styles.establishmentNumber}>{data.length} Establishments</Text> 
+                    {/* When clicked the modal for sorting appears */}
+                    <TouchableOpacity style={styles.sortByContainer} onPress={() => changeSort()}>
+                        <Text style={styles.establishmentSortBy} > {sortVisual} </Text>
+                        <AntDesign name="caretdown" size={12} color='#1C58F2' style={{paddingTop: "1%", paddingLeft: "1%"}}/>
+                    </TouchableOpacity>
+                    <RestaurantSortBy visible={modalSortVisible} onClose={() => setModalSortVisible(false)} setSortVisual={setSortVisual} />
+                </View>                
+                <View>
+                {/* Loop through the restaurant information so that it is displayed */}
+                {data.map(item => (
+                    <RestaurantCard key={item.id} restaurantData={item} />
+                ))}
+                </View>
+                <View style={styles.deadSpace}/>
+                <View style={styles.deaderSpace}/>
             </ScrollView>
-        </SafeAreaView>
+        </View>
         
     );
 };
 
 const styles = StyleSheet.create({
+    // Screen styling
     container: {
         flex: 1,
-        // padding: 20,
+        backgroundColor: '#F5F7FC'
     },
+    // Scroll view styling
     containerScrollView: {
-        padding: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
-    titleStyle: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        alignSelf: 'center',
+    // Dead space so that while scrolling you see the correct colour
+    deadSpace: {
+        height: 200,
+        backgroundColor: '#F5F7FC',
     },
-    itemContainer: {
-        // flexDirection: 'row',
-        // justifyContent: 'space-between',
-        // alignItems: 'center',
-        width: '80%',
-        alignSelf: 'center',
-        marginBottom: 20,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        borderRadius: 10,
+    deaderSpace: {
+        height: "40%",
+        backgroundColor: '#F5F7FC',
     },
-    modalContent: {
-        marginTop: 50,
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'white',
-        padding: 20,
-        borderRadius: 10,
-        width: '100%',
-    },
-    modalTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 10,
-        alignSelf: 'center',
-    },
-    backButton: {
-        alignSelf: 'flex-start',
-    },
-    modalDetailsBlock: {
-        marginTop: 30,
-        marginBottom: 10,
+    headingContainer: {
+        paddingLeft: '5%',
+        paddingRight: '5%',
         flexDirection: 'row',
-        justifyContent: 'flex-start'
+        justifyContent: 'space-between',
     },
-    modalContentContainer: {
-        flexGrow: 1,
-      },
+    // Styling for the establishment text
+    establishmentNumber: {
+        fontWeight: '700',
+        fontSize: 16,
+        color: '#525357',
+    },
+    sortByContainer: {
+        flexDirection: 'row',
+    },
+    // Styling for the establishment sort by text
+    establishmentSortBy: {
+        fontWeight: '700',
+        fontSize: 16,
+        color: '#1C58F2',
+    },
 });

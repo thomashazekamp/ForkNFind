@@ -95,7 +95,7 @@ class RestaurantsAroundUserAPIView(APIView):
         latitude = request.data.get("latitude")
 
         # pass it to the google api
-        google_api_functions(longitude, latitude)
+        # google_api_functions(longitude, latitude)
 
         # get all restaurants
         queryset = Restaurant.objects.all()
@@ -106,7 +106,15 @@ class RestaurantsAroundUserAPIView(APIView):
         for item in queryset:
             distance = haversine((float(longitude), float(latitude)), item.get_location())
             if distance < 5:
-                within_distance[item.get_id()] = {'location':item.get_location()}
+                within_distance[item.get_id()] = {'location':item.get_location(),
+                                                  'id': item.get_id(),
+                                                  'name': item.get_name(),
+                                                  'type': item.get_type(),
+                                                  'price_level': item.get_price_level(),
+                                                  'average_rating': item.get_average_rating(),
+                                                  'distance_from_user': distance,
+                                                  'open_or_close': get_open_or_close(item),
+                                                  }
 
         # reload hybrid recommender as new restaurants added
         model = HybridRecommender.load()
