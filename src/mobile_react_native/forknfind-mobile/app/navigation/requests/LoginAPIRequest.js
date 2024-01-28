@@ -19,12 +19,14 @@ const LoginAPIRequest = ({setIsLoggedIn, username, password}) => {
     }).then(response=>response.json())
     .then(data=>{
 
+        if (data["access"] == null) {
+            return
+        }
+
         // Save the information returned
         username_global = data["username"]
         access_global = data["access"]
         setIsLoggedIn(true)
-        
-        console.log(data)
     })
     .catch(error => {
         console.error('Network request failed:', error);
