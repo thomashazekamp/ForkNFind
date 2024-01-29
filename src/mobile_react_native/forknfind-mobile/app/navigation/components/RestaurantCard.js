@@ -32,10 +32,17 @@ const RestaurantCard = ( {restaurantData}) => {
         <TouchableOpacity style={styles.container} onPress={() => toggleModal()}>
             <View style={styles.containerNameStatus}>
                 <Text style={styles.restaurantName}>{name}</Text>
+                {open_or_close == "Open" ? 
                 <View style={styles.containerRestaurantStatus}>
                     <FontAwesome name="check-circle"  size={14} color={"white"} style={{marginRight: "5%"}}/>
                     <Text style={styles.restaurantStatus}>{open_or_close}</Text>
                 </View>
+                :
+                <View style={[styles.containerRestaurantStatus, {backgroundColor: "#BF360C"}]}>
+                    <FontAwesome name="times-circle"  size={14} color={"white"} style={{marginRight: "5%"}}/>
+                    <Text style={styles.restaurantStatus}>{open_or_close}</Text>
+                </View>
+                }  
             </View>
             <View style={styles.containerStarRatingPrice}>
             <View style={styles.columnStar}>

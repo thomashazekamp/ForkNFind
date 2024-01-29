@@ -183,19 +183,19 @@ class SearchRestaurantFilter(filters.FilterSet):
 class RestaurantSearchSerializer(serializers.HyperlinkedModelSerializer):
     # include additional fields of information for the instance
     distance_from_user = serializers.SerializerMethodField()
-    open_or_close_value = serializers.SerializerMethodField()
+    open_or_close = serializers.SerializerMethodField()
     average_rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Restaurant
-        fields = ['id','name','type','price_level','average_rating', 'distance_from_user', 'open_or_close_value'] # Show these fields
+        fields = ['id','name','type','price_level','average_rating', 'distance_from_user', 'open_or_close'] # Show these fields
 
     # gets the distance from the user making the query to the restaurant
     def get_distance_from_user(self, obj):
 
         return haversine((float(self.context.get('latitude')),float(self.context.get('longitude'))) ,obj.get_location())
 
-    def get_open_or_close_value(self, obj):
+    def get_open_or_close(self, obj):
         
         return get_open_or_close(obj)
         
