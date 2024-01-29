@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 
 import * as Location from 'expo-location';
 
 import NearbyRestaurantsAPIRequest from '../requests/NearbyRestaurantsAPIRequest';
 import RestaurantCardMap from '../components/RestaurantCardMap';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Functional Component LoginScreen
 // navigation - used to link to other screens created
@@ -24,12 +25,26 @@ export default function LocationScreen({ navigation }) {
         if (status === 'granted') {
             const locationData = await Location.getCurrentPositionAsync({});
             setDeviceLocation(locationData);
+            saveLocationData(locationData)
 
             NearbyRestaurantsAPIRequest(setData, locationData);
 
         }
         })();
     }, []);
+
+    const saveLocationData = async (locationData) => {
+        try {
+            await AsyncStorage.setItem(
+                "locationDataLongitude", String(locationData['coords']['longitude'])
+            )
+            await AsyncStorage.setItem(
+                "locationDataLatitude", String(locationData['coords']['latitude'])
+            )
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         // Map view code using React library

@@ -3,7 +3,7 @@
 // searchQueryRef - search query information
 // setData - for setting the data
 // setOriginalData - for setting the data as a backup
-const SearchAPIRequest = (searchQueryRef, setData, setOriginalData) => {
+const SearchAPIRequest = (searchQueryRef, setData, setOriginalData, location) => {
 
     var searchString = "?";
 
@@ -18,7 +18,7 @@ const SearchAPIRequest = (searchQueryRef, setData, setOriginalData) => {
     }
 
     // add it to the end of the url
-    fetch("http://192.168.1.82:8000/search/restaurant/37.7749/-122.4194/" + searchString, 
+    fetch("http://192.168.1.82:8000/search/restaurant/" + location.latitude + "/" + location.longitude + "/" + searchString, 
     {
         method: 'GET',
         headers: {
