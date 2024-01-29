@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, StatusBar, Image } from 'react-native';
-import MapView, { Marker, Callout } from 'react-native-maps';
+import { Marker, Callout } from 'react-native-maps';
+import MapView from "react-native-map-clustering";
 
 import * as Location from 'expo-location';
 
