@@ -8,7 +8,8 @@ Reference: https://www.youtube.com/watch?v=Q4S9M9rJAxk&ab_channel=PradipDebnath
 */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, TextInput, FlatList, Image, SafeAreaView, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, SafeAreaView, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from  '@expo/vector-icons';
@@ -27,6 +28,7 @@ export default function SearchScreen({ navigation }) {
     const [originalData, setOriginalData] = useState(data);
     const [modalSortVisible, setModalSortVisible] = useState(false);
     const [sortVisual, setSortVisual] = useState("All Relevance");
+    const [location, setLocation] = useState(null);
 
     // Saving potiential filter information
     const searchQueryRef = useRef({
@@ -49,7 +51,7 @@ export default function SearchScreen({ navigation }) {
 
     // Search request
     const searchItem = () => {
-        SearchAPIRequest(searchQueryRef, setData, setOriginalData)
+        SearchAPIRequest(searchQueryRef, setData, setOriginalData, location)
     }
 
     // Sort screen
@@ -57,6 +59,31 @@ export default function SearchScreen({ navigation }) {
 
         setModalSortVisible(!modalSortVisible);
     }
+
+    // On startup get the location from async storage
+    useEffect(() => {
+
+        const retrieveLocation = async () => {
+            try {
+                const latitude = await AsyncStorage.getItem('locationDataLatitude');
+                const longitude = await AsyncStorage.getItem('locationDataLongitude');
+                if (latitude !== null && longitude !== null) {
+                    console.log(latitude, longitude)
+                    return {latitude, longitude}
+                }
+                } catch (error) {
+                    console.log(error)
+            }
+        }
+    
+        const fetchLocationData = async () => {
+            const locationData = await retrieveLocation();
+            setLocation(locationData);
+        };
+        
+        fetchLocationData();
+        
+    }, []);
 
     // Use effect when sorting has been updated
     useEffect(() => {

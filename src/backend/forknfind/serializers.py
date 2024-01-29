@@ -193,7 +193,7 @@ class RestaurantSearchSerializer(serializers.HyperlinkedModelSerializer):
     # gets the distance from the user making the query to the restaurant
     def get_distance_from_user(self, obj):
 
-        return haversine((float(self.context.get('latitude')),float(self.context.get('longitude'))) ,obj.get_location())
+        return haversine((float(self.context.get('longitude')),float(self.context.get('latitude'))) ,obj.get_location())
 
     def get_open_or_close(self, obj):
         
