@@ -3,6 +3,7 @@
 // searchQueryRef - search query information
 // setData - for setting the data
 // setOriginalData - for setting the data as a backup
+// location - location information for user
 const SearchAPIRequest = (searchQueryRef, setData, setOriginalData, location) => {
 
     var searchString = "?";
