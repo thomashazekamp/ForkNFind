@@ -83,7 +83,7 @@ const ReviewCard = ( {data} ) => {
                 </View>
             </View>
             <Text style={styles.dateText}>
-                15/12/2023
+                {data["date"]}
             </Text>
         </View>
         <View style={styles.descriptionContainer}>

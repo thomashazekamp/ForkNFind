@@ -29,10 +29,10 @@ const ReviewSortBy = ({ visible, onClose, setSortVisual}) => {
             setSortVisual("Ratings (Descending)")
         } 
         if (radioButton == 4) {
-            setSortVisual("Date (Ascending)")
+            setSortVisual("Date (Recent)")
         } 
         if (radioButton == 5) {
-            setSortVisual("Date (Descending)")
+            setSortVisual("Date (Oldest)")
         } 
         onClose();
     }
@@ -86,7 +86,7 @@ const ReviewSortBy = ({ visible, onClose, setSortVisual}) => {
                         }
                     </View>
                     <View style={styles.option}>
-                        <Text style={styles.textOption}>Date (Ascending)</Text>
+                        <Text style={styles.textOption}>Date (Recent)</Text>
                         { radioButton == 4 ? 
                         <View style={styles.radioButtonSelected}>
                             <View style={styles.radioButtonSelectedMiddle}/>
@@ -98,7 +98,7 @@ const ReviewSortBy = ({ visible, onClose, setSortVisual}) => {
                         }
                     </View>
                     <View style={styles.option}>
-                        <Text style={styles.textOption}>Date (Descending)</Text>
+                        <Text style={styles.textOption}>Date (Oldest)</Text>
                         { radioButton == 5 ? 
                         <View style={styles.radioButtonSelected}>
                             <View style={styles.radioButtonSelectedMiddle}/>

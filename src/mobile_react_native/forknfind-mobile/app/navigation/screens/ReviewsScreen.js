@@ -48,6 +48,20 @@ export default function ReviewScreen({ navigation }) {
         } 
     }, [selectedReviews]);
 
+    // function for comparing specific dates
+    const compareDates = (a, b) => {
+        var dateA = new Date(a.date);
+        var dateB = new Date(b.date);
+      
+        
+        if (dateA > dateB) {
+            return -1
+        } else if (dateA < dateB) {
+            return 1
+        }
+        return 0;
+      };
+
     // Use effect called when the sort has been updated
     useEffect(() => {
 
@@ -70,13 +84,16 @@ export default function ReviewScreen({ navigation }) {
             array.sort((a, b) => b.rating - a.rating);
             setData(array)
 
-        } else if (sortVisual == "Date (Ascending)") {
+        } else if (sortVisual == "Date (Recent)") {
     
-            // Date not implement yet
-            console.log("ratings change");
-        } else if (sortVisual == "Date (Descending)") {
+            const array = Object.values(data);
+            array.sort((a, b) => compareDates(a, b));
+            setData(array)
+        } else if (sortVisual == "Date (Oldest)") {
     
-            console.log("ratings change");
+            const array = Object.values(data);
+            array.sort((a, b) => compareDates(b, a));
+            setData(array)
         }
     }, [sortVisual]);
 
