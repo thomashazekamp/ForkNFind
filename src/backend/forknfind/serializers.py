@@ -11,12 +11,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = APIUser
         fields = ['id', 'username', 'email', 'first_name', 'last_name'] # Show these fields
 
-# ReviewSerializer
-class ReviewSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Review
-        fields = ['id','user','restaurant','rating','description'] # Show these fields
-
 # CategorySerializer
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -76,6 +70,14 @@ class RestaurantSerializer(serializers.HyperlinkedModelSerializer):
         instances = obj.get_categories()
 
         return [item.get_category() for item in instances]
+
+# ReviewSerializer
+class ReviewSerializer(serializers.HyperlinkedModelSerializer):
+    restaurant = RestaurantSerializer()
+
+    class Meta:
+        model = Review
+        fields = ['id','user','restaurant','rating','description', 'date'] # Show these fields
 
 # UserRegistrationSerializer
 class UserRegistrationSerializer(serializers.ModelSerializer):

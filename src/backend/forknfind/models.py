@@ -2,6 +2,7 @@ from typing import Any
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .recommender import *
+from django.utils import timezone
 
 # Create your models here.
 class APIUser(AbstractUser):
@@ -345,6 +346,8 @@ class Review(models.Model):
     rating = models.IntegerField(choices=[(1,1),(2,2),(3,3),(4,4),(5,5)])
     # description attribute, textfield
     description = models.TextField()
+    # created at time, datetimefield
+    date = models.DateField(default=timezone.now)
 
     # Getting the id of the class
     def get_id(self):
@@ -365,6 +368,9 @@ class Review(models.Model):
     # Getting the description of the class
     def get_description(self):
         return self.description
+    
+    def get_created_at(self):
+        return self.created_at
     
     # Getting the debug string of the class, set up so it includes important information when trying to debug using f strings
     def debug_string(self):
