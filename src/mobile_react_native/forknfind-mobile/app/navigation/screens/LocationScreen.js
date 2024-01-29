@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, StatusBar } from 'react-native';
+import { View, StyleSheet, StatusBar, Image } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 
 import * as Location from 'expo-location';
@@ -70,7 +70,12 @@ export default function LocationScreen({ navigation }) {
                         description="You are here"
                     />
                     {/* Mark the restaurant locations by looping through data */}
-                    {Object.keys(data).map(key => ( <Marker key={key} coordinate={{ latitude: data[key]["location"][1], longitude: data[key]["location"][0]}} >
+                    {Object.keys(data).map(key => ( 
+                    <Marker key={key} coordinate={{ latitude: data[key]["location"][1], longitude: data[key]["location"][0]}} >
+                        <Image
+                        source={require('../../../image/custom_marker.png')}
+                        style={{width: 33, height:48}}
+                        />
                         <Callout tooltip={true} >
                             <RestaurantCardMap restaurantData={data[key]} />
                         </Callout>
@@ -83,6 +88,7 @@ export default function LocationScreen({ navigation }) {
     );
 }
 
+/* <Image source={require('../../../image/custom_marker.png')} style={{ width: 50, height: 50 }}/> */
 const styles = StyleSheet.create({
     // Container takig the whole screen
     container: {
