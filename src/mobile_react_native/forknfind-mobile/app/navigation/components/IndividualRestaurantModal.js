@@ -4,6 +4,12 @@ import { AntDesign } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import CreateReviewScreen from './CreateReviewScreen';
 import IndividualRestaurantAPIRequest from '../requests/IndividualRestaurantAPIRequest';
+import ContentRecommendationsAPIRequest from '../requests/ContentRecommendationsAPIRequest';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import RestaurantCard from './RestaurantCard';
+import GetAllRestaurantReviews from '../requests/GetAllRestaurantReviews';
+import ReviewSortBy from '../components/ReviewSortBy'
+import ReviewCard from '../components/ReviewCard';
 
 // Functional Component CreateAccountScreen
 // visible - wether modal is visible or not
@@ -15,10 +21,111 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
     // Use states for restaurant information
     const [restaurantData, setRestaurantData] = useState({'categories': [], 'attributes': [], 'hours': {"monday": {"close_time": null, "open": false, "open_time": null},"tuesday": {"close_time": null, "open": false, "open_time": null},"wednesday": {"close_time": null, "open": false, "open_time": null},"thursday": {"close_time": null, "open": false, "open_time": null},"friday": {"close_time": null, "open": false, "open_time": null},"saturday": {"close_time": null, "open": false, "open_time": null},"sunday": {"close_time": null, "open": false, "open_time": null},}});
     const [modalVisible, setModalVisible] = useState(false);
+    const [restaurantRecommendationData, setRestaurantRecommendationData] = useState([]);
+    const [location, setLocation] = useState(null);
+
+    // Review use states
+    const [data, setData] = useState([]);
+    const [originalData, setOriginalData] = useState(data);
+    const [selectedReviews, setSelectedReviews] = useState("all");
+    const [modalSortVisible, setModalSortVisible] = useState(false);
+    const [sortVisual, setSortVisual] = useState("All Relevance");
+
+    const changeSort = () => {
+
+        setModalSortVisible(!modalSortVisible);
+    }
+
+    useEffect(() => {
+
+        if (selectedReviews == "positive") {
+
+            console.log("positive")
+        } else if (selectedReviews == "all") {
+    
+            setData(originalData)
+    
+        } else if (selectedReviews == "negative") {
+    
+            console.log("negative")
+
+        } 
+    }, [selectedReviews]);
+
+    // function for comparing specific dates
+    const compareDates = (a, b) => {
+        var dateA = new Date(a.date);
+        var dateB = new Date(b.date);
+      
+        
+        if (dateA > dateB) {
+            return -1
+        } else if (dateA < dateB) {
+            return 1
+        }
+        return 0;
+    };
+
+    // Use effect called when the sort has been updated
+    useEffect(() => {
+
+        // Depending on which was selected update the data to be sorted in that way
+        if (sortVisual == "All Relevance") {
+
+            console.log("here")
+            console.log(originalData)
+            setData(originalData)
+        } else if (sortVisual == "Ratings (Ascending)") {
+    
+            // Sort the data such that the lowest ratings are first and gradually getting higher
+            const array = Object.values(data);
+            array.sort((a, b) => a.rating - b.rating);
+            setData(array)
+    
+        } else if (sortVisual == "Ratings (Descending)") {
+    
+            const array = Object.values(data);
+            array.sort((a, b) => b.rating - a.rating);
+            setData(array)
+
+        } else if (sortVisual == "Date (Recent)") {
+    
+            const array = Object.values(data);
+            array.sort((a, b) => compareDates(a, b));
+            setData(array)
+        } else if (sortVisual == "Date (Oldest)") {
+    
+            const array = Object.values(data);
+            array.sort((a, b) => compareDates(b, a));
+            setData(array)
+        }
+    }, [sortVisual]);
    
     // Use effect for getting restaurant information on startup
     useEffect(() => {
+
+        const retrieveLocation = async () => {
+            try {
+                const latitude = await AsyncStorage.getItem('locationDataLatitude');
+                const longitude = await AsyncStorage.getItem('locationDataLongitude');
+                if (latitude !== null && longitude !== null) {
+                    console.log(latitude, longitude)
+                    return {latitude, longitude}
+                }
+                } catch (error) {
+                    console.log(error)
+            }
+        }
+    
+        const fetchLocationData = async () => {
+            const locationData = await retrieveLocation();
+            setLocation(locationData);
+            ContentRecommendationsAPIRequest(setRestaurantRecommendationData, id, locationData);
+        };
+        
         IndividualRestaurantAPIRequest(id, setRestaurantData);
+        GetAllRestaurantReviews(id, setData, setOriginalData)
+        fetchLocationData();
     }, []);
 
     // Converting the opening times to user friendly formats
@@ -129,7 +236,7 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
                         </View>
                         <View style={styles.containerBreak}/>
                         <View style={styles.categoryContainer}>
-                            <View style={styles.wholeInformationContainer}>
+                            <View style={styles.wholeInformationContainer }>
                                 <Text style={styles.informationHeadingText}>Establishment Categories</Text>
                                 <View style={styles.priceLevelDivisor}>
                                 {/* Loop through the restaurant categories to display them */}
@@ -221,31 +328,76 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
                         <View style={styles.containerBreak}/>
                         <View style={styles.categoryContainer}>
                             <View style={styles.wholeInformationContainer}>
-                                <Text style={styles.informationHeadingText}>Establishment Attributes</Text>
-                                <View style={styles.priceLevelDivisor}>
-                                {attributes.map((attribute, index) => ( 
-                                    <View key={index} style={[styles.typeBox, {marginRight: '3%', marginBottom: '4%'}]} >
-                                        <Text style={styles.typeText}>{attribute}</Text>
-                                    </View>
-                                ))}
-                                </View>
+                                <Text style={styles.informationHeadingText}>Similar Establishments</Text>
                             </View>
                         </View>
+                        {restaurantRecommendationData.map(item => (
+                            <RestaurantCard key={item.id} restaurantData={item} />
+                        ))}
                         <View style={styles.containerBreak}/>
                         <View style={styles.categoryContainer}>
                             <View style={styles.wholeInformationContainer}>
-                                <Text style={styles.informationHeadingText}>Establishment Attributes</Text>
-                                <View style={styles.priceLevelDivisor}>
-                                {attributes.map((attribute, index) => ( 
-                                    <View key={index} style={[styles.typeBox, {marginRight: '3%', marginBottom: '4%'}]} >
-                                        <Text style={styles.typeText}>{attribute}</Text>
-                                    </View>
-                                ))}
-                                </View>
+                                <Text style={styles.informationHeadingText}>Establishments Reviews</Text>
                             </View>
                         </View>
-                        <View style={styles.deadSpace}/>
-                        <View style={styles.deaderSpace}/>
+                        <View style={styles.topNavBar} >
+                    { selectedReviews == "positive" ? 
+                        <TouchableOpacity style={styles.navBarContentSelected} onPress={() => {  }}>
+                            <Text style={styles.topNavBarTextSelected}>
+                                Positive
+                            </Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={styles.navBarContent} onPress={() => { setSelectedReviews("positive") }}>
+                            <Text style={styles.topNavBarText}>
+                                Positive
+                            </Text>
+                        </TouchableOpacity>
+                    }
+                    { selectedReviews == "all" ? 
+                        <TouchableOpacity style={styles.navBarContentSelected} onPress={() => {  }}>
+                            <Text style={styles.topNavBarTextSelected}>
+                                All
+                            </Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={styles.navBarContent} onPress={() => { setSelectedReviews("all") }}>
+                            <Text style={styles.topNavBarText}>
+                                All
+                            </Text>
+                        </TouchableOpacity>
+                    }
+                    { selectedReviews == "negative" ? 
+                        <TouchableOpacity style={styles.navBarContentSelected} onPress={() => {  }}>
+                            <Text style={styles.topNavBarTextSelected}>
+                                Negative
+                            </Text>
+                        </TouchableOpacity>
+                        :
+                        <TouchableOpacity style={styles.navBarContent} onPress={() => { setSelectedReviews("negative") }}>
+                            <Text style={styles.topNavBarText}>
+                                Negative
+                            </Text>
+                        </TouchableOpacity>
+                    }        
+                </View>
+                <View style={styles.headingContainer}>
+                    <Text style={styles.establishmentNumber}>{data.length} Reviews</Text> 
+                    {/* When clicked the modal for sorting appears */}
+                    <TouchableOpacity style={styles.sortByContainer} onPress={() => changeSort()}>
+                        <Text style={styles.establishmentSortBy} > {sortVisual} </Text>
+                        <AntDesign name="caretdown" size={12} color='#1C58F2' style={{paddingTop: "1%", paddingLeft: "1%"}}/>
+                    </TouchableOpacity>
+                    <ReviewSortBy visible={modalSortVisible} onClose={() => setModalSortVisible(false)} setSortVisual={setSortVisual} />
+                </View>                
+                <View>
+                {/* Loop through the restaurant information so that it is displayed */}
+                {data.map(item => (
+                    <ReviewCard key={item.id} data={item} />
+                ))}
+                </View>
+                <View style={styles.deadSpace}/>
+                <View style={styles.deaderSpace}/>
                 </View>
                 </ScrollView>
                 {/* Clicking the review button will pull up the modal */}
@@ -424,7 +576,64 @@ const styles = StyleSheet.create({
     deaderSpace: {
         height: "40%",
         backgroundColor: '#F5F7FC',
-    }
+    },
+    // top nav bar styling
+    topNavBar: {
+        marginLeft: '10%',
+        marginRight: '10%',
+        borderRadius: 20000,
+        height: 50,
+        flexDirection: 'row', 
+    },
+    // content in the nav bar
+    navBarContent: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    // selected parts of the nav bar
+    navBarContentSelected: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#1C58F2',
+        borderRadius: 20000,
+    },
+    // top nav bar text
+    topNavBarText: {
+        fontWeight: '700',
+        fontSize: 17,
+        color: 'black',
+    },
+    // top nav bar text for selected 
+    topNavBarTextSelected: {
+        fontWeight: '700',
+        fontSize: 17,
+        color: 'white',
+    },
+    headingContainer: {
+        paddingTop: '5%',
+        paddingLeft: '5%',
+        paddingRight: '5%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    // Styling for the establishment text
+    establishmentNumber: {
+        fontWeight: '700',
+        fontSize: 16,
+        color: '#525357',
+    },
+    // Styling for the sort by container
+    sortByContainer: {
+        flexDirection: 'row',
+    },
+    // Styling for the establishment sort by text
+    establishmentSortBy: {
+        fontWeight: '700',
+        fontSize: 16,
+        color: '#1C58F2', //333333
+    },
 });
 
 export default IndividualRestaurantModal;
