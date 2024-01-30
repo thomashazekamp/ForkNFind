@@ -80,8 +80,8 @@ const RestaurantCardMap = ( {restaurantData}) => {
 const styles = StyleSheet.create({
     container: {
         width: 380,
-        height: 120,
         backgroundColor: 'white',
+        paddingBottom: '4%',
         borderRadius: 20
     },
     containerNameStatus: {
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     restaurantName: {
+        width: 275,
         paddingTop: '5%',
         paddingLeft: '7.5%',
         fontSize: 18,
