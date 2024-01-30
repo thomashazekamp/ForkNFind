@@ -82,11 +82,11 @@ const styles = StyleSheet.create({
     // Container styling
     container: {
         width: '90%',
-        height: 120,
         left: '5%',
         right: '5%',
         marginTop: '2.5%',
         marginBottom: '2.5%',
+        paddingBottom: '4%',
         backgroundColor: 'white',
         borderRadius: 20
     },
@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     },
     // Name styling
     restaurantName: {
+        width: 275,
         paddingTop: '5%',
         paddingLeft: '7.5%',
         fontSize: 18,
