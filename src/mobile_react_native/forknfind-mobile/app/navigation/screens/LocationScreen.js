@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, StatusBar, Image } from 'react-native';
+import { View, StyleSheet, StatusBar, Image, ActivityIndicator } from 'react-native';
 import { Marker, Callout } from 'react-native-maps';
 import MapView from "react-native-map-clustering";
 
@@ -76,7 +76,7 @@ export default function LocationScreen({ navigation }) {
                     <Marker key={key} coordinate={{ latitude: data[key]["location"][1], longitude: data[key]["location"][0]}} >
                         <Image
                         source={require('../../../image/custom_marker.png')}
-                        style={{width: 33, height:48}}
+                        style={{width: 33, height:48, marginBottom: 40}}
                         />
                         <Callout tooltip={true} >
                             <RestaurantCardMap restaurantData={data[key]} />
@@ -84,7 +84,13 @@ export default function LocationScreen({ navigation }) {
                     </Marker> ))}
                 </MapView>
                 :
-                <View />
+                <View style={{
+                    flex: 1, 
+                    alignItems: 'center',
+                    justifyContent: 'center', 
+                }}> 
+                    <ActivityIndicator size="large" color="#1C58F2" />
+                </View>
                 }
         </View>
     );
