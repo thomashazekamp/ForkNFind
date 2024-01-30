@@ -60,6 +60,7 @@ export default function LocationScreen({ navigation }) {
                         latitudeDelta: 0.045,
                         longitudeDelta: 0.02,
                 }}
+                    showsPointsOfInterest={false}
                 >
                     {/* Mark user location */}
                     <Marker
