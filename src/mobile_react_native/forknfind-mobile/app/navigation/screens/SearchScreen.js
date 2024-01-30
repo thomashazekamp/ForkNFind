@@ -8,7 +8,7 @@ Reference: https://www.youtube.com/watch?v=Q4S9M9rJAxk&ab_channel=PradipDebnath
 */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, SafeAreaView, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, SafeAreaView, StatusBar, ScrollView, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
@@ -23,6 +23,7 @@ import RestaurantSortBy from '../components/RestaurantSortBy';
 export default function SearchScreen({ navigation }) {
 
     // Use states for updating the page when new information is came across
+    const [screenDimensions, setScreenDimensions] = useState(Dimensions.get('window'));
     const [data, setData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [originalData, setOriginalData] = useState(data);
@@ -51,7 +52,8 @@ export default function SearchScreen({ navigation }) {
 
     // Search request
     const searchItem = () => {
-        SearchAPIRequest(searchQueryRef, setData, setOriginalData, location)
+        setData("searching")
+        SearchAPIRequest(searchQueryRef, setData, setOriginalData, location);
     }
 
     // Sort screen
@@ -152,20 +154,35 @@ export default function SearchScreen({ navigation }) {
                 </TouchableOpacity>
                 <FilterScreen visible={modalVisible} onClose={() => setModalVisible(false)} searchQueryRef={searchQueryRef} />
             </View>
-            <View style={styles.headingContainer}>
-                    <Text style={styles.establishmentNumber}>{data.length} Establishments</Text> 
-                    <TouchableOpacity style={styles.sortByContainer} onPress={() => changeSort()}>
-                        <Text style={styles.establishmentSortBy} > {sortVisual} </Text>
-                        <AntDesign name="caretdown" size={12} color='#1C58F2' style={{paddingTop: "1%", paddingLeft: "1%"}}/>
-                    </TouchableOpacity>
-                    <RestaurantSortBy visible={modalSortVisible} onClose={() => setModalSortVisible(false)} setSortVisual={setSortVisual} />
-            </View>
+            {data == "searching" ? 
+                <View style={{
+                    width: '100%',
+                    height: (screenDimensions.height - 300),
+                }}> 
+                    <ActivityIndicator size="large" color="#1C58F2" style={{
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center', 
+                }} />
+                </View>
+            :
             <View>
-                {/* Looping through results from search */}
-                {data.map(item => (
-                    <RestaurantCard key={item.id} restaurantData={item} />
-                ))}
+                <View style={styles.headingContainer}>
+                        <Text style={styles.establishmentNumber}>{data.length} Establishments</Text> 
+                        <TouchableOpacity style={styles.sortByContainer} onPress={() => changeSort()}>
+                            <Text style={styles.establishmentSortBy} > {sortVisual} </Text>
+                            <AntDesign name="caretdown" size={12} color='#1C58F2' style={{paddingTop: "1%", paddingLeft: "1%"}}/>
+                        </TouchableOpacity>
+                        <RestaurantSortBy visible={modalSortVisible} onClose={() => setModalSortVisible(false)} setSortVisual={setSortVisual} />
+                </View>
+                <View>
+                    {/* Looping through results from search */}
+                    {data.map(item => (
+                        <RestaurantCard key={item.id} restaurantData={item} />
+                    ))}
+                </View>
             </View>
+            }
             <View style={styles.deadSpace}/>
             </ScrollView>
             <View style={styles.deaderSpace}/>
