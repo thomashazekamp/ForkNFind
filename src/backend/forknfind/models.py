@@ -524,3 +524,11 @@ class HybridRecommender(SingletonModel):
 
         # Return the hybrid recommendations list
         return hybrid_recommendations
+    
+    # Query the collaborative recommender to get recommendations using a restaurant list
+    def query_list_collaborative_recommender(self, user_id, restaurant_id_list):
+
+        # Get the results of which are highest 10% predicted ratings
+        results = get_collaborative_recommender_from_list(self.collaborative_model, user_id, restaurant_id_list)
+
+        return results
