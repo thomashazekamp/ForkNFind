@@ -43,6 +43,7 @@ export default function SearchScreen({ navigation }) {
         "good_for_children" : false,
         "good_for_groups" : false,
         "outdoor_seating" : false,
+        "open_or_close": "",
     });
 
     // Update the search name
