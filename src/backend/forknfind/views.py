@@ -101,11 +101,12 @@ class RestaurantsAroundUserAPIView(APIView):
         queryset = Restaurant.objects.all()
 
         within_distance = {}
-
-        # loop through using haversine forumla to see if they are within distance, in this case its 2km
+        restaurant_ids = []
+        # loop through using haversine forumla to see if they are within distance, in this case its 10km
         for item in queryset:
             distance = haversine((float(longitude), float(latitude)), item.get_location())
-            if distance < 5:
+            if distance < 10:
+                restaurant_ids.append(item.get_id())
                 within_distance[item.get_id()] = {'location':item.get_location(),
                                                   'id': item.get_id(),
                                                   'name': item.get_name(),
@@ -114,11 +115,17 @@ class RestaurantsAroundUserAPIView(APIView):
                                                   'average_rating': item.get_average_rating(),
                                                   'distance_from_user': distance,
                                                   'open_or_close': get_open_or_close(item),
+                                                  'recommend': False,
                                                   }
 
         # reload hybrid recommender as new restaurants added
         model = HybridRecommender.load()
         model.update_content_recommender()
+
+        results = model.query_list_collaborative_recommender(request.user.id, restaurant_ids)
+
+        for item in results:
+            within_distance[item]['recommend'] = True
 
         # return the closest restaurants
         return Response(within_distance, status=status.HTTP_200_OK)

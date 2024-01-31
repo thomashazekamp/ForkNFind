@@ -22,7 +22,7 @@ def google_maps_nearby_search(longitude, latitude):
         "locationRestriction": {
             "circle": {
                 "center": {"longitude": longitude, "latitude": latitude},
-                "radius": 2000.0,
+                "radius": 10000.0,
             }
         }
     }
