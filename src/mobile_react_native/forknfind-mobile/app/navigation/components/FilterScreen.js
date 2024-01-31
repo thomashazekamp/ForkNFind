@@ -21,6 +21,7 @@ const FilterScreen = ({ visible, onClose, searchQueryRef}) => {
     const [addressValue, setAddressValue] = useState('')
     const [nameValue, setNameValue] = useState('')
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [status, setStatus] = useState('');
 
     // Updating the name value in text box
     const nameSearchUpdate = (text) => {
@@ -43,21 +44,38 @@ const FilterScreen = ({ visible, onClose, searchQueryRef}) => {
 
         if (allowsDogs == true) {
             searchQueryRef.current.allows_dogs = true
+        } else {
+            searchQueryRef.current.allows_dogs = false
         }
         if (goodForChildren == true) {
             searchQueryRef.current.good_for_children = true
+        } else {
+            searchQueryRef.current.good_for_children = false
         }
         if (goodForGroups == true) {
             searchQueryRef.current.good_for_groups = true
+        } else {
+            searchQueryRef.current.good_for_groups = false
         }
         if (dineIn == true) {
             searchQueryRef.current.dine_in = true
+        } else {
+            searchQueryRef.current.dine_in = false
         }
         if (delivery == true) {
             searchQueryRef.current.delivery = true
+        } else {
+            searchQueryRef.current.delivery = false
         }
         if (outdoorSeating == true) {
             searchQueryRef.current.outdoor_seating = true
+        } else {
+            searchQueryRef.current.outdoor_seating = false
+        }
+        if (status != "") {
+            searchQueryRef.current.open_or_close = status
+        } else {
+            searchQueryRef.current.open_or_close = false
         }
 
         onClose();
@@ -76,6 +94,20 @@ const FilterScreen = ({ visible, onClose, searchQueryRef}) => {
         setAddressValue("");
         setNameValue("");
         setSelectedCategories([]);
+        setStatus("");
+
+        searchQueryRef.current.name =  '';
+        searchQueryRef.current.address = '';
+        // set average rating to 0 to prevent issues
+        searchQueryRef.current.average_rating = 0;
+        searchQueryRef.current.categories = ''
+        searchQueryRef.current.allows_dogs = false
+        searchQueryRef.current.good_for_children = false
+        searchQueryRef.current.good_for_groups = false
+        searchQueryRef.current.dine_in = false
+        searchQueryRef.current.delivery = false
+        searchQueryRef.current.outdoor_seating = false
+        searchQueryRef.current.open_or_close = false
     }
 
     return (
@@ -94,7 +126,7 @@ const FilterScreen = ({ visible, onClose, searchQueryRef}) => {
         <ScrollView>
             <View style={styles.mainContainer}>
                     <View style={styles.backContainer}>
-                        <TouchableOpacity onPress={() => { onClose(); resetFilter()}}>
+                        <TouchableOpacity onPress={() => { resetFilter(); onClose()}}>
                             <AntDesign name="arrowleft"  size={28} color={"black"} style={{paddingTop: '5%'}}/>
                         </TouchableOpacity>
                     </View>
@@ -266,6 +298,38 @@ const FilterScreen = ({ visible, onClose, searchQueryRef}) => {
                             :
                             <TouchableOpacity onPress={() => setRadioButton(1)}>
                                 <View style={styles.radioButton}/>
+                            </TouchableOpacity>
+                            }
+                        </View>
+                    </View>
+                    <View style={styles.containerBreak}/>
+                        <View style={styles.textContainer}>
+                            <Text style={[styles.ratingHeadingText, {paddingBottom: "4%"}]}>Status</Text>
+                            <View style={styles.starLineContainer}>
+                            { status == "open" ? 
+                            <TouchableOpacity style={styles.attributeButtonWidth} onPress={() => setStatus("")}>
+                                <View style={styles.attributeBoxActive}>
+                                    <Text style={styles.attributeText}>Open</Text>
+                                </View>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity style={styles.attributeButtonWidth} onPress={() => setStatus("open")}>
+                                <View style={styles.attributeBox}>
+                                    <Text style={styles.attributeText}>Open</Text>
+                                </View>
+                            </TouchableOpacity>
+                            }
+                            { status == "closed" ? 
+                            <TouchableOpacity style={styles.attributeButtonWidth} onPress={() => setStatus("")}>
+                                <View style={styles.attributeBoxActive}>
+                                    <Text style={styles.attributeText}>Closed</Text>
+                                </View>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity style={styles.attributeButtonWidth} onPress={() => setStatus("closed")}>
+                                <View style={styles.attributeBox}>
+                                    <Text style={styles.attributeText}>Closed</Text>
+                                </View>
                             </TouchableOpacity>
                             }
                         </View>
