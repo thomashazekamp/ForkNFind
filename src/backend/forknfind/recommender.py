@@ -149,7 +149,7 @@ def get_content_recommendations(matrix, restaurant_id, restaurant_id_masking):
 # function for querying the collaborative recommender, takes an input of the matrix and user_id
 def get_collaborative_recommendations(matrix, user_id):
 
-     # imports the restaurant and category classes
+    # imports the restaurant and category classes
     from .models import Review, Restaurant
 
     # load the data from what was saved into the database to the original format
@@ -176,3 +176,23 @@ def get_collaborative_recommendations(matrix, user_id):
 
     # return the keys of each of the 3 highest predictions in a list format
     return list(sorted_dict.keys())[:3]
+
+# function for querying the collaborative recommended, takes an input of the matrix, user_id and restaurants to predict their ratings
+def get_collaborative_recommender_from_list(matrix, user_id, restaurant_id_list):
+
+    # load the data from what was saved into the database to the original format
+    matrix = pickle.loads(matrix)
+
+    # where all the results will be held
+    results = {}
+
+    # for each restaurant loop through and predict what the user would rate
+    for item in restaurant_id_list:
+        results[item] = matrix.predict(user_id, item)
+
+    # sort the list of predicitons
+    sorted_dict = dict(sorted(results.items(), key=lambda x: x[1], reverse=True))
+
+    # return the keys of the highest 10% of restaurant predictions
+    return list(sorted_dict.keys())[:(len(sorted_dict)//10)]
+    
