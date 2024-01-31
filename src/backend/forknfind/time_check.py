@@ -1,4 +1,4 @@
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 
 # Calculates whether a resturant is open or closed
 def time_check_function(restaurantday):
@@ -17,6 +17,11 @@ def time_check_function(restaurantday):
 
     # the current time the request has been made
     current_time = datetime.now().time()
+
+    if close_time < open_time:
+        if open_time <= current_time:
+            return "Open"
+        return "Closed"
 
     # check if the current time is between the open time and close time
     if open_time <= current_time <= close_time:
