@@ -1465,6 +1465,10 @@ def google_maps_nearby_search_mock(tmp, tmp2):
             {"id": "google_id_5835986198278432", "displayName": {"text": "Apache Pizza", "languageCode": "en"}},
         ]}
 
+# Mocked a function that works heavily with recommended
+def get_collaborative_recommender_from_list_mock(tmp, tmp2):
+    return []
+
 
 # Unit tests for the Find Restaurants API
 class APIFindRestaurantsTests(APITestCase):
@@ -1593,7 +1597,8 @@ class APIFindRestaurantsTests(APITestCase):
     # Expected result is 3 restaurants will be returned as they are within the distance
     # Mocking function so when it is called it goes to the mocked function skipping the google request
     @mock.patch('forknfind.requests.google_maps_nearby_search', side_effect=google_maps_nearby_search_mock)
-    def test_find_restaurants_nearby(self, _):
+    @mock.patch('forknfind.models.HybridRecommender.query_list_collaborative_recommender', side_effect=get_collaborative_recommender_from_list_mock)
+    def test_find_restaurants_nearby(self, google_maps_nearby_search_mock, get_collaborative_recommender_from_list_mock):
 
         # data of user location
         data = {"longitude": 43.78, "latitude": 17.35}
@@ -1614,7 +1619,8 @@ class APIFindRestaurantsTests(APITestCase):
     # Expected result is 0 restaurants will be returned as no restaurants will be within range
     # Mocking function so when it is called it goes to the mocked function skipping the google request
     @mock.patch('forknfind.requests.google_maps_nearby_search', side_effect=google_maps_nearby_search_mock)
-    def test_find_restaurants_nearby(self, _):
+    @mock.patch('forknfind.models.HybridRecommender.query_list_collaborative_recommender', side_effect=get_collaborative_recommender_from_list_mock)
+    def test_find_restaurants_nearby(self, google_maps_nearby_search_mock, get_collaborative_recommender_from_list_mock):
 
         # data of user location
         data = {"longitude": 43.78, "latitude": 19.35}
