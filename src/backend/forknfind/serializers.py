@@ -174,10 +174,19 @@ class SearchRestaurantFilter(filters.FilterSet):
     good_for_groups = filters.BooleanFilter()
     outdoor_seating = filters.BooleanFilter()
     average_rating = filters.NumberFilter(lookup_expr='gte')
+    open_or_close = filters.CharFilter(method='filter_open_or_close', label='Open or Close')
 
     class Meta:
         model = Restaurant
-        fields = ['name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating','average_rating'] # Show these fields
+        fields = ['name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating','average_rating','open_or_close'] # Show these fields
+    
+    # 
+    def filter_open_or_close(self, queryset, _, value):
+        filtered_ids = [obj.pk for obj in queryset if self.get_open_or_close(obj).lower().find(value.lower()) != -1]
+        return Restaurant.objects.filter(pk__in=filtered_ids)
+
+    def get_open_or_close(self, obj):
+        return get_open_or_close(obj)
 
 # RestaurantSearchSerializer
 class RestaurantSearchSerializer(serializers.HyperlinkedModelSerializer):
