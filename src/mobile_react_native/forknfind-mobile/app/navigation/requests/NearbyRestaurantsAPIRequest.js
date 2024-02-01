@@ -16,7 +16,7 @@ const NearbyRestaurantsAPIRequest = (setData, location, setOriginalData) => {
 
         // set the data
         setData(data);
-        setOriginalData(data)
+        setOriginalData(data);
     })
     .catch(error => {
         console.error('Network request failed:', error);
