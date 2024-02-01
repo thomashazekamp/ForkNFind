@@ -145,27 +145,14 @@ const styles = StyleSheet.create({
         width: 18,
         backgroundColor: '#1C58F2'
     },
-    // Reset button styling
-    resetButton: {
-        position: 'absolute',
-        width: '40%',
-        top: '88%',
-        height: '6%',
-        backgroundColor: '#BF360C',
-        left: '8.5%',
-        borderRadius: 20000,
-
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     // Apply button styling
     applyButton: {
         position: 'absolute',
-        width: '40%',
+        width: '50%',
         top: '88%',
         height: '6%',
         backgroundColor: '#1C58F2',
-        //right: '8.5%',
+        left: '25%',
         borderRadius: 20000,
 
         justifyContent: 'center',

@@ -2,7 +2,7 @@
 // Function NearbyRestaurantsAPIRequest
 // setData - use state passed in that will be updated based on the data
 // location - the device location
-const NearbyRestaurantsAPIRequest = (setData, location) => {
+const NearbyRestaurantsAPIRequest = (setData, location, setOriginalData) => {
 
     fetch("http://192.168.1.82:8000/find/restaurants/", 
     {
@@ -16,6 +16,7 @@ const NearbyRestaurantsAPIRequest = (setData, location) => {
 
         // set the data
         setData(data);
+        setOriginalData(data);
     })
     .catch(error => {
         console.error('Network request failed:', error);
