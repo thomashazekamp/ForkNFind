@@ -4,7 +4,7 @@
 // location - the device location
 const NearbyRestaurantsAPIRequest = (setData, location, setOriginalData) => {
 
-    fetch("http://192.168.1.82:8000/find/restaurants/", 
+    fetch("http://192.168.1.85:8000/find/restaurants/", 
     {
         method: 'POST',
         headers: {
