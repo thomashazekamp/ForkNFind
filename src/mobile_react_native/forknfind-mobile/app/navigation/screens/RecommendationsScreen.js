@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, ActivityIndicator, Dimensions } from 'react-native';
 
 import { AntDesign } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -14,7 +14,8 @@ import RestaurantSortBy from '../components/RestaurantSortBy';
 export default function RecommendationsScreen({ navigation }) {
 
     // Use states for updating the page when new information is came across
-    const [data, setData] = useState([]);
+    const [screenDimensions, setScreenDimensions] = useState(Dimensions.get('window'));
+    const [data, setData] = useState(null);
     const [originalData, setOriginalData] = useState(data);
     const [modalSortVisible, setModalSortVisible] = useState(false);
     const [sortVisual, setSortVisual] = useState("All Relevance");
@@ -74,25 +75,40 @@ export default function RecommendationsScreen({ navigation }) {
     }, [sortVisual]);
     
     return (
-        <View style={{backgroundColor: '#F5F7FC'}}>
+        <View style={{flex: 1, backgroundColor: '#F5F7FC'}}>
         <SafeAreaView style={styles.container}/>
             <StatusBar barStyle="dark-content" />
             <ScrollView style={styles.containerScrollView}>
-                <View style={styles.headingContainer}>
-                    <Text style={styles.establishmentNumber}>{data.length} Establishments</Text> 
-                    {/* When clicked the modal for sorting appears */}
-                    <TouchableOpacity style={styles.sortByContainer} onPress={() => changeSort()}>
-                        <Text style={styles.establishmentSortBy} > {sortVisual} </Text>
-                        <AntDesign name="caretdown" size={12} color='#1C58F2' style={{paddingTop: "1%", paddingLeft: "1%"}}/>
-                    </TouchableOpacity>
-                    <RestaurantSortBy visible={modalSortVisible} onClose={() => setModalSortVisible(false)} setSortVisual={setSortVisual} />
-                </View>                
+                {data == null ? 
+                    <View style={{
+                        width: '100%',
+                        height: (screenDimensions.height - 200),
+                    }}> 
+                        <ActivityIndicator size="large" color="#1C58F2" style={{
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center', 
+                    }} />
+                    </View>
+                :
                 <View>
-                {/* Loop through the restaurant information so that it is displayed */}
-                {data.map(item => (
-                    <RestaurantCard key={item.id} restaurantData={item} />
-                ))}
+                    <View style={styles.headingContainer}>
+                        <Text style={styles.establishmentNumber}>{data.length} Establishments</Text> 
+                        {/* When clicked the modal for sorting appears */}
+                        <TouchableOpacity style={styles.sortByContainer} onPress={() => changeSort()}>
+                            <Text style={styles.establishmentSortBy} > {sortVisual} </Text>
+                            <AntDesign name="caretdown" size={12} color='#1C58F2' style={{paddingTop: "1%", paddingLeft: "1%"}}/>
+                        </TouchableOpacity>
+                        <RestaurantSortBy visible={modalSortVisible} onClose={() => setModalSortVisible(false)} setSortVisual={setSortVisual} />
+                    </View>                
+                    <View>
+                    {/* Loop through the restaurant information so that it is displayed */}
+                    {data.map(item => (
+                        <RestaurantCard key={item.id} restaurantData={item} />
+                    ))}
+                    </View>
                 </View>
+                }
                 <View style={styles.deadSpace}/>
                 <View style={styles.deaderSpace}/>
             </ScrollView>
