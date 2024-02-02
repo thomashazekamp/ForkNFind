@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, SafeAreaView, StatusBar, } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, SafeAreaView, StatusBar} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import CreateRestaurantReview from '../requests/CreateRestaurantReview';
@@ -130,26 +130,26 @@ const CreateReviewScreen = ({ visible, onClose, id }) => {
                     </View>
                     {/* Star code, each individual star is checked to see if the yellow should be appearing if it is selected */}
                     <View style={styles.starContainer}>
-                        <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+                        <TouchableOpacity style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]} onPress={() => updateStars(1)}>
                             { starOne ? (<AntDesign name="star" size={40} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
-                            <AntDesign name="staro" size={40} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(1)} />
-                        </View>
-                        <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+                            <AntDesign name="staro" size={40} color="#000000" style={{position: 'absolute'}}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]} onPress={() => updateStars(2)}>
                             { starTwo ? (<AntDesign name="star" size={40} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
-                             <AntDesign name="staro" size={40} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(2)} />
-                        </View>
-                        <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+                             <AntDesign name="staro" size={40} color="#000000" style={{position: 'absolute'}}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]} onPress={() => updateStars(3)}>
                             { starThree ? (<AntDesign name="star" size={40} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
-                            <AntDesign name="staro" size={40} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(3)} />
-                        </View>
-                        <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+                            <AntDesign name="staro" size={40} color="#000000" style={{position: 'absolute'}}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]} onPress={() => updateStars(4)}>
                             { starFour ? (<AntDesign name="star" size={40} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
-                            <AntDesign name="staro" size={40} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(4)}/>
-                        </View>
-                        <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+                            <AntDesign name="staro" size={40} color="#000000" style={{position: 'absolute'}}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]} onPress={() => updateStars(5)}>
                             { starFive ? (<AntDesign name="star" size={40} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)} 
-                            <AntDesign name="staro" size={40} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(5)}/>
-                        </View>
+                            <AntDesign name="staro" size={40} color="#000000" style={{position: 'absolute'}}/>
+                        </TouchableOpacity>
                     </View>
                     {/* Text box for adding description */}
                     <View style={styles.textContainer}>
