@@ -414,7 +414,7 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
                 {/* Clicking the review button will pull up the modal */}
                 <TouchableOpacity style={styles.reviewButton} onPress={() => toggleModal()}>
                     <Text style={styles.buttonText}>Review Now</Text>
-                    <CreateReviewScreen visible={modalVisible} onClose={() => setModalVisible(false)} id={id} />
+                    <CreateReviewScreen visible={modalVisible} onClose={() => setModalVisible(false)} id={id} restaurantData={restaurantData} />
                 </TouchableOpacity>
                 </View>
                 }

@@ -8,7 +8,7 @@ import CreateRestaurantReview from '../requests/CreateRestaurantReview';
 // visible - use state identifying whether the modal is visible or not
 // onClose - the trigger for closing the modal view
 // id - id of a restaurant that can be passed in when creating a review
-const CreateReviewScreen = ({ visible, onClose, id }) => {
+const CreateReviewScreen = ({ visible, onClose, id, restaurantData }) => {
 
     // Each use state is for identify what is the highest number of stars given to the restaurant review
     const [starOne, setStarOne] = useState(true);
@@ -113,13 +113,13 @@ const CreateReviewScreen = ({ visible, onClose, id }) => {
                     {/* Name of Restaurant */}
                     <View style={styles.titleContainer}>
                         <Text style={styles.restaurantTitleText}>
-                            33 Cafe Skerries
+                            {restaurantData["name"]}
                         </Text>
                     </View>
                     {/* address of Restaurant */}
                     <View style={styles.addressContainer}>
                         <Text style={styles.restaurantAddressText}>
-                            98 Strand St, Townparks, Skerries, Co. Dublin K34 V300, Ireland
+                            {restaurantData["address"]}
                         </Text>
                     </View>
                     {/* Container break, breaks up the content and adds a gap between */}
