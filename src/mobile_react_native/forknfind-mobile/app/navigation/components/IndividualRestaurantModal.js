@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity, SafeAreaView, StatusBar, ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import CreateReviewScreen from './CreateReviewScreen';
@@ -19,7 +19,8 @@ import ReviewCard from '../components/ReviewCard';
 const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
 
     // Use states for restaurant information
-    const [restaurantData, setRestaurantData] = useState({'categories': [], 'attributes': [], 'hours': {"monday": {"close_time": null, "open": false, "open_time": null},"tuesday": {"close_time": null, "open": false, "open_time": null},"wednesday": {"close_time": null, "open": false, "open_time": null},"thursday": {"close_time": null, "open": false, "open_time": null},"friday": {"close_time": null, "open": false, "open_time": null},"saturday": {"close_time": null, "open": false, "open_time": null},"sunday": {"close_time": null, "open": false, "open_time": null},}});
+    //const [restaurantData, setRestaurantData] = useState({'categories': [], 'attributes': [], 'hours': {"monday": {"close_time": null, "open": false, "open_time": null},"tuesday": {"close_time": null, "open": false, "open_time": null},"wednesday": {"close_time": null, "open": false, "open_time": null},"thursday": {"close_time": null, "open": false, "open_time": null},"friday": {"close_time": null, "open": false, "open_time": null},"saturday": {"close_time": null, "open": false, "open_time": null},"sunday": {"close_time": null, "open": false, "open_time": null},}});
+    const [restaurantData, setRestaurantData] = useState(null)
     const [modalVisible, setModalVisible] = useState(false);
     const [restaurantRecommendationData, setRestaurantRecommendationData] = useState([]);
     const [location, setLocation] = useState(null);
@@ -185,6 +186,16 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
             visible={visible}
             onRequestClose={onClose}
         >
+            {restaurantData == null ? 
+                <View style={{
+                    flex: 1, 
+                    alignItems: 'center',
+                    justifyContent: 'center', 
+                }}> 
+                    <ActivityIndicator size="large" color="#1C58F2" />
+                </View>
+            :
+            <View>
             <StatusBar barStyle="dark-content" />
             <SafeAreaView style={{ backgroundColor: "white" }} />
             <ScrollView>
@@ -405,6 +416,8 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
                     <Text style={styles.buttonText}>Review Now</Text>
                     <CreateReviewScreen visible={modalVisible} onClose={() => setModalVisible(false)} id={id} />
                 </TouchableOpacity>
+                </View>
+                }
         </Modal>
     );
 };
@@ -553,7 +566,7 @@ const styles = StyleSheet.create({
     reviewButton: {
         position: 'absolute',
         width: '74%',
-        top: '87%',
+        bottom: 110,
         height: '7%',
         backgroundColor: '#1C58F2',
         left: '13%',

@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
+        backgroundColor: '#F5F7FC'
     },
     // map taking up all the space
     map: {
