@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, SafeAreaView, StatusBar, } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import CreateRestaurantReview from '../requests/CreateRestaurantReview';
 
 // Functional Component CreateReviewScreen
 // visible - use state identifying whether the modal is visible or not
@@ -15,6 +16,8 @@ const CreateReviewScreen = ({ visible, onClose, id }) => {
     const [starThree, setStarThree] = useState(false);
     const [starFour, setStarFour] = useState(false);
     const [starFive, setStarFive] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+    const [response, setResponse] = useState('');
 
     // function for updating which stars have a yellow in them
     const updateStars = (number) => {
@@ -52,10 +55,36 @@ const CreateReviewScreen = ({ visible, onClose, id }) => {
         }
     };
 
+    // Handles the text input
+    const handleInputValue = (text) => {
+        setInputValue(text);
+    };
+
     // Create review not implement in current state
     const createReview = () => {
-        console.log("Review Created")
+
+        if (starFive == true) {
+            CreateRestaurantReview(id, inputValue, 5, setResponse)
+        } else if (starFour == true) {
+            CreateRestaurantReview(id, inputValue, 4, setResponse)
+        } else if (starThree == true) {
+            CreateRestaurantReview(id, inputValue, 3, setResponse)
+        } else if (starTwo == true) {
+            CreateRestaurantReview(id, inputValue, 2, setResponse)
+        } else {
+            CreateRestaurantReview(id, inputValue, 1, setResponse)
+        }
     }
+
+    useEffect(() => {
+
+        console.log(response)
+
+        if (response == "success") {
+            onClose();
+            setResponse("");
+        }
+    }, [response]);
 
     // Component Returns a modal view
     return (
@@ -125,7 +154,7 @@ const CreateReviewScreen = ({ visible, onClose, id }) => {
                     {/* Text box for adding description */}
                     <View style={styles.textContainer}>
                         <Text style={styles.reviewHeadingText}>Add detailed Review</Text>
-                        <TextInput style={styles.textInputContainer} placeholder="Enter here" textAlignVertical="top" multiline={true}/>
+                        <TextInput style={styles.textInputContainer} placeholder="Enter here" textAlignVertical="top" multiline={true} value={inputValue} onChangeText={handleInputValue}/>
                     </View>
                 </View>
             </ScrollView>
