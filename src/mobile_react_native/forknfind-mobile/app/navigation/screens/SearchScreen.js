@@ -141,7 +141,9 @@ export default function SearchScreen({ navigation }) {
             <ScrollView style={styles.containerScrollView}>
             {/* Search box holding 2 icons and text box */}
             <View style={styles.textBox}>
-                <FontAwesome name="search" size={22} color="white" onPress={() => searchItem()}/>
+                <TouchableOpacity onPress={() => searchItem()}>
+                    <FontAwesome style={styles.leftIcon} name="search" size={22} color="white"/>
+                </TouchableOpacity>
                 <TextInput 
                     placeholder="Search"
                     placeholderTextColor="white"
@@ -151,7 +153,7 @@ export default function SearchScreen({ navigation }) {
                     onChangeText={refSearchUpdate}
                 />
                 <TouchableOpacity onPress={() => toggleModal({})}>
-                    <Ionicons name="filter-sharp" size={22} color="white"/>
+                    <Ionicons style={styles.rightIcon} name="filter-sharp" size={22} color="white"/>
                 </TouchableOpacity>
                 <FilterScreen visible={modalVisible} onClose={() => setModalVisible(false)} searchQueryRef={searchQueryRef} />
             </View>
@@ -204,9 +206,8 @@ const styles = StyleSheet.create ({
     },
     // search box styling
     searchBox: {
-        backgroundColor: '#1C58F2',
         fontSize: 17,
-        fontWeight: '500',
+        fontWeight: '400',
         flex: 1, 
         marginLeft: 15, 
         color: 'white',
@@ -219,8 +220,6 @@ const styles = StyleSheet.create ({
         justifyContent: 'space-between',
         backgroundColor: '#1C58F2',
         color: 'white',
-        paddingHorizontal: 20,
-        paddingVertical: 16,
         marginTop: 25,
         borderRadius: 18,
         fontSize: 16,
@@ -259,5 +258,13 @@ const styles = StyleSheet.create ({
         fontSize: 16,
         color: '#1C58F2',
     },
+    leftIcon: {
+        paddingLeft: 20,
+        paddingVertical: 16,
+    },
+    rightIcon: {
+        paddingRight: 20,
+        paddingVertical: 16,
+    }
     
 })
