@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, ActivityIndicator, Dimensions } from 'react-native';
 
 import { AntDesign } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -14,7 +14,8 @@ import ReviewSortBy from '../components/ReviewSortBy';
 export default function ReviewScreen({ navigation }) {
 
     // Use states for updating the page when new information is came across
-    const [data, setData] = useState([]);
+    const [screenDimensions, setScreenDimensions] = useState(Dimensions.get('window'));
+    const [data, setData] = useState(null);
     const [originalData, setOriginalData] = useState(data);
     const [selectedReviews, setSelectedReviews] = useState("all");
     const [modalSortVisible, setModalSortVisible] = useState(false);
@@ -99,7 +100,7 @@ export default function ReviewScreen({ navigation }) {
 
     
     return (
-        <View style={{backgroundColor: '#F5F7FC'}}>
+        <View style={{backgroundColor: '#F5F7FC', flex: 1}}>
         <SafeAreaView style={styles.container}/>
             <StatusBar barStyle="dark-content" />
             <ScrollView style={styles.containerScrollView}>
@@ -145,33 +146,44 @@ export default function ReviewScreen({ navigation }) {
                         </TouchableOpacity>
                     }        
                 </View>
-                <View style={styles.headingContainer}>
-                    <Text style={styles.establishmentNumber}>{data.length} Reviews</Text> 
-                    {/* When clicked the modal for sorting appears */}
-                    <TouchableOpacity style={styles.sortByContainer} onPress={() => changeSort()}>
-                        <Text style={styles.establishmentSortBy} > {sortVisual} </Text>
-                        <AntDesign name="caretdown" size={12} color='#1C58F2' style={{paddingTop: "1%", paddingLeft: "1%"}}/>
-                    </TouchableOpacity>
-                    <ReviewSortBy visible={modalSortVisible} onClose={() => setModalSortVisible(false)} setSortVisual={setSortVisual} />
-                </View>                
-                <View>
-                {/* Loop through the restaurant information so that it is displayed */}
-                {data.map(item => (
-                    <ReviewCard key={item.id} data={item} />
-                ))}
-                </View>
+                {data == null ? 
+                    <View style={{
+                        width: '100%',
+                        height: (screenDimensions.height - 300),
+                    }}> 
+                        <ActivityIndicator size="large" color="#1C58F2" style={{
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center', 
+                    }} />
+                    </View>
+                    :
+                    <View>
+                        <View style={styles.headingContainer}>
+                            <Text style={styles.establishmentNumber}> {data.length} Reviews</Text> 
+                            {/* When clicked the modal for sorting appears */}
+                            <TouchableOpacity style={styles.sortByContainer} onPress={() => changeSort()}>
+                                <Text style={styles.establishmentSortBy} > {sortVisual} </Text>
+                                <AntDesign name="caretdown" size={12} color='#1C58F2' style={{paddingTop: "1%", paddingLeft: "1%"}}/>
+                            </TouchableOpacity>
+                            <ReviewSortBy visible={modalSortVisible} onClose={() => setModalSortVisible(false)} setSortVisual={setSortVisual} />
+                        </View>
+                        {/* Loop through the restaurant information so that it is displayed */}
+                        {data.map(item => (
+                            <ReviewCard key={item.id} data={item} />
+                        ))}
+                    </View>
+                    }
                 <View style={styles.deadSpace}/>
                 <View style={styles.deaderSpace}/>
             </ScrollView>
-        </View>
-        
+        </View> 
     );
 };
 
 const styles = StyleSheet.create({
     // screen styling
     container: {
-        flex: 1,
         backgroundColor: '#F5F7FC'
     },
     // Scroll view styling
