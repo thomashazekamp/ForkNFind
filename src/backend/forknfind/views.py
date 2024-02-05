@@ -116,6 +116,7 @@ class RestaurantsAroundUserAPIView(APIView):
                                                   'distance_from_user': distance,
                                                   'open_or_close': get_open_or_close(item),
                                                   'recommend': False,
+                                                  'review_number': item.get_review_number(),
                                                   }
 
         # reload hybrid recommender as new restaurants added
@@ -154,7 +155,8 @@ class RecommendRestaurantContentAPIView(APIView):
                 "price_level": restaurant.get_price_level(),
                 "average_rating": restaurant.get_average_rating(),
                 "distance_from_user": haversine((float(longitude), float(latitude)), restaurant.get_location()),
-                "open_or_close": get_open_or_close(restaurant)
+                "open_or_close": get_open_or_close(restaurant),
+                'review_number': restaurant.get_review_number(),
         })
             
         # return the recommended restaurants
@@ -201,7 +203,8 @@ class RecommendRestaurantHybridAPIView(APIView):
                     "price_level": restaurant.get_price_level(),
                     "average_rating": restaurant.get_average_rating(),
                     "distance_from_user": haversine((float(longitude), float(latitude)), restaurant.get_location()),
-                    "open_or_close": get_open_or_close(restaurant)
+                    "open_or_close": get_open_or_close(restaurant),
+                    'review_number': restaurant.get_review_number(),
                 })
 
         # return the recommended restaurants
