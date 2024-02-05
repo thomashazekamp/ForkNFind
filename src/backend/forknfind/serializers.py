@@ -62,7 +62,7 @@ class RestaurantSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Restaurant
-        fields = ['id','google_id','longitude','latitude','name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating', 'hours', 'average_rating', 'categories'] # Show these fields
+        fields = ['id','google_id','longitude','latitude','name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating', 'hours', 'average_rating', 'categories', 'review_number'] # Show these fields
 
     # getting categories associated with restaurants
     def get_categories(self, obj):
@@ -197,7 +197,7 @@ class RestaurantSearchSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Restaurant
-        fields = ['id','name','type','price_level','average_rating', 'distance_from_user', 'open_or_close'] # Show these fields
+        fields = ['id','name','type','price_level','average_rating', 'distance_from_user', 'open_or_close', 'review_number'] # Show these fields
 
     # gets the distance from the user making the query to the restaurant
     def get_distance_from_user(self, obj):

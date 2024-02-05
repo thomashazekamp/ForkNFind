@@ -221,7 +221,7 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
                         <View style={styles.informationContainer}>
                             <View style={styles.leftInformationContainer}>
                                 <Text style={styles.informationHeadingText}>Rating</Text>
-                                <Text style={[styles.informationContentText, {paddingLeft: '13%'}]}>{restaurantData["average_rating"]}/5 (2)</Text>
+                                <Text style={[styles.informationContentText, {paddingLeft: '13%'}]}>{restaurantData["average_rating"]}/5 ({restaurantData["review_number"]})</Text>
                                 <AntDesign name="star" size={22} color="#DBFF00" style={{position: 'absolute',paddingLeft: "24%", paddingTop: "14%"}} />
                                 <AntDesign name="staro" size={22} color="#000000" style={{position: 'absolute',paddingLeft: "24%", paddingTop: "14%"}} />
                             </View>
