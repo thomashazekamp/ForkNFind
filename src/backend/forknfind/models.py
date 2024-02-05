@@ -218,6 +218,8 @@ class Restaurant(models.Model):
     outdoor_seating = models.BooleanField(default=False)
     # hours attribute, instance of the RestaurantHours class
     hours = models.ForeignKey(RestaurantHours, on_delete=models.CASCADE, blank=True, null=True)
+    # number of reviews
+    review_number = models.IntegerField(default=0)
 
     # Getting the id of the class
     def get_id(self):
@@ -314,6 +316,15 @@ class Restaurant(models.Model):
         # If no reviews returned then just return 0 as there is reviews created
         if divisor == 0:
             return 0
+        
+        current_reviews = self.get_review_number()
+
+        # if the number of reviews is the same as there was last run then dont calculate
+        if current_reviews == divisor:
+            return self.average_rating
+        
+        # if the number of reviews is different then save the new value
+        self.review_number = divisor
 
         # Loop through the reviews adding up all the ratings 
         for item in queryset:
@@ -322,8 +333,15 @@ class Restaurant(models.Model):
         # Set the average rating to the result
         self.average_rating = round(total / divisor, 1)
 
+        # Save the average rating
+        self.save()
+
         # Return the result
         return self.average_rating
+    
+    # Getting the review number value for the class
+    def get_review_number(self):
+        return self.review_number
     
     # Getting the debug string of the class, set up so it includes important information when trying to debug using f strings
     def debug_string(self):
