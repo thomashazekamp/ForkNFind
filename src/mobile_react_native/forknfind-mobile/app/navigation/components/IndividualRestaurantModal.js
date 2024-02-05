@@ -10,6 +10,7 @@ import RestaurantCard from './RestaurantCard';
 import GetAllRestaurantReviews from '../requests/GetAllRestaurantReviews';
 import ReviewSortBy from '../components/ReviewSortBy'
 import ReviewCard from '../components/ReviewCard';
+import SplitCapitalise from '../components/SplitCapitalise';
 
 // Functional Component CreateAccountScreen
 // visible - wether modal is visible or not
@@ -19,7 +20,6 @@ import ReviewCard from '../components/ReviewCard';
 const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
 
     // Use states for restaurant information
-    //const [restaurantData, setRestaurantData] = useState({'categories': [], 'attributes': [], 'hours': {"monday": {"close_time": null, "open": false, "open_time": null},"tuesday": {"close_time": null, "open": false, "open_time": null},"wednesday": {"close_time": null, "open": false, "open_time": null},"thursday": {"close_time": null, "open": false, "open_time": null},"friday": {"close_time": null, "open": false, "open_time": null},"saturday": {"close_time": null, "open": false, "open_time": null},"sunday": {"close_time": null, "open": false, "open_time": null},}});
     const [restaurantData, setRestaurantData] = useState(null)
     const [modalVisible, setModalVisible] = useState(false);
     const [restaurantRecommendationData, setRestaurantRecommendationData] = useState([]);
@@ -228,7 +228,7 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
                             <View style={styles.rightInformationContainer}>
                                 <Text style={styles.informationHeadingText}>Type</Text>
                                 <View style={styles.typeBox}>
-                                    <Text style={styles.typeText}>{restaurantData["type"]}</Text>
+                                    <Text style={styles.typeText}>{SplitCapitalise(restaurantData["type"])}</Text>
                                 </View>
                             </View>
                         </View>
@@ -253,7 +253,7 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
                                 {/* Loop through the restaurant categories to display them */}
                                 {restaurantData['categories'].map((category, index) => ( 
                                     <View key={index} style={[styles.typeBox, {marginRight: '3%', marginBottom: '4%'}]} >
-                                        <Text style={styles.typeText}>{category}</Text>
+                                        <Text style={styles.typeText}>{SplitCapitalise(category)}</Text>
                                     </View>
                                 ))}
                                 </View>

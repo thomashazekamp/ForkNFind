@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import IndividualRestaurantModal from './IndividualRestaurantModal';
+import SplitCapitalise from './SplitCapitalise';
 
 // Functional Component RestaurantCardMap
 // restaurantData - data for an individual restaurant
@@ -61,7 +62,7 @@ const RestaurantCardMap = ( {restaurantData}) => {
         </View>
         <View style={styles.containerTypeDistance}>
             <View style={styles.typeBox}>
-                <Text style={styles.typeText}>{type}</Text>
+                <Text style={styles.typeText}>{SplitCapitalise(type)}</Text>
             </View>
             <Text style={styles.distanceText}>{distance_from_user.toFixed(1)} Km</Text>
         </View>
