@@ -20,6 +20,7 @@ const RestaurantCard = ( {restaurantData}) => {
         average_rating,
         distance_from_user,
         open_or_close,
+        review_number,
     } = restaurantData;
 
     // Toggling the modal
@@ -50,7 +51,7 @@ const RestaurantCard = ( {restaurantData}) => {
                 <AntDesign name="staro" size={22} color="#000000" style={{position: 'absolute', right: '5%',paddingTop: "14%"}} />
             </View>
             <View style={styles.columnRating}>
-                    <Text style={styles.restaurantAverageRating}>{average_rating}/5 (2)</Text>
+                    <Text style={styles.restaurantAverageRating}>{average_rating}/5 ({review_number})</Text>
             </View>
             <View style={styles.columnPrice}>
                 <Text style={styles.restaurantPriceLevel}>{price_level}</Text>
