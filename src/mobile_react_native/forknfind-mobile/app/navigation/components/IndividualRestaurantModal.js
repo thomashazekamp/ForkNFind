@@ -164,15 +164,7 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
         console.log(returnString)
         return returnString
         
-    }
-
-    // Hardcoded attributes for the moment
-    const attributes = [
-        "Allows Dogs",
-        "Delivery",
-        "Good for Groups",
-        "Outdoor Seating",
-    ]
+    }    
 
     // Review modal is visible or not
     const toggleModal = () => {
@@ -328,16 +320,53 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
                                 <Text style={styles.informationHeadingText}>Establishment Attributes</Text>
                                 <View style={styles.priceLevelDivisor}>
                                 {/* Loop through the restaurant attributes */}
-                                {attributes.map((attribute, index) => ( 
-                                    <View key={index} style={[styles.typeBox, {marginRight: '3%', marginBottom: '4%'}]} >
-                                        <Text style={styles.typeText}>{attribute}</Text>
-                                    </View>
-                                ))}
+                                { restaurantData["allows_dogs"] == true ?
+                                <View style={[styles.typeBox, {marginRight: '3%', marginBottom: '4%'}]} >
+                                    <Text style={styles.typeText}>Allows Dogs</Text>
+                                </View>
+                                :
+                                <View/>
+                                }
+                                { restaurantData["dine_in"] == true ?
+                                <View style={[styles.typeBox, {marginRight: '3%', marginBottom: '4%'}]} >
+                                    <Text style={styles.typeText}>Dine in</Text>
+                                </View>
+                                :
+                                <View/>
+                                }
+                                { restaurantData["delivery"] == true ?
+                                <View style={[styles.typeBox, {marginRight: '3%', marginBottom: '4%'}]} >
+                                    <Text style={styles.typeText}>Delivery</Text>
+                                </View>
+                                :
+                                <View/>
+                                }
+                                { restaurantData["good_for_children"] == true ?
+                                <View style={[styles.typeBox, {marginRight: '3%', marginBottom: '4%'}]} >
+                                    <Text style={styles.typeText}>Good for Children</Text>
+                                </View>
+                                :
+                                <View/>
+                                }
+                                { restaurantData["good_for_groups"] == true ?
+                                <View style={[styles.typeBox, {marginRight: '3%', marginBottom: '4%'}]} >
+                                    <Text style={styles.typeText}>Good for Groups</Text>
+                                </View>
+                                :
+                                <View/>
+                                }
+                                { restaurantData["outdoor_seating"] == true ?
+                                <View style={[styles.typeBox, {marginRight: '3%', marginBottom: '4%'}]} >
+                                    <Text style={styles.typeText}>Outdoor Seating</Text>
+                                </View>
+                                :
+                                <View/>
+                                }
                                 </View>
                             </View>
                         </View>
                         <View style={styles.containerBreak}/>
-                        <View style={styles.categoryContainer}>
+                        <View style={[styles.categoryContainer, {marginBottom: '2%'}]}>
                             <View style={styles.wholeInformationContainer}>
                                 <Text style={styles.informationHeadingText}>Similar Establishments</Text>
                             </View>
