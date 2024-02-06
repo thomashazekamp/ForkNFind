@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import GetAllCategoriesAPIRequest from '../requests/GetAllCategoriesAPIRequest';
+import SplitCapitalise from '../components/SplitCapitalise';
 
 /* 
 -----------------
@@ -18,7 +19,7 @@ Reference: https://www.youtube.com/watch?v=Q4S9M9rJAxk&ab_channel=PradipDebnath
 const CategoryFilter = ({selectedCategories, setSelectedCategories}) => {
 
     // Use states of all the possible changes
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState([]);
     const [itemList, setItemList] = useState([]);
 
     // Get all categories via API
@@ -30,7 +31,7 @@ const CategoryFilter = ({selectedCategories, setSelectedCategories}) => {
     const handleSearch = (query) => {
         // when query is blank show now categories
         if (query == "") {
-            setSearchQuery([])
+            setSearchQuery("")
             return 
         }
         setSearchQuery(
@@ -64,7 +65,6 @@ const CategoryFilter = ({selectedCategories, setSelectedCategories}) => {
                 autoCapitalize='none'
                 style={styles.textBox}
                 autoCorrect={false}
-                value={searchQuery}
                 onChangeText={(query) => handleSearch(query)}
                 >
             </TextInput>
@@ -77,7 +77,7 @@ const CategoryFilter = ({selectedCategories, setSelectedCategories}) => {
             renderItem={({item}) => (
                 <TouchableOpacity key={item} onPress={() => addToSearch(item)}>
                     <View style={styles.flatListButton}>
-                        <Text style={styles.flatListItem}>{item}</Text>
+                        <Text style={styles.flatListItem}>{SplitCapitalise(item)}</Text>
                     </View>
                 </TouchableOpacity>
             )}/>
@@ -86,7 +86,7 @@ const CategoryFilter = ({selectedCategories, setSelectedCategories}) => {
                 {selectedCategories.map((category, index) => (
                 <TouchableOpacity key={index} onPress={() => removeFromSearch(category)}>
                     <View style={[styles.typeBox, {marginRight: '3%', marginBottom: '4%'}]} >
-                        <Text style={styles.typeText}>{category}</Text>
+                        <Text style={styles.typeText}>{SplitCapitalise(category)}</Text>
                     </View>
                 </TouchableOpacity>
                 ))}
