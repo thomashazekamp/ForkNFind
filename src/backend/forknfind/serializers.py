@@ -175,14 +175,24 @@ class SearchRestaurantFilter(filters.FilterSet):
     outdoor_seating = filters.BooleanFilter()
     average_rating = filters.NumberFilter(lookup_expr='gte')
     open_or_close = filters.CharFilter(method='filter_open_or_close', label='Open or Close')
+    categories = filters.CharFilter(method='filter_categories', label='Categories')
 
     class Meta:
         model = Restaurant
-        fields = ['name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating','average_rating','open_or_close'] # Show these fields
+        fields = ['name','address','type','price_level','allows_dogs','delivery','dine_in','good_for_children','good_for_groups','outdoor_seating','average_rating','open_or_close','categories'] # Show these fields
     
-    # 
     def filter_open_or_close(self, queryset, _, value):
         filtered_ids = [obj.pk for obj in queryset if self.get_open_or_close(obj).lower().find(value.lower()) != -1]
+        return Restaurant.objects.filter(pk__in=filtered_ids)
+    
+    def filter_categories(self, queryset, _, value):
+        # Get all the category instances
+        categories_name = [category.strip() for category in value.split(',')]
+        categories = Category.objects.filter(category__in=categories_name)
+        
+        # Filter to get all unique restaurant ids that have any of the categories appearing
+        filtered_ids = RestaurantCategory.objects.filter(category__in=categories).values_list('restaurant', flat=True).distinct()
+        
         return Restaurant.objects.filter(pk__in=filtered_ids)
 
     def get_open_or_close(self, obj):
