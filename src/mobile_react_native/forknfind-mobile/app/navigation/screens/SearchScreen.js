@@ -7,7 +7,7 @@ Reference: https://www.youtube.com/watch?v=Q4S9M9rJAxk&ab_channel=PradipDebnath
 -----------------
 */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect,  } from 'react';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, StatusBar, ScrollView, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontAwesome } from '@expo/vector-icons';
@@ -17,6 +17,7 @@ import RestaurantCard from '../components/RestaurantCard';
 import FilterScreen from '../components/FilterScreen';
 import SearchAPIRequest from '../requests/SearchAPIRequest'
 import RestaurantSortBy from '../components/RestaurantSortBy';
+import RestaurantList from '../components/RestaurantList';
 
 // Functional Component SearchScreen
 // navigation - used to link to other screens created
@@ -179,10 +180,8 @@ export default function SearchScreen({ navigation }) {
                         <RestaurantSortBy visible={modalSortVisible} onClose={() => setModalSortVisible(false)} setSortVisual={setSortVisual} />
                 </View>
                 <View>
-                    {/* Looping through results from search */}
-                    {data.map(item => (
-                        <RestaurantCard key={item.id} restaurantData={item} />
-                    ))}
+                    {/* RestaurantList is wrapped in React Memo such that it will only reload when the data changes */}
+                    <RestaurantList data={data} />
                 </View>
             </View>
             }
