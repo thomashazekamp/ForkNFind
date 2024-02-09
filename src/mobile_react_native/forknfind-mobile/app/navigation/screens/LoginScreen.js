@@ -33,9 +33,10 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
     }
 
     return (
+        <>
         <View style={{ flex: 1}}>
-            <StatusBar barStyle="dark-content"/>
             <SafeAreaView style={{ flex: 1, backgroundColor: "white", alignItems: 'center', justifyContent: 'center' }}>
+                <StatusBar barStyle="dark-content"/>
                 <View style={styles.loginBoxContainer}>
                     <Text style={styles.heading}>
                         Sign In
@@ -82,6 +83,7 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
                 </View>
             </SafeAreaView>
         </View>
+        </>
     );
 }
 
