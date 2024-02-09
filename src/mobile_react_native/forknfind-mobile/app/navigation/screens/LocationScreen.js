@@ -106,7 +106,6 @@ export default function LocationScreen({ navigation }) {
                             longitude: deviceLocation["coords"]["longitude"],
                             }}
                             title="Your Location"
-                            description="You are here"
                         >
                             <Image
                                 source={require('../../../image/user_icon.png')}

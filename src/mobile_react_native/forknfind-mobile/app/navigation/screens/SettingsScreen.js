@@ -1,194 +1,85 @@
 import React, { useState} from 'react';
 // import { View, Text, StyleSheet,  } from 'react-native';
-import { View, Text, Switch, TouchableOpacity, Modal, TouchableHighlight, TextInput, StyleSheet, SafeAreaView} from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, StatusBar} from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import ChangePasswordModal from '../components/ChangePasswordModal';
 
-import { Entypo } from '@expo/vector-icons';
-import { EvilIcons } from '@expo/vector-icons';
+export default function SettingsScreen({ navigation, setIsLoggedIn }) {
 
-export default function SettingsScreen({ navigation }) {
-    const [passwordModalVisibility, setPasswordModalVisibility] = useState(false);
-    const [detailsModalVisibility, setDetailsModalVisibility] = useState(false);
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [modalPasswordChangeVisible, setModalPasswordChangeVisible] = useState(false);
 
-    const toggleModal = (option) => {
-    //setOption(option);
-        if (option === 'details') { // Modal for account details
-            setDetailsModalVisibility(!detailsModalVisibility);
-        }
-        else if (option === 'password') { // Modal for change password
-            setPasswordModalVisibility(!passwordModalVisibility);
-        }
-        else if (option === 'save') { // Close modal after saving
-            setPasswordModalVisibility(false);
-            setDetailsModalVisibility(false);
-        }
-    };
+    console.log(modalPasswordChangeVisible)
 
-    const toggleLogout = () => { // Logout of account
-        alert('You have been logged out!');
+    const logoutAccount = () => {
+
+        username_global = ""
+        access_global = ""
+        setIsLoggedIn(false)
     }
 
-    const savePassword = () => { // Provide alert & close tab
-        alert('New password saved!');
-        toggleModal('save'); // Close the modal after saving
-    };
-
     return (
-        <SafeAreaView style={styles.container}>
-            <Text style={styles.titleStyle}>Settings</Text>
-            
-            {/* Account details */}
-            <TouchableOpacity style={styles.settingOption} onPress={() => toggleModal('details')}>
-                <Text>Account Details</Text>
-                <EvilIcons name="arrow-right" size={24} color="black" />
-            </TouchableOpacity>
-
-            {/* Change password */}
-            <TouchableOpacity style={styles.settingOption} onPress={() => toggleModal('password')}>
-                <Text>Change Password</Text>
-                <EvilIcons name="arrow-right" size={24} color="black" />
-            </TouchableOpacity>
-
-            {/* Logout */}
-            <TouchableOpacity style={styles.settingOption} onPress={() => toggleLogout()}>
-                <Text>Logout</Text>
-                <EvilIcons name="arrow-right" size={24} color="black" />
-            </TouchableOpacity>
-
-            {/* Account details modal */}
-            <Modal animationType="slide" transparent={true} visible={detailsModalVisibility} onRequestClose={() => toggleModal('details')}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <TouchableOpacity style={styles.backButton} onPress={() => toggleModal('details')}>
-                            <EvilIcons name="arrow-left" size={24} color="black" />
-                        </TouchableOpacity>
-                        <Text style={styles.modalTitle}>Account Details</Text>
-
-                        <View style={styles.modalDetailsBlock}>
-                            <Text style={{color: 'grey'}}>Name</Text>
-                            <Text style={{fontWeight: 'bold'}}>Joe Something</Text>
-                        </View>
-                        <View style={styles.modalDetailsBlock}>
-                            <Text style={{color: 'grey'}}>Email</Text>
-                            <Text style={{fontWeight: 'bold'}}>joe.something@gmail.com</Text>
-                        </View>
-                        <View style={styles.modalDetailsBlock}>
-                            <Text style={{color: 'grey'}}>Location</Text>
-                            <Text style={{fontWeight: 'bold'}}>San Francisco, CA</Text>
-                        </View>
-                        <View style={styles.modalDetailsBlock}>
-                            <Text style={{color: 'grey'}}>Number of Reviews</Text>
-                            <Text style={{fontWeight: 'bold'}}>5</Text>
-                        </View>
+        <View style={{backgroundColor: '#F5F7FC'}}>
+            <SafeAreaView style={styles.container}/>
+            <StatusBar barStyle="dark-content" />
+            <View style={styles.settingsBox}>
+                <TouchableOpacity style={styles.settingsLine}>
+                    <Text style={styles.settingTitle}>
+                        Account Details
+                    </Text>
+                    <View style={styles.settingIcon}>
+                        <AntDesign name="arrowright" size={24} color="black" />
                     </View>
-                </View>
-            </Modal>
-
-            {/* Change password modal */}
-            <Modal animationType="slide" transparent={true} visible={passwordModalVisibility} onRequestClose={() => toggleModal('password')}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <TouchableOpacity style={styles.backButton} onPress={() => toggleModal('password')}>
-                            <EvilIcons name="arrow-left" size={24} color="black" />
-                        </TouchableOpacity>
-                        <Text style={styles.modalTitle}>Change Password</Text>
-                        <Text style={styles.modalText}>Choose a new password</Text>
-
-                        <View>
-                            <TextInput placeholder="New Password" secureTextEntry style={styles.modalInputBox} value={password} onChangeText={(text) => setPassword(text)}/>
-                        </View>
-
-                        <View>
-                            <TextInput placeholder="Confirm Password" secureTextEntry style={styles.modalInputBox} value={confirmPassword} onChangeText={(text) => setConfirmPassword(text)}/>
-                        </View>
-
-                        <View style={styles.modalButtonContainer}>
-                            <TouchableOpacity style={styles.modalButton} onPress={savePassword}>
-                                <Text style={styles.modalButtonText}>Save Password</Text>
-                            </TouchableOpacity>
-                        </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.settingsLine} onPress={() => {setModalPasswordChangeVisible(true)}}>
+                    <Text style={styles.settingTitle}>
+                        Change Password
+                    </Text>
+                    <View style={styles.settingIcon}>
+                        <AntDesign name="arrowright" size={24} color="black" />
                     </View>
-                </View>
-            </Modal>
-        </SafeAreaView>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.settingsLine} onPress={() => {logoutAccount()}}>
+                    <Text style={styles.settingTitle}>
+                        Logout
+                    </Text>
+                    <View style={styles.settingIcon}>
+                        <AntDesign name="arrowright" size={24} color="black" />
+                    </View>
+                </TouchableOpacity>
+            </View>
+            <ChangePasswordModal visible={modalPasswordChangeVisible} onClose={() => setModalPasswordChangeVisible(false)} />
+            <View style={{height: 900, backgroundColor: "#F5F7FC"}} />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        backgroundColor: '#F5F7FC'
     },
-    titleStyle: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        alignSelf: 'center',
+    settingsBox: {
+        marginTop: '10%',
+        width: '100%',
+        paddingHorizontal: '15%',
     },
-    settingOption: {
-        flexDirection: 'row',
+    settingsLine: {
+        borderBottomWidth: 2,
+        borderColor: '#ccc',
+        borderBottomRadius: 10,
+        flexDirection: 'row', 
         justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '80%',
-        alignSelf: 'center',
-        marginBottom: 20,
-        borderBottomWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        borderRadius: 10,
     },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    settingTitle: {
+        paddingLeft: '5%',
+        paddingTop: 25,
+        paddingBottom: 5,
+        fontSize: 18,
+        color: '#333333'
     },
-    modalContent: {
-        backgroundColor: 'white',
-        padding: 20,
-        borderRadius: 10,
-        width: '80%',
-    },
-    modalTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginBottom: 10,
-        alignSelf: 'center',
-    },
-    modalText: {
-        marginBottom: 10,
-        alignSelf: 'center',
-        color: 'grey'
-    },
-    modalInputBox: {
-        marginBottom: 10,
-        borderBottomWidth: 1,
-        borderColor: '#ccc',
-        padding: 8,
-        borderRadius: 5,
-    },
-    modalButtonContainer: {
-        flexDirection: 'row',
-        marginTop: 10,
-    },
-    modalButton: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        borderRadius: 10,
-        flex: 1,
-        marginRight: 5,
-    },
-    modalButtonText: {
-        color: 'black',
-        textAlign: 'center',
-    },
-    backButton: {
-        alignSelf: 'flex-start',
-    },
-    modalDetailsBlock: {
-        marginTop: 10,
-        marginBottom: 10,
-    },
+    settingIcon: {
+        top: 24,
+        paddingRight: '5%', 
+    }
 });
