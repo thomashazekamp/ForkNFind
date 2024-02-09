@@ -1642,12 +1642,13 @@ class APIReviewUserTests(APITestCase):
 
     # Initial set up of data
     # Creates 1 instance of the class APIUser
-    def setUpTestData():
+    @classmethod
+    def setUpTestData(cls):
 
-        APIUser.objects.create(
+        cls.user = APIUser.objects.create_user(
             username='dalye54',
-            first_name='Eoin',
-            last_name='Daly',
+            first_name='eoin',
+            last_name='daly',
             email='eoin.daly54@mail.dcu.ie',
             password='password'
         )
@@ -1661,11 +1662,8 @@ class APIReviewUserTests(APITestCase):
     # Expected result is for it to fail as we are sending the incorrect current password
     def test_incorrect_password_change_request(self):
 
-        # get the user we will be logging into
-        user = APIUser.objects.get(id=1)
-
         # set the login user
-        self.client.force_authenticate(user=user)
+        self.client.force_authenticate(user=self.user)
 
         # data to be sent
         data = {"current_password": "test", "new_password": "newpassword"}
