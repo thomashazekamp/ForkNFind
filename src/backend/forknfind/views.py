@@ -8,6 +8,7 @@ from django.shortcuts import render
 from rest_framework import viewsets, generics, filters
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth.hashers import check_password
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -245,7 +246,7 @@ class UserPasswordUpdateAPIView(APIView):
         new_password = request.data.get('new_password')
 
         # check old password
-        if request.user.password != current_password:
+        if not check_password(current_password, request.user.password):
             return Response({'error': 'Incorrect password'}, status=status.HTTP_400_BAD_REQUEST)
         
         # if no errors then set new password
