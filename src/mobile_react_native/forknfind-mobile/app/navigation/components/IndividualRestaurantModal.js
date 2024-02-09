@@ -9,8 +9,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RestaurantCard from './RestaurantCard';
 import GetAllRestaurantReviews from '../requests/GetAllRestaurantReviews';
 import ReviewSortBy from '../components/ReviewSortBy'
-import ReviewCard from '../components/ReviewCard';
 import SplitCapitalise from '../components/SplitCapitalise';
+import ReviewList from './ReviewList';
 
 // Functional Component CreateAccountScreen
 // visible - wether modal is visible or not
@@ -432,9 +432,7 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
                 </View>                
                 <View>
                 {/* Loop through the restaurant information so that it is displayed */}
-                {data.map(item => (
-                    <ReviewCard key={item.id} data={item} />
-                ))}
+                <ReviewList data={data} />
                 </View>
                 <View style={styles.deadSpace}/>
                 <View style={styles.deaderSpace}/>

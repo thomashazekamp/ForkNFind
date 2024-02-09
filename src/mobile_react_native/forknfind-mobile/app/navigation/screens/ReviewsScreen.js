@@ -5,9 +5,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import ReviewCard from '../components/ReviewCard';
 import GetAllUserReviews from '../requests/GetAllUserReviews';
 import ReviewSortBy from '../components/ReviewSortBy';
+import ReviewList from '../components/ReviewList';
 
 // Functional Component ReviewScreen
 // navigation - used to link to other screens created
@@ -168,10 +168,8 @@ export default function ReviewScreen({ navigation }) {
                             </TouchableOpacity>
                             <ReviewSortBy visible={modalSortVisible} onClose={() => setModalSortVisible(false)} setSortVisual={setSortVisual} />
                         </View>
-                        {/* Loop through the restaurant information so that it is displayed */}
-                        {data.map(item => (
-                            <ReviewCard key={item.id} data={item} />
-                        ))}
+                        {/* ReviewtList is wrapped in React Memo such that it will only reload when the data changes */}
+                        <ReviewList data={data} />
                     </View>
                     }
                 <View style={styles.deadSpace}/>
