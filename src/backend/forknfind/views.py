@@ -29,6 +29,20 @@ class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
+    def update(self, request, *args, **kwargs):
+
+        partial = kwargs.pop('partial', False)
+        # Get the instance of the model
+        instance = self.get_object()
+        # Use the serializer to get an instance of the serializer
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        # Check its valid
+        serializer.is_valid(raise_exception=True)
+        # Performs update
+        self.perform_update(serializer)
+        # Response element
+        return Response(serializer.data)
+
 # CategoryViewSet, queryset of all Category instances
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
