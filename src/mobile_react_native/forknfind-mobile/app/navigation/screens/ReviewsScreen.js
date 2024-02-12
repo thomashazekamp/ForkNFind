@@ -20,11 +20,22 @@ export default function ReviewScreen({ navigation }) {
     const [selectedReviews, setSelectedReviews] = useState("all");
     const [modalSortVisible, setModalSortVisible] = useState(false);
     const [sortVisual, setSortVisual] = useState("All Relevance");
+    const [reload, setReload] = useState(false)
 
     // On startup query the API to get the recommendation information
     useEffect(() => {
         GetAllUserReviews(setData, setOriginalData);
     }, []);
+
+    useEffect(() => {
+        console.log("testing reload")
+        console.log(reload)
+        if (reload == true) {
+            setData(null)
+            GetAllUserReviews(setData, setOriginalData);
+            setReload(false)
+        }
+    }, [reload]);
 
     // If the sort button is hit get the modal visible
     const changeSort = () => {
@@ -169,7 +180,7 @@ export default function ReviewScreen({ navigation }) {
                             <ReviewSortBy visible={modalSortVisible} onClose={() => setModalSortVisible(false)} setSortVisual={setSortVisual} />
                         </View>
                         {/* ReviewtList is wrapped in React Memo such that it will only reload when the data changes */}
-                        <ReviewList data={data} />
+                        <ReviewList data={data} setReload={setReload} />
                     </View>
                     }
                 <View style={styles.deadSpace}/>
