@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import EditReviewScreen from './EditReviewScreen';
 
 // Functional Component ReviewCard
 // data - passed in review information
-const ReviewCard = ( {data} ) => {
+const ReviewCard = ( {data, setReload} ) => {
 
     // Use states for updating the page when new information is came across
     const [modalVisible, setModalVisible] = useState(false);
@@ -55,41 +56,55 @@ const ReviewCard = ( {data} ) => {
         }
     }, []);
 
-  return (
-    // surround the card in a touchable component
-    <TouchableOpacity style={styles.container} onPress={ () => {console.log("test")}}>
-        <Text style={styles.restaurantName}>{data["restaurant"].name}</Text>
-        <View style={styles.rowContainer}>
-            <View style={styles.starContainer}>
-                <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-                    { starOne ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
-                    <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(1)} />
+    // Toggling the modal
+    const toggleModal = () => {
+        setModalVisible(!modalVisible);
+    }
+
+    return (
+        // surround the card in a touchable component
+        <TouchableOpacity style={styles.container} onPress={() => toggleModal()}>
+            <Text style={styles.restaurantName}>{data["restaurant"].name}</Text>
+            <View style={styles.rowContainer}>
+                <View style={styles.starContainer}>
+                    <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+                        { starOne ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
+                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(1)} />
+                    </View>
+                    <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+                        { starTwo ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
+                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(2)} />
+                    </View>
+                    <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+                        { starThree ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
+                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(3)} />
+                    </View>
+                    <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+                        { starFour ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
+                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(4)}/>
+                    </View>
+                    <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+                        { starFive ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)} 
+                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(5)}/>
+                    </View>
                 </View>
-                <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-                    { starTwo ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
-                    <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(2)} />
-                </View>
-                <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-                    { starThree ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
-                    <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(3)} />
-                </View>
-                <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-                    { starFour ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
-                    <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(4)}/>
-                </View>
-                <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-                    { starFive ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)} 
-                    <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(5)}/>
-                </View>
+                <Text style={styles.dateText}>
+                    {data["date"]}
+                </Text>
             </View>
-            <Text style={styles.dateText}>
-                {data["date"]}
-            </Text>
-        </View>
-        <View style={styles.descriptionContainer}>
-            <Text>{description}</Text>
-        </View>
-    </TouchableOpacity>
+            <View style={styles.descriptionContainer}>
+                <Text>{description}</Text>
+            </View>
+            {modalVisible && (
+            <EditReviewScreen
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                id={data["id"]}
+                reviewData={data}
+                setReload={setReload}
+            />
+            )}
+        </TouchableOpacity>
     );
 }
 
