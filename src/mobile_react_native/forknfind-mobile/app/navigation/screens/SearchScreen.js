@@ -31,6 +31,7 @@ export default function SearchScreen({ navigation }) {
     const [modalSortVisible, setModalSortVisible] = useState(false);
     const [sortVisual, setSortVisual] = useState("All Relevance");
     const [location, setLocation] = useState(null);
+    const [reload, setReload] = useState({});
 
     // Saving potiential filter information
     const searchQueryRef = useRef({
@@ -50,6 +51,12 @@ export default function SearchScreen({ navigation }) {
     // Update the search name
     const refSearchUpdate = (text) => {
         searchQueryRef.current.name = text;
+        Update();
+    };
+
+    // Used to just reload the page
+    const Update = () => {
+        setReload({});
     };
 
     // Search request
@@ -151,6 +158,7 @@ export default function SearchScreen({ navigation }) {
                     style={styles.searchBox}
                     autoCapitalize='none'
                     autoCorrect={false}
+                    value={searchQueryRef.current.name}
                     onChangeText={refSearchUpdate}
                 />
                 <TouchableOpacity onPress={() => toggleModal({})}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, SafeAreaView, StatusBar, KeyboardAvoidingView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
@@ -22,6 +22,10 @@ const FilterScreen = ({ visible, onClose, searchQueryRef}) => {
     const [nameValue, setNameValue] = useState('')
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [status, setStatus] = useState('');
+
+    useEffect(() => {
+        setNameValue(searchQueryRef.current.name);
+    }, [searchQueryRef.current.name]);
 
     // Updating the name value in text box
     const nameSearchUpdate = (text) => {
