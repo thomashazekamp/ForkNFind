@@ -8,7 +8,7 @@ const ChangePasswordAPIRequest = (currentPassword, newPassword, setResponseData)
     console.log("does this work?")
     console.log(currentPassword, newPassword)
 
-    fetch("https://192.168.1.82:8000/user/password/update/", 
+    fetch("http://192.168.1.82:8000/user/password/update/", 
     {
         method: 'POST',
         headers: {
