@@ -268,3 +268,10 @@ class UserPasswordUpdateAPIView(APIView):
         request.user.save()
 
         return Response({'detail': 'Success'}, status=status.HTTP_200_OK)
+    
+class UserInfoAPIVew(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
