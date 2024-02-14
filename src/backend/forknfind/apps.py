@@ -11,6 +11,10 @@ class ForknfindConfig(AppConfig):
 
         # import the recommendation model
         from .models import HybridRecommender
+        from .data import reviewCreator
+
+        # If more reviews are need uncomment
+        #reviewCreator()
 
         # call the recommendation model, as it is a singleton model can just call it using .load()
         model = HybridRecommender.load()
