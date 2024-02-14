@@ -10,7 +10,7 @@ import RestaurantCard from './RestaurantCard';
 import GetAllRestaurantReviews from '../requests/GetAllRestaurantReviews';
 import ReviewSortBy from '../components/ReviewSortBy'
 import SplitCapitalise from '../components/SplitCapitalise';
-import ReviewList from './ReviewList';
+import ReviewRestaurantList from './ReviewRestaurantList';
 
 // Functional Component CreateAccountScreen
 // visible - wether modal is visible or not
@@ -432,7 +432,7 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
                 </View>                
                 <View>
                 {/* Loop through the restaurant information so that it is displayed */}
-                <ReviewList data={data} />
+                <ReviewRestaurantList data={data} />
                 </View>
                 <View style={styles.deadSpace}/>
                 <View style={styles.deaderSpace}/>
@@ -610,7 +610,7 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     deadSpace: {
-        height: 150,
+        height: 200,
         backgroundColor: '#F5F7FC',
     },
     deaderSpace: {
