@@ -172,7 +172,7 @@ def get_collaborative_recommendations(matrix, user_id):
         results[id] = matrix.predict(user_id, id)[3]
 
     # sort the list of predicitons
-    sorted_dict = dict(sorted(results.items(), key=lambda x: x[1].est, reverse=True))
+    sorted_dict = dict(sorted(results.items(), key=lambda x: x[1], reverse=True))
 
     # return the keys of each of the 3 highest predictions in a list format
     return list(sorted_dict.keys())[:3]
