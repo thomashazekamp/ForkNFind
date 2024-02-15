@@ -4,12 +4,12 @@ import { View, Text, StyleSheet, SafeAreaView, StatusBar} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ChangePasswordModal from '../components/ChangePasswordModal';
+import AccountInformationModal from '../components/AccountinformationModal';
 
 export default function SettingsScreen({ navigation, setIsLoggedIn }) {
 
     const [modalPasswordChangeVisible, setModalPasswordChangeVisible] = useState(false);
-
-    console.log(modalPasswordChangeVisible)
+    const [modalAccountInformation, setModalAccountInformation] = useState(false)
 
     const logoutAccount = () => {
 
@@ -23,7 +23,7 @@ export default function SettingsScreen({ navigation, setIsLoggedIn }) {
             <SafeAreaView style={styles.container}/>
             <StatusBar barStyle="dark-content" />
             <View style={styles.settingsBox}>
-                <TouchableOpacity style={styles.settingsLine}>
+                <TouchableOpacity style={styles.settingsLine}onPress={() => {setModalAccountInformation(true)}}>
                     <Text style={styles.settingTitle}>
                         Account Details
                     </Text>
@@ -49,6 +49,7 @@ export default function SettingsScreen({ navigation, setIsLoggedIn }) {
                 </TouchableOpacity>
             </View>
             <ChangePasswordModal visible={modalPasswordChangeVisible} onClose={() => setModalPasswordChangeVisible(false)} />
+            <AccountInformationModal visible={modalAccountInformation} onClose={() => setModalAccountInformation(false)} />
             <View style={{height: 900, backgroundColor: "#F5F7FC"}} />
         </View>
     );
