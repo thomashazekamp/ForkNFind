@@ -9,6 +9,7 @@ const GetUserInformationAPIRequest = (setData) => {
         headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + access_global,
     },
     }).then(response=>response.json())
     .then(data=>{
