@@ -1,0 +1,40 @@
+# Adding text vectorization, including the use of model
+
+# Applying text processing to the data
+# !!! Need to implement file calling for the functions (this needs to use the file that contains the dataset data)
+# !! - read_dataset?
+df["tokens"] = df["tweet_text"].apply(process_text)
+df["tweet_sentiment"] = df["sentiment"].apply(lambda x: 1 if x == "positive" else 0)
+
+x  = df["tokens"].tolist()
+y = df["tweet_sentiment"].tolist()
+
+# BAG OF WORDS (CountVectorizer)
+from sklearn.feature_extraction.text import CountVectorizer # Bag of words
+
+def fit_cv(tweet_corpus):
+    cv_vect = CountVectorizer(tokenizer=lambda x: x, preprocessor=lambda x: x) # Using custom tokenizer and preprocessor
+
+    cv_vect.fit(tweet_corpus)
+
+    return cv_vect
+
+cv_vect = fit_cv(corpus)
+
+ft = cv_vect.get_feature_names_out()
+
+
+cv_mtx = cv_vect.transform(corpus)
+
+# TF-IDF (TfidfVectorizer)
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+def fit_tfidf(tween_corpus):
+    tf_vect = TfidfVectorizer(preprocessor=lambda x: x, tokenizer=lambda x: x) # Using custom tokenizer and preprocessor
+
+    tf_vect.fit(tween_corpus)
+    return tf_vect
+
+tf_vect = fit_tfidf(corpus)
+tf_mtx = tf_vect.transform(corpus)
