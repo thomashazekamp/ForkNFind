@@ -3,12 +3,14 @@
 # Applying text processing to the data
 # !!! Need to implement file calling for the functions (this needs to use the file that contains the dataset data)
 # !! - read_dataset?
+# Add the below to the file that contains the dataset data / maybe have it in a separate func that then does the .apply needed
 df["tokens"] = df["tweet_text"].apply(process_text)
 df["tweet_sentiment"] = df["sentiment"].apply(lambda x: 1 if x == "positive" else 0)
 
 x  = df["tokens"].tolist()
 y = df["tweet_sentiment"].tolist()
 
+# Bag of words and TF-IDF can be kept in here / or the train/test can be moved in here as they are related and used together
 # BAG OF WORDS (CountVectorizer)
 from sklearn.feature_extraction.text import CountVectorizer # Bag of words
 
