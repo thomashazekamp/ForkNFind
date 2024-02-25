@@ -65,11 +65,11 @@ References:
 '''
 import nltk
 from nltk.tokenize import word_tokenize
-nltk.download('punkt')
+#nltk.download('punkt') # NOTE: seems to be already downloaded and not needed
 
 import string
 from nltk.corpus import stopwords
-nltk.download('stopwords')
+#nltk.download('stopwords') # NOTE: seems to be already downloaded and not needed
 
 # Stemming
 from nltk.stem import PorterStemmer 
@@ -107,6 +107,8 @@ def stemming_tokens(tokens, stemmer):
         stemmer = LancasterStemmer()
     elif stemmer == 'snowball':
         stemmer = SnowballStemmer('english')
+
+    # Stemming the tokens using specified stemmer
     token_list = [stemmer.stem(token) for token in tokens] # Add the new stemmed token to the list
     return token_list
 
