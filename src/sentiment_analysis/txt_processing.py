@@ -100,10 +100,13 @@ def custom_tokenization(text, keep_punctuation = False, keep_alphanum = False, k
 
 # Function to stem tokens given a stemming algorithm !NOTE: Need to change logic of which stemmer to use
 def stemming_tokens(tokens, stemmer):
-    porter_stemmer = PorterStemmer()
-    lancaster_stemmer = LancasterStemmer()
-    snowball_stemmer = SnowballStemmer('english')
-    stemmer = snowball_stemmer # !!!NOTE: This needs to change logic
+    # depending on the chosen stemmer, we will use the respective stemming algorithm
+    if stemmer == 'porter':
+        stemmer = PorterStemmer()
+    elif stemmer == 'lancaster':
+        stemmer = LancasterStemmer()
+    elif stemmer == 'snowball':
+        stemmer = SnowballStemmer('english')
     token_list = [stemmer.stem(token) for token in tokens] # Add the new stemmed token to the list
     return token_list
 
@@ -127,5 +130,5 @@ def process_text(text):
     p_txt = custom_tokenization(p_txt)
 
     # Stemming the tokens
-    p_txt = stemming_tokens(p_txt, snowball_stemmer) # !!! Can change to just (p_txt)
+    p_txt = stemming_tokens(p_txt, 'snowball')
     return p_txt
