@@ -18,3 +18,8 @@ def apply_dataset_column_modifications(df): # applies the new processed text to 
 
     return df
 
+def dataset_tolist(df):
+    x  = df["tokens"].tolist()
+    y = df["tweet_sentiment"].tolist()
+
+    return x, y
