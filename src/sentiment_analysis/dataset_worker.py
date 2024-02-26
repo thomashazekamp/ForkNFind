@@ -5,7 +5,7 @@ from txt_processing import process_text
 def read_dataset():
     # Read in the data
     df = pd.read_csv('dataset/tweet_data/tweet_data.csv')
-    df = df.head(500) # Limiting the dataset to 100 rows for testing purposes
+    # df = df.head(100) # Limiting the dataset to 100 rows for testing purposes
 
     return df
 
