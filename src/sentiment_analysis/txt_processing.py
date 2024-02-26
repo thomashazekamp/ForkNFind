@@ -12,12 +12,24 @@ References:
 - Perform Sentiment Analysis on Twitter data by combining Text Mining and NLP techniques, NLTK and Scikit-Learn
 - by Benjamin Termonia
 - provided by Udemy Business
-
 '''
 import re # Used for regex
 import emoji # Used to convert emojis to text
 
 import contractions # Used to expand contractions
+
+import nltk
+from nltk.tokenize import word_tokenize
+#nltk.download('punkt') # NOTE: seems to be already downloaded and not needed
+
+import string
+from nltk.corpus import stopwords
+#nltk.download('stopwords') # NOTE: seems to be already downloaded and not needed
+
+# Stemming
+from nltk.stem import PorterStemmer 
+from nltk.stem import LancasterStemmer # more agressive stemming
+from nltk.stem import SnowballStemmer # better than porter and newer
 
 # Remove emojis
 def convert_emoji_to_text(text):
@@ -57,31 +69,6 @@ def replace_contractions(text):
     text = contractions.fix(text) # Using built in method from contractions library
     return text
 
-'''
-References:
-- Perform Sentiment Analysis on Twitter data by combining Text Mining and NLP techniques, NLTK and Scikit-Learn
-- by Benjamin Termonia
-- provided by Udemy Business
-'''
-import nltk
-from nltk.tokenize import word_tokenize
-#nltk.download('punkt') # NOTE: seems to be already downloaded and not needed
-
-import string
-from nltk.corpus import stopwords
-#nltk.download('stopwords') # NOTE: seems to be already downloaded and not needed
-
-# Stemming
-from nltk.stem import PorterStemmer 
-from nltk.stem import LancasterStemmer # more agressive stemming
-from nltk.stem import SnowballStemmer # better than porter and newer
-#NOTE: can look at more stemming algos
-
-
-# def tokenize(text): # Tokenizing the text
-#     tokens = word_tokenize(text)
-#     return tokens
-
 # Depending if we want to keep punctuation, alphanumeric characters and stopwords we can use the following function with True or False
 def custom_tokenization(text, keep_punctuation = False, keep_alphanum = False, keep_stopwords = False):
     stop_words = set(stopwords.words('english')) # Getting the stop words from nltk
@@ -98,7 +85,7 @@ def custom_tokenization(text, keep_punctuation = False, keep_alphanum = False, k
 
     return token_list
 
-# Function to stem tokens given a stemming algorithm !NOTE: Need to change logic of which stemmer to use
+# Function to stem tokens given a stemming algorithm, e.g. porter, lancaster, snowball
 def stemming_tokens(tokens, stemmer):
     # depending on the chosen stemmer, we will use the respective stemming algorithm
     if stemmer == 'porter':
@@ -112,9 +99,7 @@ def stemming_tokens(tokens, stemmer):
     token_list = [stemmer.stem(token) for token in tokens] # Add the new stemmed token to the list
     return token_list
 
-# Processing the string/text
-# !!! Need to implement file calling for the functions
-
+# Function to process the text, removing links, converting emojis to text, removing hashtags, making string lowercase, removing repeated characters and punctuation and replacing contractions
 def process_text(text):
     # Removing links and converting emojis to text
     p_txt = remove_links(text)
@@ -128,9 +113,8 @@ def process_text(text):
     p_txt = replace_contractions(p_txt)
     
     # Tokenizing the string
-    #p_txt = tokenize(p_txt)
     p_txt = custom_tokenization(p_txt)
 
-    # Stemming the tokens
+    # Stemming the tokens, using the snowball stemmer
     p_txt = stemming_tokens(p_txt, 'snowball')
     return p_txt
