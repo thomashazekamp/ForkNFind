@@ -1,5 +1,10 @@
+'''
+References:
+- Perform Sentiment Analysis on Twitter data by combining Text Mining and NLP techniques, NLTK and Scikit-Learn
+- by Benjamin Termonia
+- provided by Udemy Business
+'''
 import pandas as pd
-
 from txt_processing import process_text
 
 def read_dataset():
