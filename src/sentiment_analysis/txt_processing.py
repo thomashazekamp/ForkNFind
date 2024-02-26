@@ -94,6 +94,8 @@ def stemming_tokens(tokens, stemmer):
         stemmer = LancasterStemmer()
     elif stemmer == 'snowball':
         stemmer = SnowballStemmer('english')
+    else:
+        raise ValueError('Stemmer not recognized - please choose between porter, lancaster or snowball.')
 
     # Stemming the tokens using specified stemmer
     token_list = [stemmer.stem(token) for token in tokens] # Add the new stemmed token to the list
