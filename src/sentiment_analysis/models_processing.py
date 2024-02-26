@@ -1,3 +1,9 @@
+'''
+References:
+- Perform Sentiment Analysis on Twitter data by combining Text Mining and NLP techniques, NLTK and Scikit-Learn
+- by Benjamin Termonia
+- provided by Udemy Business
+'''
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer 
 from sklearn.model_selection import train_test_split
