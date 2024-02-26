@@ -1,10 +1,12 @@
 '''
 This file is the runner file that will call all the necessary functions to run the sentiment analysis model
 '''
+# Using necessary functions from other files
 from dataset_worker import read_dataset, apply_dataset_column_modifications, dataset_tolist
 from models_processing import run_model
 from txt_processing import process_text
 
+# Process the data by calling all relative dataset processing functions
 def process_data():
     # Read dataset
     df = read_dataset()
@@ -12,36 +14,31 @@ def process_data():
     # Apply text processing and modifications to the dataset
     df = apply_dataset_column_modifications(df)
 
+    # Convert the dataset to lists
     x, y = dataset_tolist(df) # holds the x = tokens and y = tweet_sentiment
 
     return x, y
 
-# # Read dataset
-# df = read_dataset()
+# Predict the sentiment of a given text
+def predict_sentiment(text):
+    model, text_trans = run_model() # returns the model and the text transformer
 
-# # Apply text processing and modifications to the dataset
-# df = apply_dataset_column_modifications(df)
+    processed_text = process_text(text) # process the text - remove links, convert emojis to text, remove hashtags, make string lowercase, remove repeated characters and punctuation and replace contractions
+    new_text = text_trans.transform([processed_text]) # transform the processed text - using the text transformer
+    prediction = model.predict(new_text) # predict the sentiment of the new text - using the model
 
-# x, y = dataset_tolist(df) # holds the x = tokens and y = tweet_sentiment
+    # Checking if the prediction is positive or negative with an error case
+    if prediction == 1:
+        return '1'  # positive sentiment
+    elif prediction == 0:
+        return '0'  # negative sentiment
+    else:
+        return 'NA'  # not available / error
 
 def main():
-    # print(df.head())
-    # print(x)
-    # print(y)
-    example_text = "I am happy"
-
-    model, text = run_model() # returns the model and the text
-
-    processed_text = process_text(example_text)
-    new_text = text.transform([processed_text])
-    prediction = model.predict(new_text)
-
-    print(prediction)
-    if prediction == 1:
-        print("The text is positive")
-    else:
-        print("The text is negative")
-    pass
+    # This can be used for example purposes
+    example_text = "I am happy, this is great!"
+    print(predict_sentiment(example_text))
 
 if __name__ == '__main__':
     main()
