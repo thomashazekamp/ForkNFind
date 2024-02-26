@@ -19,12 +19,26 @@ import emoji # Used to convert emojis to text
 import contractions # Used to expand contractions
 
 import nltk
+import ssl # Used to fix SSL error when downloading nltk data
+
+'''
+Error handling for nltk download and issue with SSL
+Reference: https://stackoverflow.com/questions/38916452/nltk-download-ssl-certificate-verify-failed
+    and https://github.com/gunthercox/ChatterBot/issues/930#issuecomment-322111087
+'''
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
 from nltk.tokenize import word_tokenize
-#nltk.download('punkt') # NOTE: seems to be already downloaded and not needed
+nltk.download('punkt')
 
 import string
 from nltk.corpus import stopwords
-#nltk.download('stopwords') # NOTE: seems to be already downloaded and not needed
+nltk.download('stopwords')
 
 # Stemming
 from nltk.stem import PorterStemmer 
