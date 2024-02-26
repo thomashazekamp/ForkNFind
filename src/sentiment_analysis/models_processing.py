@@ -14,8 +14,9 @@ from sklearn.linear_model import LogisticRegression
 def run_model():
 
     from runner_sent_analysis import process_data # calling the process_data function from the runner_sent_analysis file
-    x, y = process_data()
-    corpus = x
+
+    x, y = process_data() # calls process data with x and y being the tweet tokens and sentiment of the tweet
+    corpus = x # corpus is the tweet tokens of whole dataset
 
     # Bag of words and TF-IDF can be kept in here / or the train/test can be moved in here as they are related and used together
     # BAG OF WORDS (CountVectorizer)
@@ -37,24 +38,20 @@ def run_model():
 
     ### TF-IDF (TfidfVectorizer)
 
-    # from sklearn.feature_extraction.text import TfidfVectorizer - added at top of file
-
-    def fit_tfidf(tween_corpus):
+    def fit_tfidf(tweet_corpus):
         tf_vect = TfidfVectorizer(preprocessor=lambda x: x, tokenizer=lambda x: x) # Using custom tokenizer and preprocessor
 
-        tf_vect.fit(tween_corpus)
+        tf_vect.fit(tweet_corpus) # fit the vectorizer on the corpus
         return tf_vect
 
-    tf_vect = fit_tfidf(corpus)
-    tf_mtx = tf_vect.transform(corpus)
+    tf_vect = fit_tfidf(corpus) # calling the fit_tfidf function with the corpus
+    tf_mtx = tf_vect.transform(corpus) # transforming the corpus using the tfidf vectorizer
 
-    # from sklearn.model_selection import train_test_split
-    # import random - added both at top of file
-
+    # Splitting data for train / test purposes
     x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0, train_size=0.8)
 
-    # Logistic Regression model
-    # from sklearn.linear_model import LogisticRegression - added at top of file
+
+    ### Logistic Regression model
 
     def fit_lr(x_train, y_train): # Fitting a logistic regression model
         lr = LogisticRegression()
@@ -73,10 +70,11 @@ def run_model():
 
 
     ### Using TF-IDF
+
     tf = fit_tfidf(x_train) # only fit on the training data
     x_train_tf = tf.transform(x_train) # transform the training data
     x_test_tf = tf.transform(x_test) # transform the testing data
 
     model_lr_tf = fit_lr(x_train_tf, y_train) # fit the model on the training data
 
-    return model_lr_tf, tf
+    return model_lr_tf, tf # return the model and the tfidf vectorizer

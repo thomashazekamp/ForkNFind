@@ -7,10 +7,11 @@ References:
 import pandas as pd
 from txt_processing import process_text
 
+# Read in the data
 def read_dataset():
     # Read in the data
     df = pd.read_csv('dataset/tweet_data/tweet_data.csv')
-    # df = df.head(100) # Limiting the dataset to 100 rows for testing purposes
+    # df = df.head(100) # Limiting the dataset to 100 rows for testing purposes - NOTE: This low number can cause issues with the predicted sentiment
 
     return df
 
@@ -23,6 +24,7 @@ def apply_dataset_column_modifications(df): # applies the new processed text to 
 
     return df
 
+# Convert the dataset to lists
 def dataset_tolist(df):
     x  = df["tokens"].tolist()
     y = df["tweet_sentiment"].tolist()
