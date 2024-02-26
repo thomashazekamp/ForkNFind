@@ -1,16 +1,19 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer 
+from sklearn.model_selection import train_test_split
+import random
+from sklearn.linear_model import LogisticRegression
+
 # Adding text vectorization, including the use of model
-
-# Applying text processing to the data
-
 def run_model():
 
-    from runner_sent_analysis import process_data
+    from runner_sent_analysis import process_data # calling the process_data function from the runner_sent_analysis file
     x, y = process_data()
     corpus = x
 
     # Bag of words and TF-IDF can be kept in here / or the train/test can be moved in here as they are related and used together
     # BAG OF WORDS (CountVectorizer)
-    # from sklearn.feature_extraction.text import CountVectorizer # Bag of words
+    # from sklearn.feature_extraction.text import CountVectorizer # added at top of file
 
     # def fit_cv(tweet_corpus):
     #     cv_vect = CountVectorizer(tokenizer=lambda x: x, preprocessor=lambda x: x) # Using custom tokenizer and preprocessor
@@ -28,7 +31,7 @@ def run_model():
 
     ### TF-IDF (TfidfVectorizer)
 
-    from sklearn.feature_extraction.text import TfidfVectorizer
+    # from sklearn.feature_extraction.text import TfidfVectorizer - added at top of file
 
     def fit_tfidf(tween_corpus):
         tf_vect = TfidfVectorizer(preprocessor=lambda x: x, tokenizer=lambda x: x) # Using custom tokenizer and preprocessor
@@ -39,13 +42,13 @@ def run_model():
     tf_vect = fit_tfidf(corpus)
     tf_mtx = tf_vect.transform(corpus)
 
-    from sklearn.model_selection import train_test_split
-    import random
+    # from sklearn.model_selection import train_test_split
+    # import random - added both at top of file
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0, train_size=0.8)
 
     # Logistic Regression model
-    from sklearn.linear_model import LogisticRegression
+    # from sklearn.linear_model import LogisticRegression - added at top of file
 
     def fit_lr(x_train, y_train): # Fitting a logistic regression model
         lr = LogisticRegression()
