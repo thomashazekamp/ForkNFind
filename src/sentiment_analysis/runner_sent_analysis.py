@@ -21,7 +21,7 @@ def process_data():
 
 # Predict the sentiment of a given text
 def predict_sentiment(text):
-    model, text_trans = run_model() # returns the model and the text transformer
+    model, text_trans = run_model() # returns the model and the text transformer, can have input such as: 'cv' or 'tfidf' (uses tfidf as default option) to choose which vectorization type to use
 
     processed_text = process_text(text) # process the text - remove links, convert emojis to text, remove hashtags, make string lowercase, remove repeated characters and punctuation and replace contractions
     new_text = text_trans.transform([processed_text]) # transform the processed text - using the text transformer
