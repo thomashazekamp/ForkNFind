@@ -11,8 +11,8 @@ import random
 from sklearn.linear_model import LogisticRegression
 
 # Adding text vectorization, including the use of model
-# If vectorization type not provided use tfidf as default
-def run_model(vectorization_type='tfidf'):
+# Uses tfidf as default
+def run_model(vectorization_type):
 
     from runner_sent_analysis import process_data # calling the process_data function from the runner_sent_analysis file
 
