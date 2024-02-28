@@ -20,13 +20,13 @@ def apply_dataset_column_modifications(df): # applies the new processed text to 
     df["tokens"] = df["tweet_text"].apply(process_text)
 
     # change sentiment to 1 or 0
-    df["tweet_sentiment"] = df["sentiment"].apply(lambda x: 1 if x == "positive" else 0)
+    df["text_sentiment"] = df["sentiment"].apply(lambda x: 1 if x == "positive" else 0)
 
     return df
 
 # Convert the dataset to lists
 def dataset_tolist(df):
     x  = df["tokens"].tolist()
-    y = df["tweet_sentiment"].tolist()
+    y = df["text_sentiment"].tolist()
 
     return x, y
