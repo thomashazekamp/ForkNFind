@@ -19,22 +19,22 @@ def run_model(vectorization_type):
     print('Running model...')
     print('Vectorization type:', vectorization_type)
 
-    x, y = process_data() # calls process data with x and y being the tweet tokens and sentiment of the tweet
-    corpus = x # corpus is the tweet tokens of whole dataset
+    x, y = process_data() # calls process data with x and y being the text tokens and sentiment of the text
+    corpus = x # corpus is the text tokens of whole dataset
 
     # BAG OF WORDS (CountVectorizer)
-    def fit_cv(tweet_corpus):
+    def fit_cv(text_corpus):
         cv_vect = CountVectorizer(tokenizer=lambda x: x, preprocessor=lambda x: x) # Using custom tokenizer and preprocessor
 
-        cv_vect.fit(tweet_corpus)
+        cv_vect.fit(text_corpus)
 
         return cv_vect
     
     # TF-IDF (TfidfVectorizer)
-    def fit_tfidf(tweet_corpus):
+    def fit_tfidf(text_corpus):
         tf_vect = TfidfVectorizer(preprocessor=lambda x: x, tokenizer=lambda x: x) # Using custom tokenizer and preprocessor
 
-        tf_vect.fit(tweet_corpus) # fit the vectorizer on the corpus
+        tf_vect.fit(text_corpus) # fit the vectorizer on the corpus
         return tf_vect
     
     ### Vectorization

@@ -15,7 +15,7 @@ def process_data():
     df = apply_dataset_column_modifications(df)
 
     # Convert the dataset to lists
-    x, y = dataset_tolist(df) # holds the x = tokens and y = tweet_sentiment
+    x, y = dataset_tolist(df) # holds the x = tokens and y = text_sentiment
 
     return x, y
 
