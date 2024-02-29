@@ -10,7 +10,7 @@ from txt_processing import process_text
 # Read in the data
 def read_dataset():
     # Read in the data
-    dataset = 'dataset/yelp_review_polarity_dataset/updated_yelp_polarity_train.csv'
+    dataset = 'dataset/yelp_data/updated_yelp_polarity_train.csv'
     df = pd.read_csv(dataset)
     df = df.head(5000) # Limiting the dataset to a number of rows for memory purposes
 
