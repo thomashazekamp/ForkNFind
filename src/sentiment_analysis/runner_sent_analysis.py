@@ -10,6 +10,7 @@ from txt_processing import process_text
 
 # Importing necessary libraries
 from joblib import dump, load
+from datetime import datetime
 
 # Process the data by calling all relative dataset processing functions
 def process_data():
@@ -26,7 +27,9 @@ def process_data():
 
 # Predict the sentiment of a given text
 def predict_sentiment(text, vectorization_type='tfidf'):
-    run_save_model = True
+    # Print the current time
+    print(f'Current time at start: {datetime.now()}')
+    run_save_model = False # Last updated: 07/3/2024
     model_file_name = 'sentiment_analysis_model.pkl'
 
     if run_save_model == True:
@@ -35,6 +38,7 @@ def predict_sentiment(text, vectorization_type='tfidf'):
         # Save the model and text transformer
         dump((model, text_trans), model_file_name)
 
+    # Load saved model with error handling
     try:
         model, text_trans = load(model_file_name) # load the model and text transformer
     except FileNotFoundError:
@@ -45,6 +49,7 @@ def predict_sentiment(text, vectorization_type='tfidf'):
     prediction = model.predict(new_text) # predict the sentiment of the new text - using the model
 
     # Checking if the prediction is positive or negative with an error case
+    print(f'Current time at end: {datetime.now()}')
     if prediction == 1:
         return '1'  # positive sentiment
     elif prediction == 0:
