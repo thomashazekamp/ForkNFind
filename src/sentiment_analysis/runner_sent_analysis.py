@@ -1,5 +1,7 @@
 '''
 This file is the runner file that will call all the necessary functions to run the sentiment analysis model
+References:
+- https://neptune.ai/blog/saving-trained-model-in-python -> used for saving the model (joblib)
 '''
 # Using necessary functions from other files
 from dataset_worker import read_dataset, apply_dataset_column_modifications, dataset_tolist
