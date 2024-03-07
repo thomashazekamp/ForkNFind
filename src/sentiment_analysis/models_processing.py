@@ -4,11 +4,73 @@ References:
 - by Benjamin Termonia
 - provided by Udemy Business
 '''
+
+'''
+### Used ChatGPT to fix issue with relating to lambda function inside CountVectorizer and TfidfVectorizer
+- Prompt: 
+/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/sklearn/feature_extraction/text.py:525: UserWarning: The parameter 'token_pattern' will not be used since 'tokenizer' is not None'
+  warnings.warn(
+Traceback (most recent call last):
+  File "/Users/thomashazekamp/Desktop/CASE4/CA400/2024-ca400-hazekat2-dalye54/src/sentiment_analysis/runner_sent_analysis.py", line 59, in <module>
+    main()
+  File "/Users/thomashazekamp/Desktop/CASE4/CA400/2024-ca400-hazekat2-dalye54/src/sentiment_analysis/runner_sent_analysis.py", line 56, in main
+    print(predict_sentiment(example_text))
+  File "/Users/thomashazekamp/Desktop/CASE4/CA400/2024-ca400-hazekat2-dalye54/src/sentiment_analysis/runner_sent_analysis.py", line 34, in predict_sentiment
+    dump((model, text_trans), model_file_name)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/joblib/numpy_pickle.py", line 553, in dump
+    NumpyPickler(f, protocol=protocol).dump(value)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/pickle.py", line 487, in dump
+    self.save(obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/joblib/numpy_pickle.py", line 355, in save
+    return Pickler.save(self, obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/pickle.py", line 560, in save
+    f(self, obj)  # Call unbound method with explicit self
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/pickle.py", line 886, in save_tuple
+    save(element)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/joblib/numpy_pickle.py", line 355, in save
+    return Pickler.save(self, obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/pickle.py", line 603, in save
+    self.save_reduce(obj=obj, *rv)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/pickle.py", line 717, in save_reduce
+    save(state)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/joblib/numpy_pickle.py", line 355, in save
+    return Pickler.save(self, obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/pickle.py", line 560, in save
+    f(self, obj)  # Call unbound method with explicit self
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/pickle.py", line 971, in save_dict
+    self._batch_setitems(obj.items())
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/pickle.py", line 997, in _batch_setitems
+    save(v)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/joblib/numpy_pickle.py", line 355, in save
+    return Pickler.save(self, obj)
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/pickle.py", line 560, in save
+    f(self, obj)  # Call unbound method with explicit self
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/pickle.py", line 1070, in save_global
+    raise PicklingError(
+_pickle.PicklingError: Can't pickle <function run_model.<locals>.fit_tfidf.<locals>.<lambda> at 0x7fe7b9e77280>: it's not found as models_processing.run_model.<locals>.fit_tfidf.<locals>.<lambda>
+
+- Solution:
+The error you encountered indicates that there is a problem with pickling (serializing) a lambda function defined inside your run_model function. Lambda functions can sometimes cause issues with serialization due to their nature.
+
+To resolve this issue, you can try avoiding the use of lambda functions within your run_model function. Instead, you can define named functions or use built-in functions. Once you've done that, try saving your model and text transformer again.
+
+If you continue to encounter issues, please provide more details about your run_model function, particularly any parts involving lambda functions or custom objects that might not be picklable. This will help in providing more specific guidance on how to address the problem.
+
+### Other helpful resources:
+- https://github.com/joblib/joblib/issues/600
+'''
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer 
 from sklearn.model_selection import train_test_split
 import random
 from sklearn.linear_model import LogisticRegression
+
+## Functions
+def custom_preprocessor(text):
+    return text
+
+def custom_tokenizer(text):
+    return text
 
 # Adding text vectorization, including the use of model
 # Uses tfidf as default
@@ -24,7 +86,7 @@ def run_model(vectorization_type):
 
     # BAG OF WORDS (CountVectorizer)
     def fit_cv(text_corpus):
-        cv_vect = CountVectorizer(tokenizer=lambda x: x, preprocessor=lambda x: x) # Using custom tokenizer and preprocessor
+        cv_vect = CountVectorizer(tokenizer=custom_tokenizer, preprocessor=custom_preprocessor) # Using custom tokenizer and preprocessor
 
         cv_vect.fit(text_corpus)
 
@@ -32,7 +94,7 @@ def run_model(vectorization_type):
     
     # TF-IDF (TfidfVectorizer)
     def fit_tfidf(text_corpus):
-        tf_vect = TfidfVectorizer(preprocessor=lambda x: x, tokenizer=lambda x: x) # Using custom tokenizer and preprocessor
+        tf_vect = TfidfVectorizer(preprocessor=custom_preprocessor, tokenizer=custom_tokenizer) # Using custom tokenizer and preprocessor
 
         tf_vect.fit(text_corpus) # fit the vectorizer on the corpus
         return tf_vect
