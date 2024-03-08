@@ -11,6 +11,7 @@ from txt_processing import process_text
 # Importing necessary libraries
 from joblib import dump, load
 from datetime import datetime
+import os
 
 # Process the data by calling all relative dataset processing functions
 def process_data():
@@ -32,17 +33,16 @@ def predict_sentiment(text, vectorization_type='tfidf'):
     run_save_model = False # Last updated: 07/3/2024
     model_file_name = 'sentiment_analysis_model.pkl'
 
-    if run_save_model == True:
+    if os.path.isfile(model_file_name):
+        # Load saved model with error handling
+        try:
+            model, text_trans = load(model_file_name) # load the model and text transformer
+        except FileNotFoundError:
+            print("Model file not found. Please initially run the model to save it.")
+    else:
         model, text_trans = run_model(vectorization_type) # returns the model and the text transformer, can have input such as: 'cv' or 'tfidf' (uses tfidf as default option) to choose which vectorization type to use
-
         # Save the model and text transformer
         dump((model, text_trans), model_file_name)
-
-    # Load saved model with error handling
-    try:
-        model, text_trans = load(model_file_name) # load the model and text transformer
-    except FileNotFoundError:
-        print("Model file not found. Please initially run the model to save it.")
 
     processed_text = process_text(text) # process the text - remove links, convert emojis to text, remove hashtags, make string lowercase, remove repeated characters and punctuation and replace contractions
     new_text = text_trans.transform([processed_text]) # transform the processed text - using the text transformer
