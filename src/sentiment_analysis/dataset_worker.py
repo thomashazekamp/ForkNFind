@@ -12,7 +12,10 @@ def read_dataset():
     # Read in the data
     dataset = 'dataset/yelp_data/updated_yelp_polarity_train.csv'
     df = pd.read_csv(dataset)
-    df = df.head(5000) # Limiting the dataset to a number of rows for memory purposes
+    # printing total number of rows
+    print("Total number of rows in database: ", len(df))
+    df = df.head(50000) # Limiting the dataset to a number of rows for memory purposes
+    print("Total number of rows being processed: ", len(df))
 
     return df
 
