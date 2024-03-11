@@ -58,12 +58,22 @@ If you continue to encounter issues, please provide more details about your run_
 
 ### Other helpful resources:
 - https://github.com/joblib/joblib/issues/600
+
+### Reference for the models being used:
+- https://www.linkedin.com/advice/0/what-nlp-models-most-effective-sentiment-dbtef#:~:text=Supervised%20machine%20learning%20models%2C%20such,neutral%2C%20based%20on%20labeled%20examples.
+- Notes by Vikram Pandya
 '''
+## Libraries used
+# Vectorization
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer 
 from sklearn.model_selection import train_test_split
-import random
+
+# Models
 from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 ## Functions
 def custom_preprocessor(text):
@@ -74,11 +84,11 @@ def custom_tokenizer(text):
 
 # Adding text vectorization, including the use of model
 # Uses tfidf as default
-def run_model(vectorization_type):
+def run_model(vectorization_type, model_type):
 
     from runner_sent_analysis import process_data # calling the process_data function from the runner_sent_analysis file
 
-    print('Running model...')
+    print(f'Running {model_type} model...')
     print('Vectorization type:', vectorization_type)
 
     x, y = process_data() # calls process data with x and y being the text tokens and sentiment of the text
@@ -122,11 +132,38 @@ def run_model(vectorization_type):
     x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0, train_size=0.8)
 
 
-    ### Logistic Regression model
+    ### Fitting the model
+
+    # Logistic Regression model
     def fit_lr(x_train, y_train): # Fitting a logistic regression model
         lr = LogisticRegression()
         lr.fit(x_train, y_train)
         return lr
+    
+    # Naive Bayes model
+    def fit_nb(x_train, y_train):
+        nb = MultinomialNB()
+        nb.fit(x_train, y_train)
+        return nb
+    
+    # Support Vector Machine model
+    def fit_svm(x_train, y_train):
+        svm = SVC()
+        svm.fit(x_train, y_train)
+        return svm
+    
+    # Random Forest model
+    def fit_rf(x_train, y_train):
+        rf = RandomForestClassifier()
+        rf.fit(x_train, y_train)
+        return rf
+    
+    # Gradient Boosting Machine model
+    def fit_gbm(x_train, y_train):
+        gbm = GradientBoostingClassifier()
+        gbm.fit(x_train, y_train)
+        return gbm
+
 
     ### Vectorization
     # Bag of Words (CountVectorizer)
@@ -135,10 +172,24 @@ def run_model(vectorization_type):
         x_train_cv = cv.transform(x_train) # transform the training data
         x_test_cv = cv.transform(x_test) # transform the testing data
 
+        if model_type == 'logistic_regression': # if the model type is logistic regression
+            model_cv = fit_lr(x_train_cv, y_train) # fit the model on the training data
 
-        model_lr_cv = fit_lr(x_train_cv, y_train) # fit the model on the training data
+        elif model_type == 'naive_bayes': # if the model type is naive bayes
+            model_cv = fit_nb(x_train_cv, y_train)
 
-        return model_lr_cv, cv # return the model and the count vectorizer
+        elif model_type == 'support_vector_machine': # if the model type is support vector machine
+            model_cv = fit_svm(x_train_cv, y_train)
+
+        elif model_type == 'random_forest': # if the model type is random forest
+            model_cv = fit_rf(x_train_cv, y_train)
+
+        elif model_type == 'gradient_boosting_machine':     
+            model_cv = fit_gbm(x_train_cv, y_train)
+        else:
+            exit("Model provided is INVALID. Please use one of the following:\n'logistic_regression', 'naive_bayes', 'support_vector_machine', 'random_forest', 'gradient_boosting_machine'")
+
+        return model_cv, cv # return the model and the count vectorizer
 
 
     # Using TF-IDF
@@ -147,6 +198,21 @@ def run_model(vectorization_type):
         x_train_tf = tf.transform(x_train) # transform the training data
         x_test_tf = tf.transform(x_test) # transform the testing data
 
-        model_lr_tf = fit_lr(x_train_tf, y_train) # fit the model on the training data
+        if model_type == 'logistic_regression': # if the model type is logistic regression
+            model_tf = fit_lr(x_train_tf, y_train) # fit the model on the training data
 
-        return model_lr_tf, tf # return the model and the tfidf vectorizer
+        elif model_type == 'naive_bayes': # if the model type is naive bayes
+            model_tf = fit_nb(x_train_tf, y_train)
+
+        elif model_type == 'support_vector_machine': # if the model type is support vector machine
+            model_tf = fit_svm(x_train_tf, y_train)
+
+        elif model_type == 'random_forest': # if the model type is random forest
+            model_tf = fit_rf(x_train_tf, y_train)
+
+        elif model_type == 'gradient_boosting_machine':     
+            model_tf = fit_gbm(x_train_tf, y_train)
+        else:
+            exit("Model provided is INVALID. Please use one of the following:\n'logistic_regression', 'naive_bayes', 'support_vector_machine', 'random_forest', 'gradient_boosting_machine")
+
+        return model_tf, tf # return the model and the tfidf vectorizer
