@@ -31,7 +31,7 @@ def predict_sentiment(text, vectorization_type='tfidf', model_type='logistic_reg
     # Print the current time
     print(f'Current time at start: {datetime.now()}')
 
-    run_save_model = True # Last updated: 07/3/2024
+    run_save_model = False # Last updated: 07/3/2024
     model_file_name = 'sentiment_analysis_model.pkl'
 
     if os.path.isfile(model_file_name) and (run_save_model == False):
