@@ -19,6 +19,6 @@ test:
     - |
       export PYTHONPATH=src/backend:$PYTHONPATH
       python manage.py test
-    - | # Run the unit tests for the sentiment analysis module
+    - | # Run the unit tests for the sentiment analysis
       cd ../sentiment_analysis/ 
       python3 unitTest_functionality.py
