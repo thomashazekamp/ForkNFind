@@ -58,12 +58,22 @@ If you continue to encounter issues, please provide more details about your run_
 
 ### Other helpful resources:
 - https://github.com/joblib/joblib/issues/600
+
+### Reference for the models being used:
+- https://www.linkedin.com/advice/0/what-nlp-models-most-effective-sentiment-dbtef#:~:text=Supervised%20machine%20learning%20models%2C%20such,neutral%2C%20based%20on%20labeled%20examples.
+- Notes by Vikram Pandya
 '''
+## Libraries used
+# Vectorization
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer 
 from sklearn.model_selection import train_test_split
-import random
+
+# Models
 from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 ## Functions
 def custom_preprocessor(text):
@@ -122,11 +132,38 @@ def run_model(vectorization_type):
     x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0, train_size=0.8)
 
 
-    ### Logistic Regression model
+    ### Fitting the model
+
+    # Logistic Regression model
     def fit_lr(x_train, y_train): # Fitting a logistic regression model
         lr = LogisticRegression()
         lr.fit(x_train, y_train)
         return lr
+    
+    # Naive Bayes model
+    def fit_nb(x_train, y_train):
+        nb = MultinomialNB()
+        nb.fit(x_train, y_train)
+        return nb
+    
+    # Support Vector Machine model
+    def fit_svm(x_train, y_train):
+        svm = SVC()
+        svm.fit(x_train, y_train)
+        return svm
+    
+    # Random Forest model
+    def fit_rf(x_train, y_train):
+        rf = RandomForestClassifier()
+        rf.fit(x_train, y_train)
+        return rf
+    
+    # Gradient Boosting Machine model
+    def fit_gbm(x_train, y_train):
+        gbm = GradientBoostingClassifier()
+        gbm.fit(x_train, y_train)
+        return gbm
+
 
     ### Vectorization
     # Bag of Words (CountVectorizer)
