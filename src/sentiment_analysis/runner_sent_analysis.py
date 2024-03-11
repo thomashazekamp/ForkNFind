@@ -4,7 +4,6 @@ References:
 - https://neptune.ai/blog/saving-trained-model-in-python -> used for saving the model (joblib)
 '''
 # Using necessary functions from other files
-from dataset_worker import read_dataset, apply_dataset_column_modifications, dataset_tolist
 from models_processing import run_model
 from txt_processing import process_text
 
@@ -13,25 +12,12 @@ from joblib import dump, load
 from datetime import datetime
 import os
 
-# Process the data by calling all relative dataset processing functions
-def process_data():
-    # Read dataset
-    df = read_dataset()
-
-    # Apply text processing and modifications to the dataset
-    df = apply_dataset_column_modifications(df)
-
-    # Convert the dataset to lists
-    x, y = dataset_tolist(df) # holds the x = tokens and y = text_sentiment
-
-    return x, y
-
 # Predict the sentiment of a given text
 def predict_sentiment(text, vectorization_type='tfidf', model_type='logistic_regression'):
     # Print the current time
     print(f'Current time at start: {datetime.now()}')
 
-    run_save_model = False # Last updated: 07/3/2024
+    run_save_model = True # Last updated: 07/3/2024
     model_file_name = 'sentiment_analysis_model.pkl'
 
     if os.path.isfile(model_file_name) and (run_save_model == False):
