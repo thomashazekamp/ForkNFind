@@ -17,8 +17,23 @@ def predict_sentiment(text, vectorization_type='tfidf', model_type='logistic_reg
     # Print the current time
     print(f'Current time at start: {datetime.now()}')
 
+    if model_type == 'logistic_regression':
+        model_file_name = 'sentiment_analysis_model_lg.pkl'
+
+    elif model_type == 'random_forest':
+        model_file_name = 'sentiment_analysis_model_rf.pkl'
+
+    elif model_type == 'naive_bayes':
+        model_file_name = 'sentiment_analysis_model_nb.pkl'
+
+    elif model_type == 'support_vector_machine':
+        model_file_name = 'sentiment_analysis_model_svm.pkl'
+
+    elif model_type == 'gradient_boosting_machine':
+        model_file_name = 'sentiment_analysis_model_gbm.pkl'
+
+
     run_save_model = True # Last updated: 07/3/2024
-    model_file_name = 'sentiment_analysis_model.pkl'
 
     if os.path.isfile(model_file_name) and (run_save_model == False):
         # Load saved model with error handling
@@ -48,7 +63,7 @@ def main():
     # This can be used for example purposes
     example_text = "I am happy, this is great!"
     example_text2 = "I am sad, this is terrible!"
-    print(predict_sentiment(example_text2))
+    print(predict_sentiment(example_text2, 'tfidf', 'gradient_boosting_machine'))
 
 if __name__ == '__main__':
     main()

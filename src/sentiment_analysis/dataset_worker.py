@@ -14,7 +14,7 @@ def read_dataset():
     df = pd.read_csv(dataset)
     # printing total number of rows
     print("Total number of rows in database: ", len(df))
-    df = df.head(50000) # Limiting the dataset to a number of rows for memory purposes
+    df = df.head(5000) # Limiting the dataset to a number of rows for memory purposes
     print("Total number of rows being processed: ", len(df))
 
     return df
