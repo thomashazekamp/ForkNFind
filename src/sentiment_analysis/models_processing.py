@@ -75,7 +75,22 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
+from dataset_worker import read_dataset, apply_dataset_column_modifications, dataset_tolist
+
 ## Functions
+# Process the data by calling all relative dataset processing functions
+def process_data():
+    # Read dataset
+    df = read_dataset()
+
+    # Apply text processing and modifications to the dataset
+    df = apply_dataset_column_modifications(df)
+
+    # Convert the dataset to lists
+    x, y = dataset_tolist(df) # holds the x = tokens and y = text_sentiment
+
+    return x, y
+
 def custom_preprocessor(text):
     return text
 
@@ -86,7 +101,7 @@ def custom_tokenizer(text):
 # Uses tfidf as default
 def run_model(vectorization_type, model_type):
 
-    from runner_sent_analysis import process_data # calling the process_data function from the runner_sent_analysis file
+    # from runner_sent_analysis import process_data # calling the process_data function from the runner_sent_analysis file
 
     print(f'Running {model_type} model...')
     print('Vectorization type:', vectorization_type)

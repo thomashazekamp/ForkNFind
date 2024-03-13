@@ -4,7 +4,6 @@ References:
 - https://neptune.ai/blog/saving-trained-model-in-python -> used for saving the model (joblib)
 '''
 # Using necessary functions from other files
-from dataset_worker import read_dataset, apply_dataset_column_modifications, dataset_tolist
 from models_processing import run_model
 from txt_processing import process_text
 
@@ -13,28 +12,18 @@ from joblib import dump, load
 from datetime import datetime
 import os
 
-# Process the data by calling all relative dataset processing functions
-def process_data():
-    # Read dataset
-    df = read_dataset()
-
-    # Apply text processing and modifications to the dataset
-    df = apply_dataset_column_modifications(df)
-
-    # Convert the dataset to lists
-    x, y = dataset_tolist(df) # holds the x = tokens and y = text_sentiment
-
-    return x, y
-
 # Predict the sentiment of a given text
 def predict_sentiment(text, vectorization_type='tfidf', model_type='logistic_regression'):
     # Print the current time
     print(f'Current time at start: {datetime.now()}')
 
-    run_save_model = False # Last updated: 07/3/2024
-    model_file_name = 'sentiment_analysis_model.pkl'
+    # File name depending on the model and vectorization type with the path
+    model_file_name = 'saved_models_pkl/sentiment_analysis_model_' + vectorization_type + '_' + model_type + '.pkl'
 
-    if os.path.isfile(model_file_name) and (run_save_model == False):
+    # var to establish forcefully running the model
+    run_save_model = False # Last updated: 12/3
+
+    if os.path.isfile(model_file_name) and (run_save_model == False): # if the file exists and we dont want to run the model (run_save_model = False), then load the already saved model)
         # Load saved model with error handling
         try:
             model, text_trans = load(model_file_name) # load the model and text transformer
@@ -42,27 +31,37 @@ def predict_sentiment(text, vectorization_type='tfidf', model_type='logistic_reg
             print("Model file not found. Please initially run the model to save it.")
     else:
         model, text_trans = run_model(vectorization_type, model_type) # returns the model and the text transformer, can have input such as: 'cv' or 'tfidf' (uses tfidf as default option) to choose which vectorization type to use
-        # Save the model and text transformer
+        # Save the model and text transformer to a file
         dump((model, text_trans), model_file_name)
+
 
     processed_text = process_text(text) # process the text - remove links, convert emojis to text, remove hashtags, make string lowercase, remove repeated characters and punctuation and replace contractions
     new_text = text_trans.transform([processed_text]) # transform the processed text - using the text transformer
     prediction = model.predict(new_text) # predict the sentiment of the new text - using the model
 
-    # Checking if the prediction is positive or negative with an error case
     print(f'Current time at end: {datetime.now()}')
+
+    # Checking if the prediction is positive or negative with an error case
     if prediction == 1:
         return '1'  # positive sentiment
     elif prediction == 0:
         return '0'  # negative sentiment
     else:
-        return 'NA'  # not available / error
+        return 'NA - error'  # not available / error
 
 def main():
+    '''
+    Documentation:
+    - When calling predict_sentiment
+        - first parameter requires the text to be analyzed
+        - second parameter requires the vectorization type (if none provided, uses 'tfidf' as default) - 'cv' or 'tfidf'
+        - third parameter requires the model type (if none provided, uses 'logistic_regression' as default) - 'logistic_regression', 'random_forest', 'naive_bayes', 'support_vector_machine', 'gradient_boosting_machine'
+    note: if a third parameter is provided, the second parameter must also be provided
+    '''
     # This can be used for example purposes
     example_text = "I am happy, this is great!"
     example_text2 = "I am sad, this is terrible!"
-    print(predict_sentiment(example_text2))
+    print(predict_sentiment(example_text2, 'cv', 'gradient_boosting_machine'))
 
 if __name__ == '__main__':
     main()
