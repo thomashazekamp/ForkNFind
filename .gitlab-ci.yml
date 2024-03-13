@@ -21,4 +21,4 @@ test:
       python manage.py test
     - | # Run the unit tests for the sentiment analysis
       cd ../sentiment_analysis/ 
-      python3 unitTest_functionality.py
+      python3 tests_sentiment_analysis.py
