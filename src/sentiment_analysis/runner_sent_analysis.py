@@ -17,25 +17,13 @@ def predict_sentiment(text, vectorization_type='tfidf', model_type='logistic_reg
     # Print the current time
     print(f'Current time at start: {datetime.now()}')
 
-    if model_type == 'logistic_regression':
-        model_file_name = 'sentiment_analysis_model_lg.pkl'
+    # File name depending on the model and vectorization type with the path
+    model_file_name = 'saved_models_pkl/sentiment_analysis_model_' + vectorization_type + '_' + model_type + '.pkl'
 
-    elif model_type == 'random_forest':
-        model_file_name = 'sentiment_analysis_model_rf.pkl'
+    # var to establish forcefully running the model
+    run_save_model = False # Last updated: 12/3
 
-    elif model_type == 'naive_bayes':
-        model_file_name = 'sentiment_analysis_model_nb.pkl'
-
-    elif model_type == 'support_vector_machine':
-        model_file_name = 'sentiment_analysis_model_svm.pkl'
-
-    elif model_type == 'gradient_boosting_machine':
-        model_file_name = 'sentiment_analysis_model_gbm.pkl'
-
-
-    run_save_model = True # Last updated: 07/3/2024
-
-    if os.path.isfile(model_file_name) and (run_save_model == False):
+    if os.path.isfile(model_file_name) and (run_save_model == False): # if the file exists and we dont want to run the model (run_save_model = False), then load the already saved model)
         # Load saved model with error handling
         try:
             model, text_trans = load(model_file_name) # load the model and text transformer
@@ -43,27 +31,37 @@ def predict_sentiment(text, vectorization_type='tfidf', model_type='logistic_reg
             print("Model file not found. Please initially run the model to save it.")
     else:
         model, text_trans = run_model(vectorization_type, model_type) # returns the model and the text transformer, can have input such as: 'cv' or 'tfidf' (uses tfidf as default option) to choose which vectorization type to use
-        # Save the model and text transformer
+        # Save the model and text transformer to a file
         dump((model, text_trans), model_file_name)
+
 
     processed_text = process_text(text) # process the text - remove links, convert emojis to text, remove hashtags, make string lowercase, remove repeated characters and punctuation and replace contractions
     new_text = text_trans.transform([processed_text]) # transform the processed text - using the text transformer
     prediction = model.predict(new_text) # predict the sentiment of the new text - using the model
 
-    # Checking if the prediction is positive or negative with an error case
     print(f'Current time at end: {datetime.now()}')
+
+    # Checking if the prediction is positive or negative with an error case
     if prediction == 1:
         return '1'  # positive sentiment
     elif prediction == 0:
         return '0'  # negative sentiment
     else:
-        return 'NA'  # not available / error
+        return 'NA - error'  # not available / error
 
 def main():
+    '''
+    Documentation:
+    - When calling predict_sentiment
+        - first parameter requires the text to be analyzed
+        - second parameter requires the vectorization type (if none provided, uses 'tfidf' as default) - 'cv' or 'tfidf'
+        - third parameter requires the model type (if none provided, uses 'logistic_regression' as default) - 'logistic_regression', 'random_forest', 'naive_bayes', 'support_vector_machine', 'gradient_boosting_machine'
+    note: if a third parameter is provided, the second parameter must also be provided
+    '''
     # This can be used for example purposes
     example_text = "I am happy, this is great!"
     example_text2 = "I am sad, this is terrible!"
-    print(predict_sentiment(example_text2, 'tfidf', 'gradient_boosting_machine'))
+    print(predict_sentiment(example_text2, 'cv', 'gradient_boosting_machine'))
 
 if __name__ == '__main__':
     main()
