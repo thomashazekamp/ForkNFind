@@ -1,3 +1,6 @@
+'''
+Reference: Python docs - https://docs.python.org/3/library/unittest.html#unittest.TestCase.assertEqual
+'''
 import unittest
 
 
