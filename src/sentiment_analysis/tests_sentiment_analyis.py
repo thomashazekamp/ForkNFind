@@ -43,13 +43,13 @@ class testCasesSentimentAnalysis(unittest.TestCase):
         self.assertIn(predict_sentiment("I love this restaurant", 'cv', 'logistic_regression'), ['1', '0'])
 
     def test_cv_random_forest(self):
-        self.assertIn(predict_sentiment("I love this restaurant", 'cv', 'random_forest'), ['1', '0'])
+        self.assertIn(predict_sentiment("I hate this restaurant", 'cv', 'random_forest'), ['1', '0'])
 
     def test_cv_naive_bayes(self):
         self.assertIn(predict_sentiment("I love this restaurant", 'cv', 'naive_bayes'), ['1', '0'])
 
     def test_cv_support_vector_machine(self):
-        self.assertIn(predict_sentiment("I love this restaurant", 'cv', 'support_vector_machine'), ['1', '0'])
+        self.assertIn(predict_sentiment("I hate this restaurant", 'cv', 'support_vector_machine'), ['1', '0'])
 
     def test_cv_gradient_boosting_machine(self):
         self.assertIn(predict_sentiment("I love this restaurant", 'cv', 'gradient_boosting_machine'), ['1', '0'])
@@ -57,19 +57,19 @@ class testCasesSentimentAnalysis(unittest.TestCase):
     # TF-IDF Vectorization
     
     def test_tfidf_logistic_regression(self):
-        self.assertIn(predict_sentiment("I love this restaurant", 'tfidf', 'logistic_regression'), ['1', '0'])
+        self.assertIn(predict_sentiment("I hate this restaurant", 'tfidf', 'logistic_regression'), ['1', '0'])
 
     def test_tfidf_random_forest(self):
         self.assertIn(predict_sentiment("I love this restaurant", 'tfidf', 'random_forest'), ['1', '0'])
 
     def test_tfidf_naive_bayes(self):
-        self.assertIn(predict_sentiment("I love this restaurant", 'tfidf', 'naive_bayes'), ['1', '0'])
+        self.assertIn(predict_sentiment("I hate this restaurant", 'tfidf', 'naive_bayes'), ['1', '0'])
 
     def test_tfidf_support_vector_machine(self):
         self.assertIn(predict_sentiment("I love this restaurant", 'tfidf', 'support_vector_machine'), ['1', '0'])
 
     def test_tfidf_gradient_boosting_machine(self):
-        self.assertIn(predict_sentiment("I love this restaurant", 'tfidf', 'gradient_boosting_machine'), ['1', '0'])
+        self.assertIn(predict_sentiment("I hate this restaurant", 'tfidf', 'gradient_boosting_machine'), ['1', '0'])
 
     
 
