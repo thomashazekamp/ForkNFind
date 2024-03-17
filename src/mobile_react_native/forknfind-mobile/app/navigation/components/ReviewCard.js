@@ -69,23 +69,23 @@ const ReviewCard = ( {data, setReload} ) => {
                 <View style={styles.starContainer}>
                     <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
                         { starOne ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
-                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(1)} />
+                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}}/>
                     </View>
                     <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
                         { starTwo ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
-                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(2)} />
+                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}}/>
                     </View>
                     <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
                         { starThree ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
-                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(3)} />
+                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}}/>
                     </View>
                     <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
                         { starFour ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)}
-                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(4)}/>
+                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}}/>
                     </View>
                     <View style={[styles.starSection, {flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
                         { starFive ? (<AntDesign name="star" size={25} color="#DBFF00" style={{position: 'absolute'}}/>) : (<View/>)} 
-                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}} onPress={() => updateStars(5)}/>
+                        <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}}/>
                     </View>
                 </View>
                 <Text style={styles.dateText}>
