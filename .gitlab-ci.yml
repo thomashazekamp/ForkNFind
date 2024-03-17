@@ -11,6 +11,7 @@ before_script:
     pip install --upgrade pip
     pip install wheel
     pip install -r src/backend/requirements.txt
+    pip install -r src/sentiment_analysis/requirements.txt
 
 test:
   script:
@@ -18,3 +19,6 @@ test:
     - |
       export PYTHONPATH=src/backend:$PYTHONPATH
       python manage.py test
+    - | # Run the unit tests for the sentiment analysis
+      cd ../sentiment_analysis/ 
+      python3 tests_sentiment_analysis.py
