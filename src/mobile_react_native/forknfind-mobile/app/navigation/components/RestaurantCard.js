@@ -90,7 +90,15 @@ const styles = StyleSheet.create({
         marginBottom: '2.5%',
         paddingBottom: '4%',
         backgroundColor: 'white',
-        borderRadius: 20
+        borderRadius: 20,
+        // general shadow for restaurant card
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: .25,
+        shadowRadius: 3.5,
     },
     // Distance between name and open/close bar
     containerNameStatus: {
