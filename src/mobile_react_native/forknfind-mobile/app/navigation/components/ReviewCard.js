@@ -65,7 +65,7 @@ const ReviewCard = ( {data, setReload} ) => {
 
     return (
         // surround the card in a touchable component
-        <TouchableOpacity style={[styles.container, {shadowColor: sentiment == '1' ? 'red' : 'green'}]} onPress={() => toggleModal()}>
+        <TouchableOpacity style={[styles.container, {shadowColor: sentiment == '0' ? 'red' : 'green'}]} onPress={() => toggleModal()}>
             <Text style={styles.restaurantName}>{data["restaurant"].name}</Text>
             <View style={styles.rowContainer}>
                 <View style={styles.starContainer}>

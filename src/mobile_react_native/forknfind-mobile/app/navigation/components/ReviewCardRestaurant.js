@@ -60,7 +60,7 @@ const ReviewCardRestaurant = ( {data} ) => {
 
     return (
         // surround the card in a touchable component
-        <View style={[styles.container, {shadowColor: sentiment == 1 ? 'red' : 'green'}]}>
+        <View style={[styles.container, {shadowColor: sentiment == '0' ? 'red' : 'green'}]}>
             <Text style={styles.restaurantName}>{data["restaurant"].name}</Text>
             <View style={styles.rowContainer}>
                 <View style={styles.starContainer}>
