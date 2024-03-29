@@ -17,6 +17,6 @@ class ForknfindConfig(AppConfig):
         #reviewCreator()
 
         # call the recommendation model, as it is a singleton model can just call it using .load()
-        model = HybridRecommender.load()
+        #model = HybridRecommender.load()
         # start the recommender using its method .start_recommender()
-        model.start_recommender()
+        #model.start_recommender()

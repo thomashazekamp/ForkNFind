@@ -366,6 +366,8 @@ class Review(models.Model):
     description = models.TextField()
     # created at time, datetimefield
     date = models.DateField(default=timezone.now)
+    # positive or negative value
+    sentiment = models.IntegerField(choices=[(1,1),(2,2)], default=0)
 
     # Getting the id of the class
     def get_id(self):
@@ -387,8 +389,11 @@ class Review(models.Model):
     def get_description(self):
         return self.description
     
-    def get_created_at(self):
-        return self.created_at
+    def get_date(self):
+        return self.date
+    
+    def get_sentiment(self):
+        return self.sentiment
     
     # Getting the debug string of the class, set up so it includes important information when trying to debug using f strings
     def debug_string(self):
