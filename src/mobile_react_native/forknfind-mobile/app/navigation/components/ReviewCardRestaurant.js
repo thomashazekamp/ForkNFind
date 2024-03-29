@@ -14,6 +14,9 @@ const ReviewCardRestaurant = ( {data} ) => {
     const [starFour, setStarFour] = useState(false);
     const [starFive, setStarFive] = useState(false);
 
+    // random sentiment picker
+    const sentiment = Math.floor(Math.random() * 2) + 1;
+
     const {
         rating,
         description,
@@ -57,7 +60,7 @@ const ReviewCardRestaurant = ( {data} ) => {
 
     return (
         // surround the card in a touchable component
-        <View style={styles.container}>
+        <View style={[styles.container, {shadowColor: sentiment == 1 ? 'red' : 'green'}]}>
             <Text style={styles.restaurantName}>{data["restaurant"].name}</Text>
             <View style={styles.rowContainer}>
                 <View style={styles.starContainer}>
@@ -102,7 +105,14 @@ const styles = StyleSheet.create({
         marginTop: '2.5%',
         marginBottom: '2.5%',
         backgroundColor: 'white',
-        borderRadius: 20
+        borderRadius: 20,
+        // showing sentiment
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: .35,
+        shadowRadius: 3.5,
     },
     // restaurant name styling
     restaurantName: {

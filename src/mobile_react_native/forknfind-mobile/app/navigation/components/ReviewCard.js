@@ -14,6 +14,8 @@ const ReviewCard = ( {data, setReload} ) => {
     const [starThree, setStarThree] = useState(false);
     const [starFour, setStarFour] = useState(false);
     const [starFive, setStarFive] = useState(false);
+    // randomly pick a color for the sentiment !!! note this will not be random, will use a value from the database
+    const sentiment = Math.floor(Math.random() * 2) + 1;
 
     const {
         rating,
@@ -63,7 +65,7 @@ const ReviewCard = ( {data, setReload} ) => {
 
     return (
         // surround the card in a touchable component
-        <TouchableOpacity style={styles.container} onPress={() => toggleModal()}>
+        <TouchableOpacity style={[styles.container, {shadowColor: sentiment == '1' ? 'red' : 'green'}]} onPress={() => toggleModal()}>
             <Text style={styles.restaurantName}>{data["restaurant"].name}</Text>
             <View style={styles.rowContainer}>
                 <View style={styles.starContainer}>
@@ -117,7 +119,14 @@ const styles = StyleSheet.create({
         marginTop: '2.5%',
         marginBottom: '2.5%',
         backgroundColor: 'white',
-        borderRadius: 20
+        borderRadius: 20,
+        // showing sentiment
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: .35,
+        shadowRadius: 3.5,
     },
     // restaurant name styling
     restaurantName: {
