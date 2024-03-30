@@ -63,4 +63,4 @@ def run():
     # This can be used for example purposes
     example_text = "I am happy, this is great!"
     example_text2 = "I am sad, this is terrible!"
-    print(predict_sentiment(example_text2, 'tfidf', 'logistic_regression'))
+    print(predict_sentiment(example_text2))
