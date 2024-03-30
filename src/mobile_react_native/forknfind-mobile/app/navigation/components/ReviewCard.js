@@ -14,12 +14,11 @@ const ReviewCard = ( {data, setReload} ) => {
     const [starThree, setStarThree] = useState(false);
     const [starFour, setStarFour] = useState(false);
     const [starFive, setStarFive] = useState(false);
-    // randomly pick a color for the sentiment !!! note this will not be random, will use a value from the database
-    const sentiment = Math.floor(Math.random() * 2) + 1;
 
     const {
         rating,
         description,
+        sentiment,
     } = data;
 
     // use effect on startup to check how many stars are needed

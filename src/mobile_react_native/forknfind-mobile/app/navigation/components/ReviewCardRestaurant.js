@@ -14,12 +14,10 @@ const ReviewCardRestaurant = ( {data} ) => {
     const [starFour, setStarFour] = useState(false);
     const [starFive, setStarFive] = useState(false);
 
-    // random sentiment picker
-    const sentiment = Math.floor(Math.random() * 2) + 1;
-
     const {
         rating,
         description,
+        sentiment
     } = data;
 
     // use effect on startup to check how many stars are needed
