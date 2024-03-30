@@ -4,6 +4,8 @@ from django_filters import rest_framework as filters
 from .formula import *
 from datetime import datetime, time
 from .time_check import *
+from .sentiment.runner_sent_analysis import predict_sentiment
+
 
 # UserSerializer
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -77,7 +79,7 @@ class ReviewSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Review
-        fields = ['id','user','restaurant','rating','description', 'date'] # Show these fields
+        fields = ['id','user','restaurant','rating','description', 'date', 'sentiment'] # Show these fields
 
 # UserRegistrationSerializer
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -147,9 +149,12 @@ class ReviewRegistrationSerializer(serializers.ModelSerializer):
         restaurant = validated_data['restaurant']
         rating = validated_data['rating']
         description = validated_data['description']
+        print("test")
+        sentiment = predict_sentiment(description)
+        print("next test")
 
         # save the information about the review
-        new_review = Review.objects.create(user=user, restaurant=restaurant, rating=rating, description=description)
+        new_review = Review.objects.create(user=user, restaurant=restaurant, rating=rating, description=description, sentiment=sentiment)
         new_review.save()
 
         # reload the recommender as a new review has been added

@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 import time
+import os
 
 class ForknfindConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -20,3 +21,9 @@ class ForknfindConfig(AppConfig):
         model = HybridRecommender.load()
         # start the recommender using its method .start_recommender()
         model.start_recommender()
+
+        # uncomment to recalculate sentiment analysis model
+        # from .sentiment.runner_sent_analysis import run
+        # run()
+
+        
