@@ -47,6 +47,8 @@ export default function ReviewScreen({ navigation }) {
     useEffect(() => {
 
         if (selectedReviews == "positive") {
+            // choose based on sentiment in db
+            // remove the background sentiment colour
 
             console.log("positive")
         } else if (selectedReviews == "all") {
@@ -54,6 +56,8 @@ export default function ReviewScreen({ navigation }) {
             setData(originalData)
     
         } else if (selectedReviews == "negative") {
+            // choose based on sentiment in db
+            // remove the background sentiment colour
     
             console.log("negative")
 
