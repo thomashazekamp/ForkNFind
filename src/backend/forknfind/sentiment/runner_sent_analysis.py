@@ -15,7 +15,7 @@ import pickle
 
 
 # Predict the sentiment of a given text
-def predict_sentiment(text, vectorization_type='tfidf', model_type='logistic_regression'):
+def predict_sentiment(text, vectorization_type='tfidf', model_type='support_vector_machine'):
     # Print the current time
     #print(f'Current time at start: {datetime.now()}')
 
