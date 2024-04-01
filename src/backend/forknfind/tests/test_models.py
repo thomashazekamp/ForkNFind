@@ -1212,3 +1212,22 @@ class HybridRecommenderMethodTests(TestCase):
         returned_list = hybridrecommender.query_hybrid_recommender(random.randint(1,20))
 
         self.assertEqual(len(returned_list), 12)
+
+
+# Formula file testing
+class FormulaTests(TestCase):
+
+    # Test to validate the haversine function is working correctly
+    # Expected result is to have 1568.520556798576 returned
+    def test_haversine_formula(self):
+
+        distance = haversine((0,0),(10,10))
+
+        self.assertEqual(1568.520556798576, distance)
+
+    # Expected result is to have 0 returned
+    def test_haversine_formula_0_edge_case(self):
+
+        distance = haversine((0,0),(0,0))
+
+        self.assertEqual(0, distance)
