@@ -55,7 +55,7 @@ def main():
     - When calling predict_sentiment
         - first parameter requires the text to be analyzed
         - second parameter requires the vectorization type (if none provided, uses 'tfidf' as default) - 'cv' or 'tfidf'
-        - third parameter requires the model type (if none provided, uses 'logistic_regression' as default) - 'logistic_regression', 'random_forest', 'naive_bayes', 'support_vector_machine', 'gradient_boosting_machine'
+        - third parameter requires the model type (if none provided, uses 'support_vector_machine' as default) - 'logistic_regression', 'random_forest', 'naive_bayes', 'support_vector_machine', 'gradient_boosting_machine'
     note: if a third parameter is provided, the second parameter must also be provided
     '''
     # This can be used for example purposes
