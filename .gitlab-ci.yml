@@ -30,3 +30,11 @@ react_native_test:
     - npm install
   script:
     - npm test
+
+sent_analysis_test:
+  image: python:3.10.12
+  before_script:
+    - cd src/sentiment_analysis/
+    - pip install -r requirements.txt
+  script:
+    - python3 tests_sentiment_analysis.py
