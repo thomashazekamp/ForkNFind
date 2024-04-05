@@ -19,7 +19,7 @@ test:
       export PYTHONPATH=src/backend:$PYTHONPATH
       python manage.py test
 
-react_native_test: # name of testing job - used for the frontend (react native)
+frontend_test: # name of testing job - used for the frontend (react native)
   image: node:latest
   before_script:
     - cd src/mobile_react_native/forknfind-mobile
