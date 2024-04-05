@@ -11,7 +11,6 @@ before_script:
     pip install --upgrade pip
     pip install wheel
     pip install -r src/backend/requirements.txt
-    pip install -r src/sentiment_analysis/requirements.txt
 
 test:
   script:
@@ -19,11 +18,8 @@ test:
     - |
       export PYTHONPATH=src/backend:$PYTHONPATH
       python manage.py test
-    - | # Run the unit tests for the sentiment analysis
-      cd ../sentiment_analysis/ 
-      python3 tests_sentiment_analysis.py
 
-react_native_test:
+react_native_test: # name of testing job - used for the frontend (react native)
   image: node:latest
   before_script:
     - cd src/mobile_react_native/forknfind-mobile
@@ -31,7 +27,7 @@ react_native_test:
   script:
     - npm test
 
-sent_analysis_test:
+sent_analysis_test: # name of testing job - used for the sentiment analysis
   image: python:3.10.12
   before_script:
     - cd src/sentiment_analysis/
