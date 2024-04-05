@@ -22,3 +22,11 @@ test:
     - | # Run the unit tests for the sentiment analysis
       cd ../sentiment_analysis/ 
       python3 tests_sentiment_analysis.py
+
+react_native_test:
+  image: node:latest
+  before_script:
+    - cd src/mobile_react_native/forknfind-mobile
+    - npm install
+  script:
+    - npm test
