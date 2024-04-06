@@ -8,7 +8,7 @@ describe('SearchScreen', () => {
     global.Platform = 'ios' // used to mock the platform
     global.access_global = 'token_test' // used to mock the access token
 
-    it('Should have 2 children', () => {
+    it('Should have 3 children', () => {
         // check that the screen has 3 children
         const tree = create(<SearchScreen />).toJSON();
         expect(tree.children.length).toBe(3);
