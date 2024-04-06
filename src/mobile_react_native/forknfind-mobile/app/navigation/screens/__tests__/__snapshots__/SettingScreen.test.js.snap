@@ -1,0 +1,271 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsScreen Should have a snapshot 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#F5F7FC",
+    }
+  }
+>
+  <RCTSafeAreaView
+    style={
+      {
+        "backgroundColor": "#F5F7FC",
+        "flex": 1,
+      }
+    }
+  />
+  <View
+    style={
+      {
+        "marginTop": "10%",
+        "paddingHorizontal": "15%",
+        "width": "100%",
+      }
+    }
+  >
+    <RNGestureHandlerButton
+      collapsable={false}
+      delayLongPress={600}
+      enabled={true}
+      exclusive={true}
+      handlerTag={4}
+      handlerType="NativeViewGestureHandler"
+      onGestureEvent={[Function]}
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      onHandlerStateChange={[Function]}
+      rippleColor={0}
+      touchSoundDisabled={false}
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "borderBottomRadius": 10,
+            "borderBottomWidth": 2,
+            "borderColor": "#ccc",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "opacity": 1,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#333333",
+              "fontSize": 18,
+              "paddingBottom": 5,
+              "paddingLeft": "5%",
+              "paddingTop": 25,
+            }
+          }
+        >
+          Account Details
+        </Text>
+        <View
+          style={
+            {
+              "paddingRight": "5%",
+              "top": 24,
+            }
+          }
+        >
+          <Text
+            allowFontScaling={false}
+            selectable={false}
+            style={
+              [
+                {
+                  "color": "black",
+                  "fontSize": 24,
+                },
+                undefined,
+                {
+                  "fontFamily": "anticon",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                {},
+              ]
+            }
+          >
+            
+          </Text>
+        </View>
+      </View>
+    </RNGestureHandlerButton>
+    <RNGestureHandlerButton
+      collapsable={false}
+      delayLongPress={600}
+      enabled={true}
+      exclusive={true}
+      handlerTag={5}
+      handlerType="NativeViewGestureHandler"
+      onGestureEvent={[Function]}
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      onHandlerStateChange={[Function]}
+      rippleColor={0}
+      touchSoundDisabled={false}
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "borderBottomRadius": 10,
+            "borderBottomWidth": 2,
+            "borderColor": "#ccc",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "opacity": 1,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#333333",
+              "fontSize": 18,
+              "paddingBottom": 5,
+              "paddingLeft": "5%",
+              "paddingTop": 25,
+            }
+          }
+        >
+          Change Password
+        </Text>
+        <View
+          style={
+            {
+              "paddingRight": "5%",
+              "top": 24,
+            }
+          }
+        >
+          <Text
+            allowFontScaling={false}
+            selectable={false}
+            style={
+              [
+                {
+                  "color": "black",
+                  "fontSize": 24,
+                },
+                undefined,
+                {
+                  "fontFamily": "anticon",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                {},
+              ]
+            }
+          >
+            
+          </Text>
+        </View>
+      </View>
+    </RNGestureHandlerButton>
+    <RNGestureHandlerButton
+      collapsable={false}
+      delayLongPress={600}
+      enabled={true}
+      exclusive={true}
+      handlerTag={6}
+      handlerType="NativeViewGestureHandler"
+      onGestureEvent={[Function]}
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      onHandlerStateChange={[Function]}
+      rippleColor={0}
+      touchSoundDisabled={false}
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        style={
+          {
+            "borderBottomRadius": 10,
+            "borderBottomWidth": 2,
+            "borderColor": "#ccc",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "opacity": 1,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#333333",
+              "fontSize": 18,
+              "paddingBottom": 5,
+              "paddingLeft": "5%",
+              "paddingTop": 25,
+            }
+          }
+        >
+          Logout
+        </Text>
+        <View
+          style={
+            {
+              "paddingRight": "5%",
+              "top": 24,
+            }
+          }
+        >
+          <Text
+            allowFontScaling={false}
+            selectable={false}
+            style={
+              [
+                {
+                  "color": "black",
+                  "fontSize": 24,
+                },
+                undefined,
+                {
+                  "fontFamily": "anticon",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                {},
+              ]
+            }
+          >
+            
+          </Text>
+        </View>
+      </View>
+    </RNGestureHandlerButton>
+  </View>
+  <Modal
+    animationType="slide"
+    hardwareAccelerated={false}
+    onRequestClose={[Function]}
+    transparent={true}
+    visible={false}
+  />
+  <Modal
+    animationType="slide"
+    hardwareAccelerated={false}
+    onRequestClose={[Function]}
+    transparent={true}
+    visible={false}
+  />
+  <View
+    style={
+      {
+        "backgroundColor": "#F5F7FC",
+        "height": 900,
+      }
+    }
+  />
+</View>
+`;
