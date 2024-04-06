@@ -4,15 +4,6 @@ import MapFilter from '../MapFilter';
 import { create } from 'react-test-renderer';
 
 describe('MapFilter', () => {
-    // mock the review data, needed for the screen
-    const mockReviewData = {
-        name: 'Test Name',
-        description: 'Nice',
-        rating: 4,
-        restaurant: {
-            name: 'Test Restaurant'
-        },
-    };
 
     it('Should have 2 children', () => {
         // check that the screen has 3 children

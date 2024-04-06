@@ -1,3 +1,6 @@
+/* 
+Reference for all unit tests within __tests__: https://www.youtube.com/watch?v=PlppJvJ67GA&ab_channel=MissCoding
+*/
 import React from 'react';
 import { render, waitFor } from '@testing-library/react-native';
 import AccountInformationModal from '../AccountinformationModal';

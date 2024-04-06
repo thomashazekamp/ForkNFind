@@ -6,7 +6,7 @@ import { create } from 'react-test-renderer';
 describe('EditReviewScreen', () => {
     // mock the review data, needed for the screen
     const mockReviewData = {
-        name: 'Test Name',
+        name: 'Test',
         description: 'Nice',
         rating: 4,
         restaurant: {
