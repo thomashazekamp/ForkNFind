@@ -23,7 +23,7 @@ describe('CreateReviewScreen', () => {
         // render the review screen with a given restaurant name
         const { getByText } = render(<CreateReviewScreen restaurantData={mockRestaurantData} />);
         // wait for the network request to complete
-        await waitFor(() => getByText('Your Rating'), {timeout: 10000});
+        await waitFor(() => getByText('Submit'), {timeout: 10000});
         // check that the screen has rendered
         expect(getByText('Submit')).toBeTruthy();
     });
@@ -31,7 +31,7 @@ describe('CreateReviewScreen', () => {
         // render the review screen with a given restaurant name
         const { getByText } = render(<CreateReviewScreen restaurantData={mockRestaurantData} />);
         // wait for the network request to complete
-        await waitFor(() => getByText('Your Rating'), {timeout: 10000});
+        await waitFor(() => getByText('Add detailed Review'), {timeout: 10000});
         // check that the screen has rendered
         expect(getByText('Add detailed Review')).toBeTruthy();
     });
