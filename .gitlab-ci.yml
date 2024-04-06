@@ -19,6 +19,19 @@ test:
     - |
       export PYTHONPATH=src/backend:$PYTHONPATH
       python manage.py test
-    - | # Run the unit tests for the sentiment analysis
-      cd ../sentiment_analysis/ 
-      python3 tests_sentiment_analysis.py
+
+frontend_test: # job name - for mobile react native tests
+  image: node:latest
+  before_script:
+    - cd src/mobile_react_native/forknfind-mobile
+    - npm install
+  script:
+    - npm test
+
+sent_analysis_test: # job name - for sentiment analysis tests
+  image: python:3.10.12
+  before_script:
+    - cd src/sentiment_analysis/
+    - pip install -r requirements.txt
+  script:
+    - python3 tests_sentiment_analysis.py

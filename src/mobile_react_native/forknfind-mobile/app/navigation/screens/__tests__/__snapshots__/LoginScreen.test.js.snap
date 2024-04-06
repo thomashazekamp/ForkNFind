@@ -1,0 +1,211 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginScreen Should have a snapshot 1`] = `
+<View
+  style={
+    {
+      "flex": 1,
+    }
+  }
+>
+  <RCTSafeAreaView
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "white",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "height": "55%",
+          "width": "80%",
+        }
+      }
+    >
+      <Text
+        style={
+          {
+            "alignSelf": "center",
+            "color": "#000000",
+            "fontSize": 35,
+            "fontWeight": "400",
+            "paddingBottom": "3%",
+          }
+        }
+      >
+        Sign In
+      </Text>
+      <Text
+        style={
+          {
+            "alignSelf": "center",
+            "color": "#525357",
+            "fontSize": 15,
+            "fontWeight": "400",
+            "paddingBottom": "10%",
+          }
+        }
+      >
+        Welcome back, you've been missed!
+      </Text>
+      <Text
+        style={
+          {
+            "color": "#525357",
+            "fontSize": 16,
+            "fontWeight": "700",
+            "paddingBottom": "1%",
+          }
+        }
+      >
+        Username
+      </Text>
+      <TextInput
+        autoCapitalize="none"
+        autoCorrect={false}
+        onChangeText={[Function]}
+        placeholder="username"
+        placeholderTextColor="#797979"
+        style={
+          {
+            "borderColor": "#525357",
+            "borderRadius": 10,
+            "borderWidth": 2,
+            "color": "black",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "paddingHorizontal": 20,
+            "paddingVertical": 8,
+          }
+        }
+        value=""
+      />
+      <Text
+        style={
+          [
+            {
+              "color": "#525357",
+              "fontSize": 16,
+              "fontWeight": "700",
+              "paddingBottom": "1%",
+            },
+            {
+              "marginTop": "5%",
+            },
+          ]
+        }
+      >
+        Password
+      </Text>
+      <TextInput
+        autoCapitalize="none"
+        autoCorrect={false}
+        onChangeText={[Function]}
+        placeholder="password"
+        placeholderTextColor="#797979"
+        secureTextEntry={true}
+        style={
+          {
+            "borderColor": "#525357",
+            "borderRadius": 10,
+            "borderWidth": 2,
+            "color": "black",
+            "fontSize": 16,
+            "fontWeight": "500",
+            "paddingHorizontal": 20,
+            "paddingVertical": 8,
+          }
+        }
+        value=""
+      />
+      <View
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#1C58F2",
+            "borderRadius": 20,
+            "height": 57,
+            "justifyContent": "center",
+            "opacity": 1,
+            "top": "8%",
+            "width": "100%",
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "white",
+              "fontSize": 25,
+              "fontWeight": "600",
+              "textAlign": "center",
+            }
+          }
+        >
+          Sign In
+        </Text>
+      </View>
+      <Text
+        style={
+          [
+            {
+              "alignSelf": "center",
+              "color": "#525357",
+              "fontSize": 15,
+              "fontWeight": "400",
+              "paddingBottom": "10%",
+            },
+            {
+              "marginTop": "18%",
+            },
+          ]
+        }
+      >
+        Don't have an account? 
+        <Text
+          onPress={[Function]}
+          style={
+            {
+              "color": "blue",
+              "textDecorationLine": "underline",
+            }
+          }
+        >
+          Sign Up
+        </Text>
+      </Text>
+    </View>
+  </RCTSafeAreaView>
+</View>
+`;

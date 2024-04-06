@@ -1,0 +1,320 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RestaurantCard Should have a snapshot 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "backgroundColor": "white",
+      "borderRadius": 20,
+      "left": "5%",
+      "marginBottom": "2.5%",
+      "marginTop": "2.5%",
+      "opacity": 1,
+      "paddingBottom": "4%",
+      "right": "5%",
+      "shadowColor": "#000",
+      "shadowOffset": {
+        "height": 2,
+        "width": 0,
+      },
+      "shadowOpacity": 0.25,
+      "shadowRadius": 3.5,
+      "width": "90%",
+    }
+  }
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#181A1F",
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "paddingLeft": "7.5%",
+          "paddingTop": "5%",
+          "width": 275,
+        }
+      }
+    >
+      Test Restaurant
+    </Text>
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "backgroundColor": "#07864B",
+          "borderBottomLeftRadius": 7,
+          "borderTopLeftRadius": 7,
+          "flexDirection": "row",
+          "height": 20,
+          "justifyContent": "center",
+          "position": "absolute",
+          "right": 0,
+          "top": 20,
+          "width": 80,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        selectable={false}
+        style={
+          [
+            {
+              "color": "white",
+              "fontSize": 14,
+            },
+            {
+              "marginRight": "5%",
+            },
+            {
+              "fontFamily": "FontAwesome",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            {},
+          ]
+        }
+      >
+        
+      </Text>
+      <Text
+        style={
+          {
+            "color": "#FFFFFF",
+            "fontWeight": "bold",
+          }
+        }
+      >
+        Open
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "width": "14.2%",
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        selectable={false}
+        style={
+          [
+            {
+              "color": "#DBFF00",
+              "fontSize": 22,
+            },
+            {
+              "paddingTop": "14%",
+              "position": "absolute",
+              "right": "5%",
+            },
+            {
+              "fontFamily": "anticon",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            {},
+          ]
+        }
+      >
+        
+      </Text>
+      <Text
+        allowFontScaling={false}
+        selectable={false}
+        style={
+          [
+            {
+              "color": "#000000",
+              "fontSize": 22,
+            },
+            {
+              "paddingTop": "14%",
+              "position": "absolute",
+              "right": "5%",
+            },
+            {
+              "fontFamily": "anticon",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "width": "45%",
+        }
+      }
+    >
+      <Text
+        style={
+          {
+            "fontSize": 15,
+            "fontWeight": "600",
+            "paddingLeft": "0%",
+            "paddingTop": "6%",
+          }
+        }
+      >
+        4.3
+        /5 (
+        1
+        )
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "width": "31%",
+        }
+      }
+    >
+      <Text
+        style={
+          {
+            "fontSize": 17,
+            "fontWeight": "600",
+            "paddingRight": "0%",
+            "paddingTop": "10%",
+            "position": "absolute",
+            "right": "5%",
+          }
+        }
+      >
+        3
+      </Text>
+    </View>
+    <View
+      style={
+        {
+          "width": "10%",
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        selectable={false}
+        style={
+          [
+            {
+              "color": "black",
+              "fontSize": 20,
+            },
+            {
+              "left": "5%",
+              "paddingTop": "30%",
+              "position": "absolute",
+            },
+            {
+              "fontFamily": "anticon",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "backgroundColor": "#F5F7FC",
+          "borderRadius": 50,
+          "marginLeft": "7.5%",
+          "marginTop": "4.2%",
+          "paddingBottom": 2,
+          "paddingLeft": 7,
+          "paddingRight": 7,
+          "paddingTop": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          {
+            "color": "#181A1F",
+            "fontSize": 13,
+            "fontWeight": "500",
+          }
+        }
+      >
+        Italian
+      </Text>
+    </View>
+    <Text
+      style={
+        {
+          "fontSize": 17,
+          "fontWeight": "500",
+          "marginTop": "3.9%",
+          "position": "absolute",
+          "right": 20,
+        }
+      }
+    >
+      2.0
+       Km
+    </Text>
+  </View>
+</View>
+`;

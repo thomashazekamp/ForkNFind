@@ -1,0 +1,298 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CategoryFilter Should create a snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "white",
+        "paddingBottom": "4%",
+        "paddingLeft": "10%",
+        "paddingRight": "10%",
+        "paddingTop": "4%",
+      },
+    ]
+  }
+>
+  <Text
+    style={
+      {
+        "color": "#525357",
+        "fontSize": 16,
+        "fontWeight": "700",
+      }
+    }
+  >
+    Categories
+  </Text>
+  <TextInput
+    autoCapitalize="none"
+    autoCorrect={false}
+    collapsable={false}
+    handlerTag={2}
+    handlerType="NativeViewGestureHandler"
+    onChangeText={[Function]}
+    onGestureHandlerEvent={[Function]}
+    onGestureHandlerStateChange={[Function]}
+    placeholder="Categories"
+    placeholderTextColor="black"
+    style={
+      {
+        "borderColor": "#525357",
+        "borderRadius": 18,
+        "borderWidth": 3,
+        "color": "black",
+        "fontSize": 16,
+        "fontWeight": "500",
+        "marginTop": 12,
+        "paddingHorizontal": 20,
+        "paddingVertical": 8,
+      }
+    }
+  />
+  <RCTScrollView
+    data={[]}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    keyExtractor={[Function]}
+    onContentSizeChange={[Function]}
+    onLayout={[Function]}
+    onMomentumScrollBegin={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEnabled={false}
+    scrollEventThrottle={50}
+    stickyHeaderIndices={[]}
+    style={
+      {
+        "padding": "2%",
+      }
+    }
+    viewabilityConfigCallbackPairs={[]}
+  >
+    <View />
+  </RCTScrollView>
+  <View
+    style={
+      [
+        {
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+        },
+      ]
+    }
+  >
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "alignItems": "flex-start",
+              "alignSelf": "flex-start",
+              "backgroundColor": "rgba(28, 88, 242, 0.20)",
+              "borderColor": "#1C58F2",
+              "borderRadius": 50,
+              "borderWidth": 3,
+              "paddingBottom": 2,
+              "paddingLeft": 7,
+              "paddingRight": 7,
+              "paddingTop": 1,
+            },
+            {
+              "marginBottom": "4%",
+              "marginRight": "3%",
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#333333",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Testchinese
+        </Text>
+      </View>
+    </View>
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "alignItems": "flex-start",
+              "alignSelf": "flex-start",
+              "backgroundColor": "rgba(28, 88, 242, 0.20)",
+              "borderColor": "#1C58F2",
+              "borderRadius": 50,
+              "borderWidth": 3,
+              "paddingBottom": 2,
+              "paddingLeft": 7,
+              "paddingRight": 7,
+              "paddingTop": 1,
+            },
+            {
+              "marginBottom": "4%",
+              "marginRight": "3%",
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#333333",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Testindian
+        </Text>
+      </View>
+    </View>
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "alignItems": "flex-start",
+              "alignSelf": "flex-start",
+              "backgroundColor": "rgba(28, 88, 242, 0.20)",
+              "borderColor": "#1C58F2",
+              "borderRadius": 50,
+              "borderWidth": 3,
+              "paddingBottom": 2,
+              "paddingLeft": 7,
+              "paddingRight": 7,
+              "paddingTop": 1,
+            },
+            {
+              "marginBottom": "4%",
+              "marginRight": "3%",
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "#333333",
+              "fontSize": 16,
+              "fontWeight": "600",
+            }
+          }
+        >
+          Testitalian
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
