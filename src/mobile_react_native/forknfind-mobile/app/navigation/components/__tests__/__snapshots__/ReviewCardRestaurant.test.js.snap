@@ -1,0 +1,308 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReviewCardRestaurant Should have a snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "white",
+        "borderRadius": 20,
+        "left": "5%",
+        "marginBottom": "2.5%",
+        "marginTop": "2.5%",
+        "right": "5%",
+        "shadowOffset": {
+          "height": 2,
+          "width": 0,
+        },
+        "shadowOpacity": 0.35,
+        "shadowRadius": 3.5,
+        "width": "90%",
+      },
+      {
+        "shadowColor": "green",
+      },
+    ]
+  }
+>
+  <Text
+    style={
+      {
+        "color": "#181A1F",
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "paddingLeft": "7.5%",
+        "paddingTop": "5%",
+      }
+    }
+  >
+    Test Restaurant
+  </Text>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "backgroundColor": "white",
+          "flexDirection": "row",
+          "marginLeft": "7%",
+          "paddingBottom": "12%",
+          "paddingTop": "4%",
+          "width": "35%",
+        }
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "width": "20%",
+            },
+            {
+              "alignItems": "center",
+              "flex": 1,
+              "justifyContent": "center",
+            },
+          ]
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          selectable={false}
+          style={
+            [
+              {
+                "color": "#DBFF00",
+                "fontSize": 25,
+              },
+              {
+                "position": "absolute",
+              },
+              {
+                "fontFamily": "anticon",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              {},
+            ]
+          }
+        >
+          
+        </Text>
+        <Text
+          allowFontScaling={false}
+          selectable={false}
+          style={
+            [
+              {
+                "color": "#000000",
+                "fontSize": 25,
+              },
+              {
+                "position": "absolute",
+              },
+              {
+                "fontFamily": "anticon",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              {},
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "width": "20%",
+            },
+            {
+              "alignItems": "center",
+              "flex": 1,
+              "justifyContent": "center",
+            },
+          ]
+        }
+      >
+        <View />
+        <Text
+          allowFontScaling={false}
+          selectable={false}
+          style={
+            [
+              {
+                "color": "#000000",
+                "fontSize": 25,
+              },
+              {
+                "position": "absolute",
+              },
+              {
+                "fontFamily": "anticon",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              {},
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "width": "20%",
+            },
+            {
+              "alignItems": "center",
+              "flex": 1,
+              "justifyContent": "center",
+            },
+          ]
+        }
+      >
+        <View />
+        <Text
+          allowFontScaling={false}
+          selectable={false}
+          style={
+            [
+              {
+                "color": "#000000",
+                "fontSize": 25,
+              },
+              {
+                "position": "absolute",
+              },
+              {
+                "fontFamily": "anticon",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              {},
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "width": "20%",
+            },
+            {
+              "alignItems": "center",
+              "flex": 1,
+              "justifyContent": "center",
+            },
+          ]
+        }
+      >
+        <View />
+        <Text
+          allowFontScaling={false}
+          selectable={false}
+          style={
+            [
+              {
+                "color": "#000000",
+                "fontSize": 25,
+              },
+              {
+                "position": "absolute",
+              },
+              {
+                "fontFamily": "anticon",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              {},
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+      <View
+        style={
+          [
+            {
+              "width": "20%",
+            },
+            {
+              "alignItems": "center",
+              "flex": 1,
+              "justifyContent": "center",
+            },
+          ]
+        }
+      >
+        <View />
+        <Text
+          allowFontScaling={false}
+          selectable={false}
+          style={
+            [
+              {
+                "color": "#000000",
+                "fontSize": 25,
+              },
+              {
+                "position": "absolute",
+              },
+              {
+                "fontFamily": "anticon",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              {},
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+    </View>
+    <Text
+      style={
+        {
+          "color": "#525357",
+          "fontSize": 16,
+          "fontWeight": "700",
+          "paddingRight": "7.5%",
+          "paddingTop": "1.8%",
+        }
+      }
+    >
+      01/01/2024
+    </Text>
+  </View>
+  <View
+    style={
+      {
+        "marginTop": "-5%",
+        "paddingBottom": "5%",
+        "paddingLeft": "7.5%",
+        "paddingRight": "7.5%",
+      }
+    }
+  >
+    <Text>
+      Nice place
+    </Text>
+  </View>
+</View>
+`;

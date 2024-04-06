@@ -14,7 +14,7 @@ describe('MapFilter', () => {
         },
     };
 
-    it('Should have 3 children', () => {
+    it('Should have 2 children', () => {
         // check that the screen has 3 children
         const tree = create(<MapFilter />).toJSON();
         expect(tree.children.length).toBe(2);
