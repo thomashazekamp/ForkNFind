@@ -24,6 +24,7 @@ backend_test:
   stage: test
   image: python:3.10.12
   script:
+    - source venv/bin/activate
     - cd src/backend/
     - export PYTHONPATH=src/backend:$PYTHONPATH
     - python manage.py test
@@ -32,4 +33,5 @@ sent_analysis_test:
   stage: test
   image: python:3.10.12
   script:
+    - source venv/bin/activate
     - python3 tests_sentiment_analysis.py
