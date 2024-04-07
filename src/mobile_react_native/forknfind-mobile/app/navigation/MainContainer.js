@@ -4,9 +4,10 @@ Reference of layout for navigation and initial design: https://www.youtube.com/w
 -----------------
 */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 
 import { View, StyleSheet} from 'react-native';
 
@@ -44,6 +45,17 @@ export default function MainContainer() {
 
     // Use state for checking if a user is logged in or not
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+    const navigation = useNavigation();
+
+    // useEffect for checking once a user logs in, the page to redirect them too.
+    useEffect(() => {
+        // Check if isLoggedIn becomes true
+        if (isLoggedIn) {
+            // Navigate to map screen
+            navigation.navigate('Location');
+        }
+    }, [isLoggedIn]);
 
     // The navigation and nav bar a user will see when logged in
     const NormalScreen = () => {
