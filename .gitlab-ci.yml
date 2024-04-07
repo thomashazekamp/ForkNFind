@@ -16,6 +16,8 @@ build_python:
     - pip install wheel
     - pip install -r src/sentiment_analysis/requirements.txt
     - pip install -r src/backend/requirements.txt
+  script:
+    - echo "Python environment setup"
 
 
 backend_test:
