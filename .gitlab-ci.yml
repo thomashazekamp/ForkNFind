@@ -1,37 +1,37 @@
-stages:
-  - build
-  - test
-
 variables:
   DJANGO_SETTINGS_MODULE: "backend.settings"
   VIRTUAL_ENV: "/builds/project-0/src/backend/venv"
 
-build_python:
-  stage: build
-  image: python:3.10.12
-  before_script:
-    - python -m venv venv
-    - source venv/bin/activate
-    - pip install --upgrade pip
-    - pip install wheel
-    - pip install -r src/sentiment_analysis/requirements.txt
-    - pip install -r src/backend/requirements.txt
-  script:
-    - echo "Python environment setup"
+image: python:3.10.12
 
+before_script:
+  - |
+    python -m venv venv
+    source venv/bin/activate
+    pip install --upgrade pip
+    pip install wheel
+    pip install -r src/backend/requirements.txt
+    pip install -r src/sentiment_analysis/requirements.txt
 
 backend_test:
-  stage: test
-  image: python:3.10.12
   script:
-    - source venv/bin/activate
     - cd src/backend/
-    - export PYTHONPATH=src/backend:$PYTHONPATH
-    - python manage.py test
+    - |
+      export PYTHONPATH=src/backend:$PYTHONPATH
+      python manage.py test
 
-sent_analysis_test:
-  stage: test
-  image: python:3.10.12
+frontend_test: # job name - for mobile react native tests
+  image: node:latest
+  before_script:
+    - cd src/mobile_react_native/forknfind-mobile
+    - npm install
   script:
-    - source venv/bin/activate
+    - npm test
+
+sent_analysis_test: # job name - for sentiment analysis tests
+  image: python:3.10.12
+  before_script:
+    - cd src/sentiment_analysis/
+    - pip install -r requirements.txt
+  script:
     - python3 tests_sentiment_analysis.py
