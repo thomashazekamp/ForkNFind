@@ -1,3 +1,7 @@
+stages:
+  - test
+  - deploy
+
 variables:
   DJANGO_SETTINGS_MODULE: "backend.settings"
   VIRTUAL_ENV: "/builds/project-0/src/backend/venv"
@@ -14,6 +18,7 @@ before_script:
     pip install -r src/sentiment_analysis/requirements.txt
 
 backend_test:
+  stage: test
   script:
     - cd src/backend/
     - |
@@ -21,6 +26,7 @@ backend_test:
       python manage.py test
 
 frontend_test: # job name - for mobile react native tests
+  stage: test
   image: node:latest
   before_script:
     - cd src/mobile_react_native/forknfind-mobile
@@ -29,9 +35,19 @@ frontend_test: # job name - for mobile react native tests
     - npm test
 
 sent_analysis_test: # job name - for sentiment analysis tests
+  stage: test
   image: python:3.10.12
   before_script:
     - cd src/sentiment_analysis/
     - pip install -r requirements.txt
   script:
     - python3 tests_sentiment_analysis.py
+
+heroku_deploy:
+  stage: deploy
+  script:
+    - cd src/backend
+    - gem install dpl
+    - dpl --provider=heroku --app=HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
+  only:
+    - master  # Or specify your desired branch here
