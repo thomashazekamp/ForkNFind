@@ -52,4 +52,4 @@ heroku_deploy:
     - cd src/backend
     - dpl --provider=heroku --app=HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
   only:
-    - master  # Or specify your desired branch here
+    - master
