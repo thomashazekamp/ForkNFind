@@ -45,9 +45,11 @@ sent_analysis_test: # job name - for sentiment analysis tests
 
 heroku_deploy:
   stage: deploy
+  image: ruby:3.3
+  before_script:
+    - gem install dpl
   script:
     - cd src/backend
-    - gem install dpl
     - dpl --provider=heroku --app=HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
   only:
     - master  # Or specify your desired branch here
