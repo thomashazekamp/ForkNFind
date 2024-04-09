@@ -24,6 +24,21 @@ const CreateAccountAPIRequest = ({setIsLoggedIn, username, password, email, firs
     }).then(response=>response.json())
     .then(data=>{
 
+        console.log(data)
+        if (data['username'] == "This field may not be blank.") {
+            ErrorMessage(content="Username field may not be blank.")
+        } else if (data['first_name'] == "This field may not be blank.") {
+            ErrorMessage(content="First Name field may not be blank.")
+        } else if (data['last_name'] == "No active account found with the given credentials") {
+            ErrorMessage(content="Last Name field may not be blank.")
+        } else if (data['email'] == "No active account found with the given credentials") {
+            ErrorMessage(content="Email field may not be blank.")
+        } else if (data['password'] == "No active account found with the given credentials") {
+            ErrorMessage(content="Password field may not be blank.")
+        } else if (data['username'] == "This username is already in use.") {
+            ErrorMessage(content="This username is already in use.")
+        }
+
         // if the API was a success then login to the users account with the new information
         if (data['username'] == username && data['email'] == email && data['first_name'] == firstName && data['last_name'] == lastName) {
             LoginAPIRequest({setIsLoggedIn, username, password})

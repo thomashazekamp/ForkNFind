@@ -1,3 +1,4 @@
+import ErrorMessage from '../components/ErrorMessage';
 
 // Function CreateRestaurantReview
 // id - restaurant id
@@ -20,9 +21,11 @@ const CreateRestaurantReview = (id, text, rating, setResponse) => {
     .then(data=>{
 
         console.log(data)
-        console.log(data["description"] == text)
-        console.log(data["rating"] == rating)
-        console.log(data["restaurant"] == id)
+
+        if (data['description'] == "This field may not be blank.") {
+            ErrorMessage(content="Description field may not be blank.")
+        }
+
         if (data["description"] == text && data["rating"] == rating && data["restaurant"] == id ) {
             setResponse("success");
         }
