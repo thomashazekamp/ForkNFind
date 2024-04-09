@@ -1,3 +1,4 @@
+import ErrorMessage from '../components/ErrorMessage';
 
 // Function LoginAPIRequest
 // setIsLoggedIn - use state passed in that will be updated if the login is successful
@@ -18,6 +19,15 @@ const LoginAPIRequest = ({setIsLoggedIn, username, password}) => {
         body: JSON.stringify({username: username, password: password})
     }).then(response=>response.json())
     .then(data=>{
+
+        // Error checks in the form.
+        if (data['username'] == "This field may not be blank.") {
+            ErrorMessage(content="Username field may not be blank.")
+        } else if (data['password'] == "This field may not be blank.") {
+            ErrorMessage(content="Password field may not be blank.")
+        } else if (data['detail'] == "No active account found with the given credentials") {
+            ErrorMessage(content="No active account found with the given credentials.")
+        }
 
         if (data["access"] == null) {
             return
