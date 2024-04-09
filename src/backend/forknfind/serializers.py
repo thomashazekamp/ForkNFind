@@ -83,11 +83,25 @@ class ReviewSerializer(serializers.HyperlinkedModelSerializer):
 
 # UserRegistrationSerializer
 class UserRegistrationSerializer(serializers.ModelSerializer):
+    
+    username = serializers.CharField(required=True, allow_blank=False)
+    email = serializers.EmailField(required=True, allow_blank=False)
+    first_name = serializers.CharField(required=True, allow_blank=False)
+    last_name = serializers.CharField(required=True, allow_blank=False)
+    password = serializers.CharField(write_only=True, required=True, allow_blank=False)
 
     class Meta:
         model = APIUser
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'password'] # Show these fields
         extra_kwargs = {'password': {'write_only': True}}
+
+    def validate_username(self, value):
+        if APIUser.objects.filter(username=value).exists():
+            raise serializers.ValidationError("This username is already in use.")
+        return value
+
+    def create(self, validated_data):
+        return APIUser.objects.create_user(**validated_data)
 
     # for creating a new user
     def create(self, validated_data):
