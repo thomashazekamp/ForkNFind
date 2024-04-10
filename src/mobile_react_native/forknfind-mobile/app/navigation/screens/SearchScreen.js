@@ -13,11 +13,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from  '@expo/vector-icons';
-import RestaurantCard from '../components/RestaurantCard';
 import FilterScreen from '../components/FilterScreen';
 import SearchAPIRequest from '../requests/SearchAPIRequest'
 import RestaurantSortBy from '../components/RestaurantSortBy';
 import RestaurantList from '../components/RestaurantList';
+import { useFocusEffect } from '@react-navigation/native';
 
 // Functional Component SearchScreen
 // navigation - used to link to other screens created
@@ -70,6 +70,10 @@ export default function SearchScreen({ navigation }) {
 
         setModalSortVisible(!modalSortVisible);
     }
+
+    useFocusEffect(() => {
+        StatusBar.setBarStyle('dark-content')
+    });
 
     // On startup get the location from async storage
     useEffect(() => {

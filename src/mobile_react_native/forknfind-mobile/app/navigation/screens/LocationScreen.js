@@ -10,6 +10,7 @@ import RestaurantCardMap from '../components/RestaurantCardMap';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MapFilter from '../components/MapFilter';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 
 // Functional Component LoginScreen
 // navigation - used to link to other screens created
@@ -22,6 +23,10 @@ export default function LocationScreen({ navigation }) {
     const [originalData, setOriginalData] = useState(null);
     const [modalSortVisible, setModalSortVisible] = useState(false);
     const [sortVisual, setSortVisual] = useState("All");
+
+    useFocusEffect(() => {
+        StatusBar.setBarStyle('light-content')
+    });
 
     // Reference: https://stackoverflow.com/questions/68955119/react-native-expo-location-returns-location-service-unavailable-during-initial-u
     // Response by user Dharman, Aug 27th 2021

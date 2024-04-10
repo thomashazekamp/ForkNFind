@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, TouchableOpacity, StatusBar } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import CreateAccountAPIRequest from '../requests/CreateAccountAPIRequest';
 
@@ -65,6 +66,9 @@ export default function CreateAccountScreen({ navigation, setIsLoggedIn }) {
         setPasswordCheck(text)
     }
 
+    useFocusEffect(() => {
+        StatusBar.setBarStyle('dark-content')
+    });
 
     return (
         <View style={{ flex: 1}}>

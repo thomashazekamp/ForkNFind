@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, StatusBar, ActivityIndicator,
 import { AntDesign } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
 
 import RestaurantCard from '../components/RestaurantCard';
 import HybridRecommendationsAPIRequest from '../requests/HybridRecommendationsAPIRequest';
@@ -31,6 +32,10 @@ export default function RecommendationsScreen({ navigation }) {
 
         setModalSortVisible(!modalSortVisible);
     }
+
+    useFocusEffect(() => {
+        StatusBar.setBarStyle('dark-content')
+    });
 
     // Use effect called when the sort has been updated
     useEffect(() => {
