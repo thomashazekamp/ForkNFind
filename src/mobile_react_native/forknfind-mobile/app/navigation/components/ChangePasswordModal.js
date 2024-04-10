@@ -26,7 +26,6 @@ const ChangePasswordModal = ({ visible, onClose}) => {
 
         if (password == passwordCheck) {
             // Pass to API request
-            console.log(currentPassword, password)
             ChangePasswordAPIRequest(currentPassword, password, setResponseData)
         }
         else {

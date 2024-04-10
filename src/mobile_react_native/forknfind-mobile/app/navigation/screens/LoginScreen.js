@@ -15,7 +15,6 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
     // Logic for handling what happens when Sign In button is clicked
     const submitLogin = () => {
 
-        console.log(setIsLoggedIn, username, password)
         // Pass to API request
         LoginAPIRequest({setIsLoggedIn, username, password})
     }

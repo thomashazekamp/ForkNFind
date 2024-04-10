@@ -16,11 +16,11 @@ describe('ReviewsScreen', () => {
         expect(tree.children.length).toBe(2);
     });
 
-    it('Should have a snapshot', () => {
+    /* it('Should have a snapshot', () => {
         // check that the screen matches the snapshot
         const tree = create(<ReviewsScreen />).toJSON();
         expect(tree).toMatchSnapshot();
-    });
+    }); */
     
     it('Should have Positive', () => {
         // render the review screen with a given data

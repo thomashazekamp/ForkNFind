@@ -110,7 +110,6 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
                 const latitude = await AsyncStorage.getItem('locationDataLatitude');
                 const longitude = await AsyncStorage.getItem('locationDataLongitude');
                 if (latitude !== null && longitude !== null) {
-                    console.log(latitude, longitude)
                     return {latitude, longitude}
                 }
                 } catch (error) {
@@ -161,7 +160,6 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
             returnString += day["close_time"]["minute"].toString()
         }
 
-        console.log(returnString)
         return returnString
         
     }    

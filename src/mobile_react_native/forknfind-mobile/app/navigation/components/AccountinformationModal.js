@@ -15,8 +15,6 @@ const AccountInformationModal = ({ visible, onClose}) => {
 
     }, []);
 
-    console.log(data)
-
     return (
         <Modal
         animationType="slide"

@@ -78,8 +78,6 @@ const EditReviewScreen = ({ visible, onClose, id, reviewData, setReload }) => {
 
     useEffect(() => {
 
-        console.log(response)
-
         if (response == "success") {
             onClose();
             setResponse("");

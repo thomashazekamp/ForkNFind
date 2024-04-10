@@ -25,6 +25,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 // Screen names
 const reviewsName = 'Reviews';
@@ -86,8 +87,8 @@ export default function MainContainer() {
                                 return <MaterialIcons name={iconName} size={25} color={color}  />;
     
                             } else if (routeName === recommendationsName) {
-                                iconName = 'new';
-                                return <Entypo name={iconName} size={25} color={color} />
+                                iconName = 'lightbulb';
+                                return <FontAwesome5 name={iconName} size={25} color={color} />
     
                             } else if (routeName === locationName) {
                                 iconName = 'location';
