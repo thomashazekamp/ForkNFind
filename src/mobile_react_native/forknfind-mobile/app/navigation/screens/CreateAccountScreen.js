@@ -19,7 +19,6 @@ export default function CreateAccountScreen({ navigation, setIsLoggedIn }) {
     // Logic for handling what happens when Sign Up button is clicked
     const submitLogin = () => {
 
-        console.log(setIsLoggedIn, username, password)
         // Check to maek sure passwords inputted are the same value
         if (password == passwordCheck) {
             // Pass to API request
@@ -128,7 +127,7 @@ export default function CreateAccountScreen({ navigation, setIsLoggedIn }) {
                         Email
                     </Text>
                     <TextInput 
-                        placeholder="password"
+                        placeholder="email"
                         placeholderTextColor="#797979"
                         autoCapitalize='none'
                         style={styles.textBox}

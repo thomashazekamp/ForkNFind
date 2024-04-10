@@ -78,8 +78,6 @@ const CreateReviewScreen = ({ visible, onClose, id, restaurantData }) => {
 
     useEffect(() => {
 
-        console.log(response)
-
         if (response == "success") {
             onClose();
             setResponse("");

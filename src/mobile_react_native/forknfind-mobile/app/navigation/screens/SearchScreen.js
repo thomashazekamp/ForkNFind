@@ -79,7 +79,6 @@ export default function SearchScreen({ navigation }) {
                 const latitude = await AsyncStorage.getItem('locationDataLatitude');
                 const longitude = await AsyncStorage.getItem('locationDataLongitude');
                 if (latitude !== null && longitude !== null) {
-                    console.log(latitude, longitude)
                     return {latitude, longitude}
                 }
                 } catch (error) {
