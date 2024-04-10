@@ -37,22 +37,6 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
         setModalSortVisible(!modalSortVisible);
     }
 
-    useEffect(() => {
-
-        if (selectedReviews == "positive") {
-
-            console.log("positive")
-        } else if (selectedReviews == "all") {
-    
-            setData(originalData)
-    
-        } else if (selectedReviews == "negative") {
-    
-            console.log("negative")
-
-        } 
-    }, [selectedReviews]);
-
     // function for comparing specific dates
     const compareDates = (a, b) => {
         var dateA = new Date(a.date);
@@ -67,40 +51,50 @@ const IndividualRestaurantModal = ({ visible, onClose, id, distance }) => {
         return 0;
     };
 
-    // Use effect called when the sort has been updated
+    // Use effect for when the type of reviews selected are changed or the sorting is changed
     useEffect(() => {
 
-        // Depending on which was selected update the data to be sorted in that way
-        if (sortVisual == "All Relevance") {
+        // Get all the review data
+        if (originalData == null) { return }
+        const array = Object.values(originalData);
 
-            console.log("here")
-            console.log(originalData)
-            setData(originalData)
-        } else if (sortVisual == "Ratings (Ascending)") {
+        // Sort the user data based on the inputted filter
+
+        if (sortVisual == "Ratings (Ascending)") {
     
             // Sort the data such that the lowest ratings are first and gradually getting higher
-            const array = Object.values(data);
             array.sort((a, b) => a.rating - b.rating);
-            setData(array)
     
         } else if (sortVisual == "Ratings (Descending)") {
     
-            const array = Object.values(data);
             array.sort((a, b) => b.rating - a.rating);
-            setData(array)
 
         } else if (sortVisual == "Date (Recent)") {
     
-            const array = Object.values(data);
             array.sort((a, b) => compareDates(a, b));
-            setData(array)
+
         } else if (sortVisual == "Date (Oldest)") {
     
-            const array = Object.values(data);
             array.sort((a, b) => compareDates(b, a));
-            setData(array)
         }
-    }, [sortVisual]);
+
+        // Filter the user data based on the current selection
+        if (selectedReviews == "positive") {
+            
+            // Only keep the reviews with sentiment of 1
+            setData(array.filter(item => item.sentiment === 1))
+
+        } else if (selectedReviews == "all") {
+    
+            setData(array)
+    
+        } else if (selectedReviews == "negative") {
+            
+            // Only keep the reviews with sentiment of 0
+            setData(array.filter(item => item.sentiment === 0))
+
+        } 
+    }, [selectedReviews, sortVisual]);
    
     // Use effect for getting restaurant information on startup
     useEffect(() => {

@@ -50,26 +50,50 @@ export default function ReviewScreen({ navigation }) {
         setModalSortVisible(!modalSortVisible);
     }
 
-    // Use effect for when the type of reviews selected are changed, currently not fully implemented
+    // Use effect for when the type of reviews selected are changed or the sorting is changed
     useEffect(() => {
 
-        if (selectedReviews == "positive") {
-            // choose based on sentiment in db
-            // remove the background sentiment colour
+        // Get all the review data
+        if (originalData == null) { return }
+        const array = Object.values(originalData);
 
-            console.log("positive")
+        // Sort the user data based on the inputted filter
+
+        if (sortVisual == "Ratings (Ascending)") {
+    
+            // Sort the data such that the lowest ratings are first and gradually getting higher
+            array.sort((a, b) => a.rating - b.rating);
+    
+        } else if (sortVisual == "Ratings (Descending)") {
+    
+            array.sort((a, b) => b.rating - a.rating);
+
+        } else if (sortVisual == "Date (Recent)") {
+    
+            array.sort((a, b) => compareDates(a, b));
+
+        } else if (sortVisual == "Date (Oldest)") {
+    
+            array.sort((a, b) => compareDates(b, a));
+        }
+
+        // Filter the user data based on the current selection
+        if (selectedReviews == "positive") {
+            
+            // Only keep the reviews with sentiment of 1
+            setData(array.filter(item => item.sentiment === 1))
+
         } else if (selectedReviews == "all") {
     
-            setData(originalData)
+            setData(array)
     
         } else if (selectedReviews == "negative") {
-            // choose based on sentiment in db
-            // remove the background sentiment colour
-    
-            console.log("negative")
+            
+            // Only keep the reviews with sentiment of 0
+            setData(array.filter(item => item.sentiment === 0))
 
         } 
-    }, [selectedReviews]);
+    }, [selectedReviews, sortVisual]);
 
     // function for comparing specific dates
     const compareDates = (a, b) => {
@@ -84,40 +108,6 @@ export default function ReviewScreen({ navigation }) {
         }
         return 0;
       };
-
-    // Use effect called when the sort has been updated
-    useEffect(() => {
-
-        // Depending on which was selected update the data to be sorted in that way
-        if (sortVisual == "All Relevance") {
-
-            setData(originalData)
-        } else if (sortVisual == "Ratings (Ascending)") {
-    
-            // Sort the data such that the lowest ratings are first and gradually getting higher
-            const array = Object.values(data);
-            array.sort((a, b) => a.rating - b.rating);
-            setData(array)
-    
-        } else if (sortVisual == "Ratings (Descending)") {
-    
-            const array = Object.values(data);
-            array.sort((a, b) => b.rating - a.rating);
-            setData(array)
-
-        } else if (sortVisual == "Date (Recent)") {
-    
-            const array = Object.values(data);
-            array.sort((a, b) => compareDates(a, b));
-            setData(array)
-        } else if (sortVisual == "Date (Oldest)") {
-    
-            const array = Object.values(data);
-            array.sort((a, b) => compareDates(b, a));
-            setData(array)
-        }
-    }, [sortVisual]);
-
     
     return (
         <View style={{backgroundColor: '#F5F7FC', flex: 1}}>
