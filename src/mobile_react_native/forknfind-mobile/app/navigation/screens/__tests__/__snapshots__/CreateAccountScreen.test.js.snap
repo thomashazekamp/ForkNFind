@@ -204,7 +204,7 @@ exports[`CreateAccountScreen Should have a snapshot 1`] = `
         autoCapitalize="none"
         autoCorrect={false}
         onChangeText={[Function]}
-        placeholder="password"
+        placeholder="email"
         placeholderTextColor="#797979"
         style={
           {
