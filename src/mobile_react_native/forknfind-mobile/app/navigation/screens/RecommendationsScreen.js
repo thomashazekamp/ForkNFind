@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar, ActivityIndicator, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, ActivityIndicator, Dimensions, RefreshControl } from 'react-native';
 
 import { AntDesign } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -19,6 +19,7 @@ export default function RecommendationsScreen({ navigation }) {
     const [originalData, setOriginalData] = useState(data);
     const [modalSortVisible, setModalSortVisible] = useState(false);
     const [sortVisual, setSortVisual] = useState("All Relevance");
+    const [userReload, setUserReload] = useState(false)
 
     // On startup query the API to get the recommendation information
     useEffect(() => {
@@ -73,12 +74,20 @@ export default function RecommendationsScreen({ navigation }) {
             setData(array)
         }
     }, [sortVisual]);
+
+    useEffect(() => {
+        if (userReload == true) {
+            setData(null)
+            HybridRecommendationsAPIRequest(setData, setOriginalData);
+            setUserReload(false)
+        }
+    }, [userReload]);
     
     return (
         <View style={{flex: 1, backgroundColor: '#F5F7FC'}}>
         <SafeAreaView style={styles.container}/>
             <StatusBar barStyle="dark-content" />
-            <ScrollView style={styles.containerScrollView}>
+            <ScrollView style={styles.containerScrollView} refreshControl={ <RefreshControl onRefresh={() => { setUserReload(true)  }} tintColor="transparent" colors={['transparent']} />}> 
                 {data == null ? 
                     <View style={{
                         width: '100%',

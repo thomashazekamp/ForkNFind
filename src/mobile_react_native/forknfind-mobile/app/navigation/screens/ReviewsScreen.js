@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar, ActivityIndicator, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, ActivityIndicator, Dimensions, RefreshControl } from 'react-native';
 
 import { AntDesign } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -21,6 +21,7 @@ export default function ReviewScreen({ navigation }) {
     const [modalSortVisible, setModalSortVisible] = useState(false);
     const [sortVisual, setSortVisual] = useState("All Relevance");
     const [reload, setReload] = useState(false)
+    const [userReload, setUserReload] = useState(false)
 
     // On startup query the API to get the recommendation information
     useEffect(() => {
@@ -28,14 +29,20 @@ export default function ReviewScreen({ navigation }) {
     }, []);
 
     useEffect(() => {
-        console.log("testing reload")
-        console.log(reload)
         if (reload == true) {
             setData(null)
             GetAllUserReviews(setData, setOriginalData);
             setReload(false)
         }
     }, [reload]);
+
+    useEffect(() => {
+        if (userReload == true) {
+            setData(null)
+            GetAllUserReviews(setData, setOriginalData);
+            setUserReload(false)
+        }
+    }, [userReload]);
 
     // If the sort button is hit get the modal visible
     const changeSort = () => {
@@ -84,8 +91,6 @@ export default function ReviewScreen({ navigation }) {
         // Depending on which was selected update the data to be sorted in that way
         if (sortVisual == "All Relevance") {
 
-            console.log("here")
-            console.log(originalData)
             setData(originalData)
         } else if (sortVisual == "Ratings (Ascending)") {
     
@@ -118,7 +123,7 @@ export default function ReviewScreen({ navigation }) {
         <View style={{backgroundColor: '#F5F7FC', flex: 1}}>
         <SafeAreaView style={styles.container}/>
             <StatusBar barStyle="dark-content" />
-            <ScrollView style={styles.containerScrollView}>
+            <ScrollView style={styles.containerScrollView} refreshControl={ <RefreshControl onRefresh={() => { setUserReload(true)  }} tintColor="transparent" colors={['transparent']} />} >
                 {/* Top nav abr code allowing for switch between different types of reviews */}
                 <View style={styles.topNavBar} >
                     { selectedReviews == "positive" ? 
