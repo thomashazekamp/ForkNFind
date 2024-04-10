@@ -26,7 +26,7 @@ const CreateRestaurantReview = (id, text, rating, setResponse) => {
             ErrorMessage(content="Description field may not be blank.")
         }
 
-        if (data["description"] == text && data["rating"] == rating && data["restaurant"] == id ) {
+        if (data["rating"] == rating && data["restaurant"] == id ) {
             setResponse("success");
         }
     })
