@@ -1,4 +1,4 @@
-
+import ErrorMessage from '../components/ErrorMessage';
 import LoginAPIRequest from "./LoginAPIRequest";
 
 // Function CreateAccountAPIRequest
@@ -29,11 +29,11 @@ const CreateAccountAPIRequest = ({setIsLoggedIn, username, password, email, firs
             ErrorMessage(content="Username field may not be blank.")
         } else if (data['first_name'] == "This field may not be blank.") {
             ErrorMessage(content="First Name field may not be blank.")
-        } else if (data['last_name'] == "No active account found with the given credentials") {
+        } else if (data['last_name'] == "This field may not be blank.") {
             ErrorMessage(content="Last Name field may not be blank.")
-        } else if (data['email'] == "No active account found with the given credentials") {
+        } else if (data['email'] == "This field may not be blank.") {
             ErrorMessage(content="Email field may not be blank.")
-        } else if (data['password'] == "No active account found with the given credentials") {
+        } else if (data['password'] == "This field may not be blank.") {
             ErrorMessage(content="Password field may not be blank.")
         } else if (data['username'] == "This username is already in use.") {
             ErrorMessage(content="This username is already in use.")
