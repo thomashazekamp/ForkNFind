@@ -6,6 +6,11 @@ import { render, waitFor } from '@testing-library/react-native';
 import { create } from 'react-test-renderer';
 import LoginScreen from '../LoginScreen';
 
+jest.mock('@react-navigation/native', () => ({
+    ...jest.requireActual('@react-navigation/native'),
+    useFocusEffect: jest.fn(),
+}));
+
 describe('LoginScreen', () => {
 
     it('Should have 1 children', () => {

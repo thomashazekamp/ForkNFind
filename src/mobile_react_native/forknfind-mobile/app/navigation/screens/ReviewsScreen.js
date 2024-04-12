@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, StatusBar, ActivityIndicator,
 import { AntDesign } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
 
 import GetAllUserReviews from '../requests/GetAllUserReviews';
 import ReviewSortBy from '../components/ReviewSortBy';
@@ -22,6 +23,10 @@ export default function ReviewScreen({ navigation }) {
     const [sortVisual, setSortVisual] = useState("All Relevance");
     const [reload, setReload] = useState(false)
     const [userReload, setUserReload] = useState(false)
+
+    useFocusEffect(() => {
+        StatusBar.setBarStyle('dark-content')
+    });
 
     // On startup query the API to get the recommendation information
     useEffect(() => {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, TouchableOpacity, StatusBar } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import LoginAPIRequest from '../requests/LoginAPIRequest';
 
@@ -30,6 +31,10 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
 
         setPassword(text)
     }
+
+    useFocusEffect(() => {
+        StatusBar.setBarStyle('dark-content')
+    });
 
     return (
         <>

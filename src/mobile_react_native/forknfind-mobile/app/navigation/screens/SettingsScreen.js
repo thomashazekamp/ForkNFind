@@ -5,6 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ChangePasswordModal from '../components/ChangePasswordModal';
 import AccountInformationModal from '../components/AccountinformationModal';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function SettingsScreen({ navigation, setIsLoggedIn }) {
 
@@ -17,6 +18,11 @@ export default function SettingsScreen({ navigation, setIsLoggedIn }) {
         access_global = ""
         setIsLoggedIn(false)
     }
+
+    useFocusEffect(() => {
+        console.log("test-test")
+        StatusBar.setBarStyle('dark-content')
+    });
 
     return (
         <View style={{backgroundColor: '#F5F7FC'}}>

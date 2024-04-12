@@ -6,6 +6,11 @@ import { render, waitFor } from '@testing-library/react-native';
 import { create } from 'react-test-renderer';
 import RecommendationsScreen from '../RecommendationsScreen';
 
+jest.mock('@react-navigation/native', () => ({
+    ...jest.requireActual('@react-navigation/native'),
+    useFocusEffect: jest.fn(),
+}));
+
 describe('RecommendationsScreen', () => {
 
     global.access_global = 'token_test' // used to mock the access token

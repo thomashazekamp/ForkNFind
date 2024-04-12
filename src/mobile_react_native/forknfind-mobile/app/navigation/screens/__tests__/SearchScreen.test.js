@@ -6,6 +6,11 @@ import { render, waitFor } from '@testing-library/react-native';
 import { create } from 'react-test-renderer';
 import SearchScreen from '../SearchScreen';
 
+jest.mock('@react-navigation/native', () => ({
+    ...jest.requireActual('@react-navigation/native'),
+    useFocusEffect: jest.fn(),
+}));
+
 describe('SearchScreen', () => {
 
     global.Platform = 'ios' // used to mock the platform
