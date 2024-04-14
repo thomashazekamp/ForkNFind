@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Entypo } from '@expo/vector-icons';
 import EditReviewScreen from './EditReviewScreen';
 
 // Functional Component ReviewCardRestaurant
@@ -58,7 +58,7 @@ const ReviewCardRestaurant = ( {data} ) => {
 
     return (
         // surround the card in a touchable component
-        <View style={[styles.container, {shadowColor: sentiment == '0' ? 'red' : 'green'}]}>
+        <View style={styles.container}>
             <Text style={styles.restaurantName}>{data["restaurant"].name}</Text>
             <View style={styles.rowContainer}>
                 <View style={styles.starContainer}>
@@ -83,6 +83,7 @@ const ReviewCardRestaurant = ( {data} ) => {
                         <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}}/>
                     </View>
                 </View>
+                <Entypo name={sentiment == "0" ? "emoji-sad" : "emoji-happy"} size={25} color={sentiment == "0" ? "red" : "green"}/>
                 <Text style={styles.dateText}>
                     {data["date"]}
                 </Text>
@@ -116,6 +117,7 @@ const styles = StyleSheet.create({
     restaurantName: {
         paddingTop: '5%',
         paddingLeft: '7.5%',
+        paddingBottom: '2.5%',
         fontSize: 18,
         fontWeight: 'bold',
         color: '#181A1F'
