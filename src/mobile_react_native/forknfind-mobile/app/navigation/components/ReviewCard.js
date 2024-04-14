@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Entypo, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import EditReviewScreen from './EditReviewScreen';
 
 // Functional Component ReviewCard
@@ -64,7 +64,7 @@ const ReviewCard = ( {data, setReload} ) => {
 
     return (
         // surround the card in a touchable component
-        <TouchableOpacity style={[styles.container, {shadowColor: sentiment == '0' ? 'red' : 'green'}]} onPress={() => toggleModal()}>
+        <TouchableOpacity style={styles.container} onPress={() => toggleModal()}>
             <Text style={styles.restaurantName}>{data["restaurant"].name}</Text>
             <View style={styles.rowContainer}>
                 <View style={styles.starContainer}>
@@ -89,6 +89,7 @@ const ReviewCard = ( {data, setReload} ) => {
                         <AntDesign name="staro" size={25} color="#000000" style={{position: 'absolute'}}/>
                     </View>
                 </View>
+                <Entypo name={sentiment == "0" ? "emoji-sad" : "emoji-happy"} size={25} color={sentiment == "0" ? "red" : "green"}/>
                 <Text style={styles.dateText}>
                     {data["date"]}
                 </Text>
@@ -131,6 +132,7 @@ const styles = StyleSheet.create({
     restaurantName: {
         paddingTop: '5%',
         paddingLeft: '7.5%',
+        paddingBottom: '2.5%',
         fontSize: 18,
         fontWeight: 'bold',
         color: '#181A1F'
