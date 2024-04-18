@@ -14,6 +14,8 @@ from .sentiment.runner_sent_analysis import predict_sentiment
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 
 # UserViewSet, queryset of all APIUser instances
 class UserViewSet(viewsets.ModelViewSet):
@@ -276,13 +278,23 @@ class UserInfoAPIVew(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
-    
-    def patch(self, request):
-        user = request.user
-        data = request.data
-        data['sentiment'] = predict_sentiment(data['description'])
-        serializer = UserSerializer(instance=user, data=data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UpdateReviewAPIView(APIView):
+    def patch(self, request, id):
+        # Fetch the review object by id
+        review = get_object_or_404(Review, id=id)
+        
+        # Deserialize the request body
+        data = json.loads(request.body)
+        
+        # Update the review attributes
+        if data["description"] == "":
+            return JsonResponse({'description': "This field may not be blank."})
+        review.description = data['description'].rstrip()
+        review.rating = data['rating']
+        review.sentiment = predict_sentiment(data['description'])
+        
+        # Save the changes
+        review.save()
+        
+        return JsonResponse({'rating': data["rating"], 'description': data["description"]})

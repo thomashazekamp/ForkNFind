@@ -9,7 +9,7 @@ const UpdateRestaurantReview = (id, text, rating, setResponse) => {
 
     console.log(id, text, rating)
 
-    fetch("http://192.168.1.82:8000/api/review/" + id + "/", 
+    fetch("http://192.168.1.82:8000/review/change/" + id + "/", 
     {
         method: 'PATCH',
         headers: {

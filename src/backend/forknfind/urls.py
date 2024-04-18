@@ -26,5 +26,6 @@ urlpatterns = [
     path('review/user/', ReviewUserAPIView.as_view(), name="api_user_reviews"), # API to see all user reviews
     path('review/restaurant/<int:restaurant_id>/', ReviewRestaurantAPIView.as_view(), name="api_restaurant_reviews"), # API to see all restaurant reviews
     path('user/password/update/', UserPasswordUpdateAPIView.as_view(), name="api_user_password_update"), # API to update the password of a user
-    path('user/info/', UserInfoAPIVew.as_view(), name="api_user_information")
+    path('user/info/', UserInfoAPIVew.as_view(), name="api_user_information"),
+    path('review/change/<int:id>/', UpdateReviewAPIView.as_view(), name="api_update_review"),  # New path for updating a review
 ]
