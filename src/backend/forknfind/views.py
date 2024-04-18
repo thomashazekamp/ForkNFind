@@ -9,6 +9,7 @@ from rest_framework import viewsets, generics, filters
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
 from django.contrib.auth.hashers import check_password
+from .sentiment.runner_sent_analysis import predict_sentiment
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -275,3 +276,13 @@ class UserInfoAPIVew(APIView):
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
+    
+    def patch(self, request):
+        user = request.user
+        data = request.data
+        data['sentiment'] = predict_sentiment(data['description'])
+        serializer = UserSerializer(instance=user, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
