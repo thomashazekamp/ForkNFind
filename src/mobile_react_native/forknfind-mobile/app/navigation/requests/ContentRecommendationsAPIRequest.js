@@ -5,10 +5,7 @@
 // location - location information for user
 const ContentRecommendationsAPIRequest = (setData, id, location) => {
 
-    console.log("does this work?")
-    console.log(id, location)
-
-    fetch("http://192.168.1.82:8000/recommend/content/" + id + "/" + location.latitude + "/" + location.longitude, 
+    fetch("https://lionfish-dear-roughy.ngrok-free.app/recommend/content/" + id + "/" + location.latitude + "/" + location.longitude, 
     {
         method: 'GET',
         headers: {

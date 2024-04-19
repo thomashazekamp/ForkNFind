@@ -3,7 +3,7 @@
 // setItemList - use state for saving data
 const GetAllCategoriesAPIRequest = (setItemList) => {
 
-    fetch("http://192.168.1.82:8000/api/category/", 
+    fetch("https://lionfish-dear-roughy.ngrok-free.app/api/category/", 
     {
         method: 'GET',
         headers: {

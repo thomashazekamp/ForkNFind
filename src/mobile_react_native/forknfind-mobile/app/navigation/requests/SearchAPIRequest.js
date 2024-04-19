@@ -14,12 +14,10 @@ const SearchAPIRequest = (searchQueryRef, setData, setOriginalData, location) =>
         if (!(value == "" || value == false)) {
             searchString += key + "=" + value + "&"
         }
-        console.log(key, value);
-        console.log(searchString);
     }
 
     // add it to the end of the url
-    fetch("http://192.168.1.82:8000/search/restaurant/" + location.latitude + "/" + location.longitude + "/" + searchString, 
+    fetch("https://lionfish-dear-roughy.ngrok-free.app/search/restaurant/" + location.latitude + "/" + location.longitude + "/" + searchString, 
     {
         method: 'GET',
         headers: {

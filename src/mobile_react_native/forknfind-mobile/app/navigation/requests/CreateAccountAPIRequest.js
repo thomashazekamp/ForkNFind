@@ -13,7 +13,7 @@ const CreateAccountAPIRequest = ({setIsLoggedIn, username, password, email, firs
     console.log(JSON.stringify({username: username, password: password, email: email, first_name: firstName, last_name: lastName}))
 
     // Fetch the API with this information
-    fetch("http://192.168.1.82:8000/register/user/", 
+    fetch("https://lionfish-dear-roughy.ngrok-free.app/register/user/", 
     {
         method: 'POST',
         headers: {
@@ -24,7 +24,6 @@ const CreateAccountAPIRequest = ({setIsLoggedIn, username, password, email, firs
     }).then(response=>response.json())
     .then(data=>{
 
-        console.log(data)
         if (data['username'] == "This field may not be blank.") {
             ErrorMessage(content="Username field may not be blank.")
         } else if (data['first_name'] == "This field may not be blank.") {

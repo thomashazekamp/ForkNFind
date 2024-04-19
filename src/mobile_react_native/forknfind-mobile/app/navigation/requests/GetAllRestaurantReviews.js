@@ -5,7 +5,7 @@
 // setOriginalData - backup for saving data
 const GetAllRestaurantReviews = (id, setData, setOriginalData) => {
 
-    fetch("http://192.168.1.82:8000/review/restaurant/" + id, 
+    fetch("https://lionfish-dear-roughy.ngrok-free.app/review/restaurant/" + id, 
     {
         method: 'GET',
         headers: {

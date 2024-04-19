@@ -5,10 +5,7 @@
 // setResponseData - saving response if it is a success
 const ChangePasswordAPIRequest = (currentPassword, newPassword, setResponseData) => {
 
-    console.log("does this work?")
-    console.log(currentPassword, newPassword)
-
-    fetch("http://192.168.1.82:8000/user/password/update/", 
+    fetch("https://lionfish-dear-roughy.ngrok-free.app/user/password/update/", 
     {
         method: 'POST',
         headers: {
@@ -20,7 +17,6 @@ const ChangePasswordAPIRequest = (currentPassword, newPassword, setResponseData)
     }).then(response=>response.json())
     .then(data=>{
 
-        console.log(data)
         setResponseData(data)
     })
     .catch(error => {

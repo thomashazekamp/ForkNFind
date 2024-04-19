@@ -9,7 +9,7 @@ const CreateRestaurantReview = (id, text, rating, setResponse) => {
 
     console.log(id, text, rating)
 
-    fetch("http://192.168.1.82:8000/register/review/", 
+    fetch("https://lionfish-dear-roughy.ngrok-free.app/register/review/", 
     {
         method: 'POST',
         headers: {
@@ -19,8 +19,6 @@ const CreateRestaurantReview = (id, text, rating, setResponse) => {
     }, body: JSON.stringify({"description": text, "rating": rating, "restaurant": id}),
     }).then(response=>response.json())
     .then(data=>{
-
-        console.log(data)
 
         if (data['description'] == "This field may not be blank.") {
             ErrorMessage(content="Description field may not be blank.")

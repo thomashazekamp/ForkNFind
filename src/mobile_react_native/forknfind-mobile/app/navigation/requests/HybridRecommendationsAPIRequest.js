@@ -4,7 +4,7 @@
 // setOriginalData - backup for saving data
 const HybridRecommendationsAPIRequest = (setData, setOriginalData) => {
 
-    fetch("http://192.168.1.82:8000/recommend/hybrid/53.580041/-6.107879/", 
+    fetch("https://lionfish-dear-roughy.ngrok-free.app/recommend/hybrid/53.580041/-6.107879/", 
     {
         method: 'GET',
         headers: {

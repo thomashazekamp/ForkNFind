@@ -9,7 +9,7 @@ const UpdateRestaurantReview = (id, text, rating, setResponse) => {
 
     console.log(id, text, rating)
 
-    fetch("http://192.168.1.82:8000/review/change/" + id + "/", 
+    fetch("https://lionfish-dear-roughy.ngrok-free.app/review/change/" + id + "/", 
     {
         method: 'PATCH',
         headers: {
@@ -19,8 +19,6 @@ const UpdateRestaurantReview = (id, text, rating, setResponse) => {
     }, body: JSON.stringify({"description": text, "rating": rating}),
     }).then(response=>response.json())
     .then(data=>{
-
-        console.log(data)
 
         if (data['description'] == "This field may not be blank.") {
             ErrorMessage(content="Description field may not be blank.")
