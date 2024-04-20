@@ -1,5 +1,6 @@
 from .models import *
 import random
+from .sentiment.runner_sent_analysis import predict_sentiment
 
 # Sample reviews
 review_options = {1:[1,"I hate this Restaurant"],
@@ -29,7 +30,8 @@ def reviewCreator():
             new_review = Review.objects.create( user=random_user,
                                                 restaurant=restaurant,
                                                 rating=review_content[0],
-                                                description=review_content[1])
+                                                description=review_content[1],
+                                                sentiment=predict_sentiment(review_content[1]))
             new_review.save()
 
             number_of_reviews += 1
