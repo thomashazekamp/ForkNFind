@@ -4,7 +4,7 @@
 // setData - use state for saving data
 const IndividualRestaurantAPIRequest = (id, setData) => {
 
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/api/restaurant/" + id, 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/api/restaurant/" + id, 
     {
         method: 'GET',
         headers: {

@@ -13,7 +13,7 @@ const CreateAccountAPIRequest = ({setIsLoggedIn, username, password, email, firs
     console.log(JSON.stringify({username: username, password: password, email: email, first_name: firstName, last_name: lastName}))
 
     // Fetch the API with this information
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/register/user/", 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/register/user/", 
     {
         method: 'POST',
         headers: {

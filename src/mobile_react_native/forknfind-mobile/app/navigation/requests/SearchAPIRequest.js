@@ -17,7 +17,7 @@ const SearchAPIRequest = (searchQueryRef, setData, setOriginalData, location) =>
     }
 
     // add it to the end of the url
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/search/restaurant/" + location.latitude + "/" + location.longitude + "/" + searchString, 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/search/restaurant/" + location.latitude + "/" + location.longitude + "/" + searchString, 
     {
         method: 'GET',
         headers: {

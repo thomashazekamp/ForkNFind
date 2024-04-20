@@ -9,7 +9,7 @@ const UpdateRestaurantReview = (id, text, rating, setResponse) => {
 
     console.log(id, text, rating)
 
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/review/change/" + id + "/", 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/review/change/" + id + "/", 
     {
         method: 'PATCH',
         headers: {

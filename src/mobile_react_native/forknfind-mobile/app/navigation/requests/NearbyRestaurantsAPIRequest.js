@@ -4,7 +4,7 @@
 // location - the device location
 const NearbyRestaurantsAPIRequest = (setData, location, setOriginalData) => {
 
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/find/restaurants/", 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/find/restaurants/", 
     {
         method: 'POST',
         headers: {

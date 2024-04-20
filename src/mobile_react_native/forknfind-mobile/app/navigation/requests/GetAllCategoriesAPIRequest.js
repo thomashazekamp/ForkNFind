@@ -3,7 +3,7 @@
 // setItemList - use state for saving data
 const GetAllCategoriesAPIRequest = (setItemList) => {
 
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/api/category/", 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/api/category/", 
     {
         method: 'GET',
         headers: {

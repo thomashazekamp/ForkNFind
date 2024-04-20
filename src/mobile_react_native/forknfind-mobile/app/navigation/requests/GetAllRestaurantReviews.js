@@ -5,7 +5,7 @@
 // setOriginalData - backup for saving data
 const GetAllRestaurantReviews = (id, setData, setOriginalData) => {
 
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/review/restaurant/" + id, 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/review/restaurant/" + id, 
     {
         method: 'GET',
         headers: {

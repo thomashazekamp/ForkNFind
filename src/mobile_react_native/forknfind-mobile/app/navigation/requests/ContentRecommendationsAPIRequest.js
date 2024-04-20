@@ -5,7 +5,7 @@
 // location - location information for user
 const ContentRecommendationsAPIRequest = (setData, id, location) => {
 
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/recommend/content/" + id + "/" + location.latitude + "/" + location.longitude, 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/recommend/content/" + id + "/" + location.latitude + "/" + location.longitude, 
     {
         method: 'GET',
         headers: {

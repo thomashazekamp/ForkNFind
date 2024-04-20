@@ -4,7 +4,7 @@
 // setOriginalData - backup for saving data
 const GetAllUserReviews = (setData, setOriginalData) => {
 
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/review/user/", 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/review/user/", 
     {
         method: 'GET',
         headers: {

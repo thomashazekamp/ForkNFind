@@ -5,7 +5,7 @@
 // setResponseData - saving response if it is a success
 const ChangePasswordAPIRequest = (currentPassword, newPassword, setResponseData) => {
 
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/user/password/update/", 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/user/password/update/", 
     {
         method: 'POST',
         headers: {

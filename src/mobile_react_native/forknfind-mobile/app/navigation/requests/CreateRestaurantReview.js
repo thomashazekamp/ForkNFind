@@ -9,7 +9,7 @@ const CreateRestaurantReview = (id, text, rating, setResponse) => {
 
     console.log(id, text, rating)
 
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/register/review/", 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/register/review/", 
     {
         method: 'POST',
         headers: {

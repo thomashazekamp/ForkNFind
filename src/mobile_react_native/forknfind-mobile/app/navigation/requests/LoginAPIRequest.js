@@ -9,7 +9,7 @@ const LoginAPIRequest = ({setIsLoggedIn, username, password}) => {
     console.log(JSON.stringify({username: username, password: password}))
 
     // Fetch the API with this information
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/api/token/", 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/api/token/", 
     {
         method: 'POST',
         headers: {

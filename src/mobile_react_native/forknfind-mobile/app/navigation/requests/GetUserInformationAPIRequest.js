@@ -3,7 +3,7 @@
 // setData - use state for saving data
 const GetUserInformationAPIRequest = (setData) => {
 
-    fetch("https://lionfish-dear-roughy.ngrok-free.app/user/info/", 
+    fetch("https://forknfind-fd07ce2d4651.herokuapp.com/user/info/", 
     {
         method: 'GET',
         headers: {
