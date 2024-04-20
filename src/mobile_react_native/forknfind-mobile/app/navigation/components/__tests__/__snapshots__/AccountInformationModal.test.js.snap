@@ -247,7 +247,7 @@ exports[`AccountInformationModal Should have a snapshot 1`] = `
     style={
       {
         "alignItems": "center",
-        "backgroundColor": "#1C58F2",
+        "backgroundColor": "#BF360C",
         "borderRadius": 20000,
         "height": 57,
         "justifyContent": "center",
