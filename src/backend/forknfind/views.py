@@ -113,7 +113,7 @@ class RestaurantsAroundUserAPIView(APIView):
         latitude = request.data.get("latitude")
 
         # pass it to the google api
-        #google_api_functions(longitude, latitude)
+        google_api_functions(longitude, latitude)
 
         # get all restaurants
         queryset = Restaurant.objects.all()
