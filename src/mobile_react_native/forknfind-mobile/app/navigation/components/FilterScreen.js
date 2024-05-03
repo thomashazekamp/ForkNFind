@@ -42,8 +42,7 @@ const FilterScreen = ({ visible, onClose, searchQueryRef}) => {
 
         searchQueryRef.current.name =  nameValue;
         searchQueryRef.current.address = addressValue;
-        // set average rating to 0 to prevent issues
-        searchQueryRef.current.average_rating = 0;
+        searchQueryRef.current.average_rating = radioButton;
         searchQueryRef.current.categories = selectedCategories
 
         if (allowsDogs == true) {
@@ -102,7 +101,6 @@ const FilterScreen = ({ visible, onClose, searchQueryRef}) => {
 
         searchQueryRef.current.name =  '';
         searchQueryRef.current.address = '';
-        // set average rating to 0 to prevent issues
         searchQueryRef.current.average_rating = 0;
         searchQueryRef.current.categories = ''
         searchQueryRef.current.allows_dogs = false

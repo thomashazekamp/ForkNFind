@@ -34,6 +34,9 @@ const CategoryFilter = ({selectedCategories, setSelectedCategories}) => {
             setSearchQuery("")
             return 
         }
+        
+        query = query.replace(/\s/g, '_');
+
         setSearchQuery(
             itemList.filter((item) =>  {
                 return item.toUpperCase().includes(query.toUpperCase());
