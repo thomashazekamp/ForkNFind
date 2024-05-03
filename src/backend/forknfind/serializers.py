@@ -210,9 +210,12 @@ class SearchRestaurantFilter(filters.FilterSet):
         categories = Category.objects.filter(category__in=categories_name)
         
         # Filter to get all unique restaurant ids that have any of the categories appearing
-        filtered_ids = RestaurantCategory.objects.filter(category__in=categories).values_list('restaurant', flat=True).distinct()
+        restaurant_ids = RestaurantCategory.objects.filter(category__in=categories).values_list('restaurant', flat=True).distinct()
         
-        return Restaurant.objects.filter(pk__in=filtered_ids)
+        for category in categories:
+            restaurant_ids = RestaurantCategory.objects.filter(restaurant__in=restaurant_ids, category=category).values_list('restaurant', flat=True).distinct()
+        
+        return queryset.filter(pk__in=restaurant_ids)
 
     def get_open_or_close(self, obj):
         return get_open_or_close(obj)
