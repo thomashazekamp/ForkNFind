@@ -1,5 +1,10 @@
+import os
+
 import requests
 from .models import *
+
+# Google Maps Platform API key, read from the environment (see .env.example)
+GOOGLE_MAPS_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY", "")
 
 # searching google maps nearby to return restaurants
 def google_maps_nearby_search(longitude, latitude):
@@ -10,7 +15,7 @@ def google_maps_nearby_search(longitude, latitude):
     # headers to include
     headers = {
         "Content-Type": "application/json",
-        "X-Goog-Api-Key": "REDACTED_GOOGLE_MAPS_API_KEY",
+        "X-Goog-Api-Key": GOOGLE_MAPS_API_KEY,
         "X-Goog-FieldMask": "places.displayName,places.id",
     }
 
@@ -48,7 +53,7 @@ def google_maps_individual_search(id):
     # headers to include
     headers = {
         "Content-Type": "application/json",
-        "X-Goog-Api-Key": "REDACTED_GOOGLE_MAPS_API_KEY",
+        "X-Goog-Api-Key": GOOGLE_MAPS_API_KEY,
         "X-Goog-FieldMask": "name,location,displayName,types,priceLevel,allowsDogs,delivery,dineIn,goodForChildren,goodForGroups,outdoorSeating,parkingOptions,primaryType,formattedAddress,primaryType,primaryTypeDisplayName,paymentOptions,reservable,regularOpeningHours",
     }
 

@@ -1,3 +1,10 @@
 __pycache__/
+*.pyc
+*.pyo
 *.json
 .DS_Store
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
