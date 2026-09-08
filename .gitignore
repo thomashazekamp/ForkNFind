@@ -8,3 +8,4 @@ __pycache__/
 .env
 .env.*
 !.env.example
+src/backend/db.sqlite3
